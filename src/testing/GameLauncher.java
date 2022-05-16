@@ -22,7 +22,7 @@ public class GameLauncher extends Application {
             = "https://i.ytimg.com/vi/K0qmNIZgbLM/maxresdefault.jpg";
     private HashSet<String> inputs = new HashSet<>();
     private Pane root;
-
+    private AnimationTimer timer;
     private Entity plr;
 
     private void movePlayer() {
@@ -30,17 +30,31 @@ public class GameLauncher extends Application {
         if (inputs.contains("D")) plr.moveRight();
         if (inputs.contains("W")) plr.moveUp();
         if (inputs.contains("S")) plr.moveDown();
-        System.out.println(plr.getTranslateX() + " " + plr.getTranslateY());
+        if (inputs.contains("M")) {
+            timer.stop();
+        }
     }
 
     private void gameLoop() {
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 movePlayer();
             }
         };
         timer.start();
+    }
+
+    private void loadEntities(Pane root) {
+
+        Entity wall = new Entity(200, 200, 500, 50, Color.ORANGE);
+
+        root.getChildren().add(wall);
+
+        plr = new Entity(100,100,50,50, Color.BLUEVIOLET);
+
+        root.getChildren().add(plr);
+
     }
 
     private Parent setup() {
@@ -55,11 +69,7 @@ public class GameLauncher extends Application {
 
         root.setBackground(new Background(myBI));
 
-        plr = new Entity(100,100,50,50, Color.BLUEVIOLET);
-
-        root.getChildren().add(plr);
-
-
+        loadEntities(root);
 
         return root;
     }
