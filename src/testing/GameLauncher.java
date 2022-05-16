@@ -47,13 +47,13 @@ public class GameLauncher extends Application {
 
     private void loadEntities(Pane root) {
 
-        Entity wall = new Entity(200, 200, 500, 50, Color.ORANGE);
-
-        root.getChildren().add(wall);
-
         plr = new Entity(100,100,50,50, Color.BLUEVIOLET);
 
         root.getChildren().add(plr);
+
+        Entity wall = new Entity(200, 200, 500, 50, Color.ORANGE);
+
+        root.getChildren().add(wall);
 
     }
 
