@@ -15,7 +15,7 @@ public class GameLauncher extends Application {
 
     Scene scene;
 
-    private final static int SCREEN_WIDTH = 960;
+    private final static int SCREEN_WIDTH = 970;
     private final static int SCREEN_HEIGHT = 720;
 
     private final static String URL
