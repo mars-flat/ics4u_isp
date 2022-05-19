@@ -2,13 +2,19 @@ package testing;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utilities.EmbeddedButton;
+import utilities.Entity;
 
+import java.io.File;
 import java.util.HashSet;
 
 public class GameLauncher extends Application {
@@ -16,11 +22,12 @@ public class GameLauncher extends Application {
     Stage window;
     Scene scene, scene2;
 
-    private final static int SCREEN_WIDTH = 970;
+    private EmbeddedButton back;
+
+    private final static int SCREEN_WIDTH = 960;
     private final static int SCREEN_HEIGHT = 720;
 
-    private final static String URL
-            = "https://i.ytimg.com/vi/K0qmNIZgbLM/maxresdefault.jpg";
+    private final static File BACKGROUND_IMAGE = new File("C:\\Users\\shane\\Downloads\\pfp.png");
     private HashSet<String> inputs = new HashSet<>();
     private AnimationTimer timer;
     private Entity plr;
@@ -86,10 +93,18 @@ public class GameLauncher extends Application {
 
         root.getChildren().add(wall);
 
+        Text t = new Text(200, 230, "orz annie");
+
+        t.setFont(Font.font ("", 40));
+        t.setFill(Color.GREEN);
+        root.getChildren().add(t);
     }
 
     private Parent setup2() {
         Pane root = new Pane();
+        back = new EmbeddedButton(200, 200, 200, 200, Color.YELLOW);
+        root.getChildren().add(back);
+
         return root;
     }
 
@@ -97,7 +112,7 @@ public class GameLauncher extends Application {
         Pane root = new Pane();
 
         BackgroundImage myBI = new BackgroundImage(
-                new Image(URL, SCREEN_WIDTH, SCREEN_HEIGHT, false, true),
+                new Image(BACKGROUND_IMAGE.toURI().toString(), SCREEN_WIDTH, SCREEN_HEIGHT, false, true),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
@@ -108,6 +123,16 @@ public class GameLauncher extends Application {
         loadEntities(root);
 
         return root;
+    }
+
+    private void handleMouseClick(Point2D pt) {
+        System.out.println("lol");
+        if (window.getScene().equals(scene2)) {
+
+            if (back.mouseInRange(pt)) {
+                window.setScene(scene);
+            }
+        }
     }
 
     private void addEventHandlers(Scene curScene) {
@@ -121,6 +146,9 @@ public class GameLauncher extends Application {
             inputs.remove(keyName);
         });
 
+        curScene.setOnMouseClicked(event -> {
+            handleMouseClick(new Point2D(event.getX(), event.getY()));
+        });
     }
 
     @Override
