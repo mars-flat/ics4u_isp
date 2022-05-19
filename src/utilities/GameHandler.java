@@ -37,7 +37,7 @@ public class GameHandler extends Application {
         gameLoop.stop();
     }
 
-    private void closeProgram() {
+    public void closeProgram() {
         stopGameLoop();
         window.close();
     }

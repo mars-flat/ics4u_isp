@@ -8,12 +8,15 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
+import java.io.File;
 import java.util.HashSet;
 
 public class MenuScreen extends GameScreen {
 
+    private final static File MAIN_MENU_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\mainmenu.png");
+
     private MenuScreenComponents components;
-    private Point2D lastClick; // position of last click
+    private Point2D lastClick;
 
     public MenuScreen(double width, double height, GameHandler controller) {
         super(new MenuScreenComponents(), width, height, controller);
@@ -26,13 +29,13 @@ public class MenuScreen extends GameScreen {
     private void addEventHandlers() {
         this.setOnMouseClicked(event -> {
             lastClick = new Point2D(event.getX(), event.getY());
-            this.setFill(Color.color(Math.random(), Math.random(), Math.random()));
+            //System.out.println(lastClick.getX() + " " + lastClick.getY());
         });
     }
 
     private void onLoad() {
+        components.changeBackground(MAIN_MENU_SCREEN);
         transitionIn();
-        this.setFill(Color.BLACK);
     }
 
 
@@ -48,17 +51,25 @@ public class MenuScreen extends GameScreen {
                 components.getTransitionRectangle(),
                 Color.BLACK, Color.TRANSPARENT);
 
-        ft.setOnFinished(event -> waitForOption());
         ft.play();
-    }
-
-    private void waitForOption() {
-        System.out.println("waiting for option...");
     }
 
     @Override
     public void transitionOut() {
-        SplashScreen nxt = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, controller);
-        controller.changeScene(this, nxt);
+
+    }
+
+    public void nextScene(int choice) {
+        switch (choice) {
+            case 1:
+                // play
+                break;
+            case 2:
+                // about
+                break;
+            case 3:
+                controller.closeProgram();
+                break;
+        }
     }
 }
