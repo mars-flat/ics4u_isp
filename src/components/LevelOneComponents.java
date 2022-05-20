@@ -13,7 +13,7 @@ import java.io.File;
 
 public class LevelOneComponents extends ScreenComponent {
 
-    private Text test;
+    private DialogPane activeDialogue;
 
     public LevelOneComponents() {
         super();
@@ -22,16 +22,17 @@ public class LevelOneComponents extends ScreenComponent {
 
     @Override
     public void addComponents() {
-        test = new Text(100, 100, "Level 1");
-        test.setFont(Font.font(24));
-        test.setFill(Color.WHITE);
-        this.getChildren().add(test);
 
-        DialogPane dialogPane = new DialogPane(
+        activeDialogue = new DialogPane(
                 new ImageView(Tools.getImage(Constants.BEDROOM_SCREEN,
                         960,720,true,true)),
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "I wonder if my sibling has the book I need."
         );
-        this.getChildren().add(dialogPane);
+
+        this.getChildren().add(activeDialogue);
+    }
+
+    public DialogPane getActiveDialogue() {
+        return activeDialogue;
     }
 }
