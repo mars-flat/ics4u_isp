@@ -9,18 +9,12 @@ import javafx.scene.text.Text;
 import scenes.GameScreen;
 import scenes.MenuScreen;
 import utilities.Constants;
+import utilities.Tools;
 
 import java.io.File;
+import java.io.IOException;
 
-public class MenuScreenComponents extends Pane implements ScreenComponent {
-
-    //private final static File BACKGROUND_IMAGE = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\splashscreen.png");
-
-    //private GameScreen screen;
-
-    private Rectangle playButton;
-    private Rectangle aboutButton;
-    private Rectangle quitButton;
+public class MenuScreenComponents extends ScreenComponent {
 
     private Rectangle transitionRectangle;
     private Text loadingText;
@@ -30,68 +24,61 @@ public class MenuScreenComponents extends Pane implements ScreenComponent {
         addComponents();
     }
 
-    @Override
-    public void changeBackground(File loc) {
-        BackgroundImage background = new BackgroundImage(
-                new Image(loc.toURI().toString(),
-                        Constants.SCREEN_WIDTH,
-                        Constants.SCREEN_HEIGHT,
-                        false,
-                        true),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-
-        this.setBackground(new Background(background));
-    }
-
     private void addPlayButton() {
-        playButton = new Rectangle(345, 380, 270, 65);
-        playButton.setFill(Color.RED);
-        playButton.setOnMouseEntered(event -> {
-            playButton.setFill(Color.DARKRED);
+        Rectangle playButtonZone = new Rectangle(0, 370, 960, 85);
+        playButtonZone.setFill(Color.TRANSPARENT);
+        playButtonZone.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_1);
         });
-        playButton.setOnMouseExited(event -> {
-            playButton.setFill(Color.RED);
+
+        Rectangle playButton = new Rectangle(345, 380, 270, 65);
+        playButton.setFill(Color.TRANSPARENT);
+        playButton.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_1);
         });
         playButton.setOnMouseClicked(event -> {
             ((MenuScreen) this.getScene()).nextScene(1);
         });
 
-        this.getChildren().add(playButton);
+        this.getChildren().addAll(playButtonZone, playButton);
     }
 
     private void addAboutButton() {
-        aboutButton = new Rectangle(345, 465, 270, 65);
-        aboutButton.setFill(Color.ORANGE);
-        aboutButton.setOnMouseEntered(event -> {
-            aboutButton.setFill(Color.DARKORANGE);
+        Rectangle aboutButtonZone = new Rectangle(0, 450, 960, 90);
+        aboutButtonZone.setFill(Color.TRANSPARENT);
+        aboutButtonZone.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_2);
         });
-        aboutButton.setOnMouseExited(event -> {
-            aboutButton.setFill(Color.ORANGE);
+
+        Rectangle aboutButton = new Rectangle(345, 465, 270, 65);
+        aboutButton.setFill(Color.TRANSPARENT);
+        aboutButton.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_2);
         });
         aboutButton.setOnMouseClicked(event -> {
             ((MenuScreen) this.getScene()).nextScene(2);
         });
 
-        this.getChildren().add(aboutButton);
+        this.getChildren().addAll(aboutButtonZone, aboutButton);
     }
 
     private void addQuitButton() {
-        quitButton = new Rectangle(345, 550, 270, 65);
-        quitButton.setFill(Color.YELLOW);
-        quitButton.setOnMouseEntered(event -> {
-            quitButton.setFill(Color.GOLD);
+        Rectangle quitButtonZone = new Rectangle(0, 540, 960, 90);
+        quitButtonZone.setFill(Color.TRANSPARENT);
+        quitButtonZone.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_3);
         });
-        quitButton.setOnMouseExited(event -> {
-            quitButton.setFill(Color.YELLOW);
+
+        Rectangle quitButton = new Rectangle(345, 550, 270, 65);
+        quitButton.setFill(Color.TRANSPARENT);
+        quitButton.setOnMouseEntered(event -> {
+            this.changeBackground(Constants.MAIN_MENU_SCREEN_3);
         });
         quitButton.setOnMouseClicked(event -> {
             ((MenuScreen) this.getScene()).nextScene(3);
         });
 
-        this.getChildren().add(quitButton);
+        this.getChildren().addAll(quitButtonZone, quitButton);
     }
 
     // order matters
@@ -111,7 +98,7 @@ public class MenuScreenComponents extends Pane implements ScreenComponent {
         transitionRectangle.setMouseTransparent(true);
 
         loadingText = new Text(390, 320, "Loading...");
-        loadingText.setFont(Font.loadFont(Constants.FONT_INPUT_STREAM, 48));
+        loadingText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 48));
         loadingText.setPickOnBounds(false);
         loadingText.setMouseTransparent(true);
         loadingText.setFill(Color.WHITE);

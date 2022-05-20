@@ -15,9 +15,6 @@ import java.io.File;
 
 public class SplashScreen extends GameScreen {
 
-    private final static File SPLASH_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\splashscreen.png");
-    private final static File TITLE_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\titlescreen.png");
-
     private boolean displayedGameTitle;
     private SplashScreenComponents components;
 
@@ -38,13 +35,13 @@ public class SplashScreen extends GameScreen {
     }
 
     private void displayLogo() {
-        components.changeBackground(SPLASH_SCREEN);
+        components.changeBackground(Constants.SPLASH_SCREEN);
         transitionIn();
     }
 
     private void displayGameTitle() {
         displayedGameTitle = true;
-        components.changeBackground(TITLE_SCREEN);
+        components.changeBackground(Constants.TITLE_SCREEN);
         transitionIn();
     }
 

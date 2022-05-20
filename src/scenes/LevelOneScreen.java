@@ -1,7 +1,7 @@
 package scenes;
 
 import components.LevelOneComponents;
-import javafx.scene.Parent;
+import javafx.scene.paint.Color;
 import utilities.GameHandler;
 
 public class LevelOneScreen extends GameScreen {
@@ -16,7 +16,7 @@ public class LevelOneScreen extends GameScreen {
     }
 
     private void onLoad() {
-
+        //this.setFill(Color.BLACK);
     }
 
     @Override

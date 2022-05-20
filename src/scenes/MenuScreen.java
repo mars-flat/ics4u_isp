@@ -15,8 +15,6 @@ import java.util.HashSet;
 
 public class MenuScreen extends GameScreen {
 
-    private final static File MAIN_MENU_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\mainmenu.png");
-
     private MenuScreenComponents components;
     private Point2D lastClick;
 
@@ -36,7 +34,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void onLoad() {
-        components.changeBackground(MAIN_MENU_SCREEN);
+        components.changeBackground(Constants.MAIN_MENU_SCREEN_1);
         transitionIn();
     }
 
@@ -88,6 +86,10 @@ public class MenuScreen extends GameScreen {
     }
 
     public void nextScene(int choice) {
+
+        components.getTransitionRectangle().setPickOnBounds(true);
+        components.getTransitionRectangle().setMouseTransparent(false);
+
         switch (choice) {
             case 1:
                 transitionOut();

@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import scenes.GameScreen;
+import scenes.LevelOneScreen;
 import scenes.SplashScreen;
 
 public class GameHandler extends Application {
@@ -27,6 +28,7 @@ public class GameHandler extends Application {
         makeGameLoop();
         startGameLoop();
         currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        //currentScene = new LevelOneScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
     }
 
     private void startGameLoop() {
@@ -59,5 +61,9 @@ public class GameHandler extends Application {
         currentScene = (GameScreen) newScene;
         window.setScene(newScene);
         window.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

@@ -1,36 +1,16 @@
 package components;
 
-import javafx.scene.Parent;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import utilities.Constants;
 
-import java.io.File;
-
-public class SplashScreenComponents extends Pane implements ScreenComponent {
+public class SplashScreenComponents extends ScreenComponent {
 
     private Rectangle transitionRectangle;
 
     public SplashScreenComponents() {
         super();
         addComponents();
-    }
-
-    public void changeBackground(File loc) {
-        BackgroundImage background = new BackgroundImage(
-                new Image(loc.toURI().toString(),
-                        Constants.SCREEN_WIDTH,
-                        Constants.SCREEN_HEIGHT,
-                        false,
-                        true),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-
-        this.setBackground(new Background(background));
     }
 
     public void addComponents() {
