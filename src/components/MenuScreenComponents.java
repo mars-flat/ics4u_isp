@@ -12,7 +12,7 @@ import utilities.Constants;
 
 import java.io.File;
 
-public class MenuScreenComponents extends Pane {
+public class MenuScreenComponents extends Pane implements ScreenComponent {
 
     //private final static File BACKGROUND_IMAGE = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\splashscreen.png");
 
@@ -23,12 +23,14 @@ public class MenuScreenComponents extends Pane {
     private Rectangle quitButton;
 
     private Rectangle transitionRectangle;
+    private Text loadingText;
 
     public MenuScreenComponents() {
         super();
         addComponents();
     }
 
+    @Override
     public void changeBackground(File loc) {
         BackgroundImage background = new BackgroundImage(
                 new Image(loc.toURI().toString(),
@@ -93,7 +95,8 @@ public class MenuScreenComponents extends Pane {
     }
 
     // order matters
-    private void addComponents() {
+    @Override
+    public void addComponents() {
 
         addPlayButton();
         addAboutButton();
@@ -107,10 +110,22 @@ public class MenuScreenComponents extends Pane {
         transitionRectangle.setPickOnBounds(false);
         transitionRectangle.setMouseTransparent(true);
 
-        this.getChildren().add(transitionRectangle);
+        loadingText = new Text(390, 320, "Loading...");
+        loadingText.setFont(Font.loadFont(Constants.FONT_INPUT_STREAM, 48));
+        loadingText.setPickOnBounds(false);
+        loadingText.setMouseTransparent(true);
+        loadingText.setFill(Color.WHITE);
+        loadingText.setVisible(false);
+
+
+        this.getChildren().addAll(transitionRectangle, loadingText);
     }
 
     public Rectangle getTransitionRectangle() {
         return transitionRectangle;
+    }
+
+    public Text getLoadingText() {
+        return loadingText;
     }
 }

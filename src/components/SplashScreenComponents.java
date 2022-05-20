@@ -9,7 +9,7 @@ import utilities.Constants;
 
 import java.io.File;
 
-public class SplashScreenComponents extends Pane {
+public class SplashScreenComponents extends Pane implements ScreenComponent {
 
     private Rectangle transitionRectangle;
 
@@ -33,7 +33,7 @@ public class SplashScreenComponents extends Pane {
         this.setBackground(new Background(background));
     }
 
-    private void addComponents() {
+    public void addComponents() {
 
         transitionRectangle = new Rectangle(
                 Constants.SCREEN_WIDTH,

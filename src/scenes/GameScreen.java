@@ -16,4 +16,5 @@ public abstract class GameScreen extends Scene {
     public abstract void onTick(long currentTick);
     public abstract void transitionIn();
     public abstract void transitionOut();
+    public abstract void nextScene();
 }

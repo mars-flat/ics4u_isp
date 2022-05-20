@@ -2,6 +2,8 @@ package scenes;
 
 import components.MenuScreenComponents;
 import javafx.animation.FillTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -56,13 +58,39 @@ public class MenuScreen extends GameScreen {
 
     @Override
     public void transitionOut() {
+        components.getLoadingText().setVisible(true);
 
+        FillTransition ft = new FillTransition(
+                Duration.millis(400),
+                components.getTransitionRectangle(),
+                Color.TRANSPARENT, Color.BLACK);
+
+        PauseTransition pt = new PauseTransition(
+                Duration.millis(2000)
+        );
+
+        SequentialTransition loadAnimation = new SequentialTransition(ft, pt);
+        loadAnimation.setOnFinished(event -> play());
+        loadAnimation.play();
+    }
+
+    @Override
+    public void nextScene() {
+        nextScene(1);
+    }
+
+    private void play() {
+        LevelOneScreen nxt = new LevelOneScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
     }
 
     public void nextScene(int choice) {
         switch (choice) {
             case 1:
-                // play
+                transitionOut();
                 break;
             case 2:
                 // about
