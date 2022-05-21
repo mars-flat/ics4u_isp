@@ -9,7 +9,7 @@ import java.io.*;
  * This class contains frequently-used {@code static} methods throughout
  * the program.
  *
- * @since 1.0.0, 5/18/2022
+ * @since 1.0, 5/17/2022
  * @author Annie Wong
  */
 public class Tools {

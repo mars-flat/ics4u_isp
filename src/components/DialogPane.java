@@ -13,14 +13,49 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Container for dialogue within the game.
+ *
+ * @since 1.4, 5/20/2022
+ * @author Shane Chen
+ */
 public class DialogPane extends Pane {
 
+    /**
+     * The image the dialogue should be written over.
+     */
     private ImageView dialogueBox;
+
+    /**
+     * Testing box.
+     */
     private Rectangle testBox;
+
+    /**
+     * The string of dialogue to be displayed.
+     */
     private String dialogue;
+
+    /**
+     * The Text object for the string of dialogue.
+     */
     private Text text;
+
+    /**
+     * The number of characters in the string the dialogue should show.
+     * Used for animation effect.
+     */
     private int showChars;
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param dialogueBox
+     * The image the dialogue should be written over.
+     *
+     * @param dialogue
+     * The dialogue string to be displayed.
+     */
     public DialogPane(ImageView dialogueBox, String dialogue) {
         this.dialogueBox = dialogueBox;
         this.dialogue = dialogue;
@@ -28,6 +63,9 @@ public class DialogPane extends Pane {
         addComponents();
     }
 
+    /**
+     * Add components to this component.
+     */
     private void addComponents() {
         this.getChildren().add(dialogueBox);
 
@@ -43,6 +81,9 @@ public class DialogPane extends Pane {
         this.getChildren().add(text);
     }
 
+    /**
+     * Increase the number of characters in the string the dialogue should show.
+     */
     public void showNextChar() {
         if (showChars == dialogue.length()) return;
         text.setText(dialogue.substring(0, ++showChars));

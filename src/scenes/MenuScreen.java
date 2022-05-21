@@ -4,46 +4,72 @@ import components.MenuScreenComponents;
 import javafx.animation.FillTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
-import java.io.File;
-import java.util.HashSet;
-
+/**
+ * The screen for the main menu of the game.
+ *
+ * Required functionality includes mouse event handling.
+ *
+ * @since 1.2, 5/19/2022
+ * @author Shane Chen
+ */
 public class MenuScreen extends GameScreen {
 
+    /**
+     * Instance of associated component class.
+     * @see MenuScreenComponents
+     */
     private MenuScreenComponents components;
-    private Point2D lastClick;
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param width
+     * Width of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param height
+     * Height of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param controller
+     * {@link GameHandler} instance.
+     *
+     */
     public MenuScreen(double width, double height, GameHandler controller) {
         super(new MenuScreenComponents(), width, height, controller);
         components = (MenuScreenComponents) super.getRoot();
-
-        this.addEventHandlers();
         this.onLoad();
     }
 
-    private void addEventHandlers() {
-        this.setOnMouseClicked(event -> {
-            lastClick = new Point2D(event.getX(), event.getY());
-            //System.out.println(lastClick.getX() + " " + lastClick.getY());
-        });
-    }
-
+    /**
+     * What happens when the scene is loaded (i.e. an instance is created).
+     */
     private void onLoad() {
         components.changeBackground(Constants.MAIN_MENU_SCREEN_1);
         transitionIn();
     }
 
-
+    /**
+     * What happens on each tick. AnimationTimer in {@link GameHandler} will
+     * repeatedly call this method of the currently displayed scene.
+     *
+     * @param currentTick
+     * The current tick count.
+     */
     @Override
     public void onTick(long currentTick) {
 
     }
 
+    /**
+     * What happens on a transition into this scene.
+     *
+     * In this case, a {@link FillTransition} plays for 1 second.
+     */
     @Override
     public void transitionIn() {
         FillTransition ft = new FillTransition(
@@ -54,6 +80,12 @@ public class MenuScreen extends GameScreen {
         ft.play();
     }
 
+    /**
+     * What happens on a transition into this scene.
+     *
+     * In this case, a loading screen pairs with a transition to load
+     * the next scene..
+     */
     @Override
     public void transitionOut() {
         components.getLoadingText().setVisible(true);
@@ -72,11 +104,19 @@ public class MenuScreen extends GameScreen {
         loadAnimation.play();
     }
 
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     *
+     * By defaults, calls overridden method with {@code choice(1)}.
+     */
     @Override
     public void nextScene() {
         nextScene(1);
     }
 
+    /**
+     * Switches the scene to level 1.
+     */
     private void play() {
         LevelOneScreen nxt = new LevelOneScreen(
                 Constants.SCREEN_WIDTH,
@@ -85,6 +125,14 @@ public class MenuScreen extends GameScreen {
         controller.changeScene(this, nxt);
     }
 
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     *
+     * The parameter handles multiple selections from the main menu.
+     *
+     * @param choice
+     * The next event to occur. This will be handled in a switch inside the method.
+     */
     public void nextScene(int choice) {
 
         components.getTransitionRectangle().setPickOnBounds(true);

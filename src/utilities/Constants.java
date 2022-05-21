@@ -9,7 +9,7 @@ import java.io.File;
  * essential, frequently-used constants throughout
  * the program, such as screen dimensions.
  *
- * @since 1.0.0, 5/18/2022
+ * @since 1.0, 5/17/2022
  * @author Annie Wong
  */
 public class Constants {

@@ -17,7 +17,7 @@ import scenes.SplashScreen;
  * It also controls the main window, or stage, that
  * the scenes are displayed on.
  *
- * @since 1.0.0, 5/13/2022
+ * @since 1.0, 5/16/2022
  * @author Shane Chen
  */
 public class GameHandler extends Application {

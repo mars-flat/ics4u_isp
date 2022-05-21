@@ -1,18 +1,20 @@
 package scenes;
 
 import components.SplashScreenComponents;
-import javafx.animation.FadeTransition;
 import javafx.animation.FillTransition;
 import javafx.animation.PauseTransition;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
-import java.io.File;
-
+/**
+ * This is the splash screen scene. It displays both the logo
+ * and the title/loading page.
+ *
+ * @since 1.1, 5/17/2022
+ * @author Annie Wong
+ */
 public class SplashScreen extends GameScreen {
 
     private boolean displayedGameTitle;

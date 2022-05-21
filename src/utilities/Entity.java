@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
  * This class is the blueprint for movable
  * in-game objects such as the player.
  *
- * @since 1.0.0, 5/14/2022
+ * @since 1.0, 5/16/2022
  * @author Shane Chen
  */
 public class Entity extends Rectangle {
