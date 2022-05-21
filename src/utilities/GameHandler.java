@@ -1,3 +1,17 @@
+/**
+ * Name: Shane Chen, Annie Wong
+ * Teacher: Ms. Krasteva
+ * Date: May 16, 2022
+ * Program Description: Everyone has their own fears that crawls and coils around their minds. But don't let
+ * it control you. Panik is a game aimed to help teens raise awareness of/overcome the social adversity known as
+ * social anxiety. Level one, the deficiencies room, educates about the symptoms of social anxiety and what
+ * it's like. Level two, the panic room, involves a card game that focuses on what you should do to block
+ * the effects of social anxiety. Level three, the final escape room level, is where everything comes together
+ * as knowledge from the previous two levels are applied to get through a school day without letting anxiety
+ * taking control. It will be up to you to guide the player throughout the experiences in school to overcome social
+ * anxiety. Remember, the choices are yours.
+ */
+
 package utilities;
 
 import javafx.animation.AnimationTimer;
