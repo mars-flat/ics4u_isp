@@ -17,6 +17,8 @@ public class LevelOneComponents extends ScreenComponent {
      */
     private DialogPane activeDialogue;
 
+    private DialogPane[] levelOneDialogue;
+
     /**
      * Creates an instance of this class.
      */
@@ -25,19 +27,41 @@ public class LevelOneComponents extends ScreenComponent {
         addComponents();
     }
 
+    private void setupDialogue() {
+        levelOneDialogue = new DialogPane[5];
+
+        levelOneDialogue[0] = new DialogPane(
+                new ImageView(Tools.getImage(Constants.BEDROOM_SCREEN,
+                        960, 720, true, true)),
+                "I wonder if my sibling has the book I need.",
+                () -> this.setActiveDialogue(levelOneDialogue[1])
+        );
+
+        levelOneDialogue[1] = new DialogPane(
+                new ImageView(Tools.getImage(Constants.BEDROOM_SCREEN,
+                        960, 720, true, true)),
+                "Hey, what's this?",
+                () -> this.setActiveDialogue(null)
+        );
+    }
     /**
      * Add components to this root component.
      */
     @Override
     public void addComponents() {
+        setupDialogue();
 
-        activeDialogue = new DialogPane(
-                new ImageView(Tools.getImage(Constants.BEDROOM_SCREEN,
-                        960,720,true,true)),
-                "I wonder if my sibling has the book I need."
-        );
+
+        activeDialogue = levelOneDialogue[0];
 
         this.getChildren().add(activeDialogue);
+    }
+
+    public void setActiveDialogue(DialogPane newDialogue) {
+        System.out.println(newDialogue);
+        if (activeDialogue != null) this.getChildren().remove(activeDialogue);
+        activeDialogue = newDialogue;
+        if (activeDialogue != null) this.getChildren().add(activeDialogue);
     }
 
     /**

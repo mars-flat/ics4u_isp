@@ -48,6 +48,11 @@ public class DialogPane extends Pane {
     private int showChars;
 
     /**
+     *
+     */
+    private DialogueChangeRequest changeRequestHandler;
+
+    /**
      * Creates an instance of this class.
      *
      * @param dialogueBox
@@ -56,9 +61,10 @@ public class DialogPane extends Pane {
      * @param dialogue
      * The dialogue string to be displayed.
      */
-    public DialogPane(ImageView dialogueBox, String dialogue) {
+    public DialogPane(ImageView dialogueBox, String dialogue, DialogueChangeRequest changeRequestHandler) {
         this.dialogueBox = dialogueBox;
         this.dialogue = dialogue;
+        this.changeRequestHandler = changeRequestHandler;
         showChars = 0;
         addComponents();
     }
@@ -87,5 +93,12 @@ public class DialogPane extends Pane {
     public void showNextChar() {
         if (showChars == dialogue.length()) return;
         text.setText(dialogue.substring(0, ++showChars));
+    }
+
+    /**
+     * What happens when a request has been made to change the dialogue.
+     */
+    public void onChangeRequest() {
+        changeRequestHandler.onChangeRequest();
     }
 }

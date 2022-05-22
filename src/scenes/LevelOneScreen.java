@@ -3,6 +3,7 @@ package scenes;
 import components.LevelOneComponents;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import utilities.Constants;
 import utilities.GameHandler;
 
 import java.util.HashSet;
@@ -54,13 +55,38 @@ public class LevelOneScreen extends GameScreen {
      */
     private void onLoad() {
         this.setFill(Color.BLACK);
+        components.changeBackground(Constants.BEDROOM_SCREEN);
+
+        keyboardInputs = new HashSet<>();
+
         this.setOnKeyPressed(event -> {
             String keyName = event.getCode().toString();
             keyboardInputs.add(keyName);
         });
-        this.setOnMousePressed(event -> {
 
+        this.setOnKeyReleased(event -> {
+            String keyName = event.getCode().toString();
+            keyboardInputs.remove(keyName);
         });
+    }
+
+    private void handleKeyboardInputs() {
+        // handle movement
+        if (keyboardInputs.contains("W") ||
+            keyboardInputs.contains("A") ||
+            keyboardInputs.contains("S") ||
+            keyboardInputs.contains("D")) {
+            if (components.getActiveDialogue() == null) {
+
+            }
+        }
+
+        if (keyboardInputs.contains("SPACE")) {
+            if (components.getActiveDialogue() != null) {
+                components.getActiveDialogue().onChangeRequest();
+                keyboardInputs.remove("SPACE");
+            }
+        }
     }
 
     /**
@@ -72,7 +98,11 @@ public class LevelOneScreen extends GameScreen {
      */
     @Override
     public void onTick(long currentTick) {
-        if (currentTick % 5 == 0) components.getActiveDialogue().showNextChar();
+        handleKeyboardInputs();
+        if (currentTick % 3 == 0) {
+            if (components.getActiveDialogue() != null)
+                components.getActiveDialogue().showNextChar();
+        }
 
     }
 
