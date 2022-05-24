@@ -27,27 +27,27 @@ public class Constants {
     /**
      * Main menu background images.
      */
-    public final static File MAIN_MENU_SCREEN_1 = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\mainmenu1.png");
-    public final static File MAIN_MENU_SCREEN_2 = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\mainmenu2.png");
-    public final static File MAIN_MENU_SCREEN_3 = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\mainmenu3.png");
+    public final static File MAIN_MENU_SCREEN_1 = new File("src\\data\\mainmenu1.png");
+    public final static File MAIN_MENU_SCREEN_2 = new File("src\\data\\mainmenu2.png");
+    public final static File MAIN_MENU_SCREEN_3 = new File("src\\data\\mainmenu3.png");
 
     /**
      * Splash screen background image.
      */
-    public final static File SPLASH_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\splashscreen.png");
+    public final static File SPLASH_SCREEN = new File("src\\data\\splashscreen.png");
 
     /**
      * Title/loading screen background image.
      */
-    public final static File TITLE_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\titlescreen.png");
+    public final static File TITLE_SCREEN = new File("src\\data\\titlescreen.png");
 
     /**
      * Bedroom image for the background of level 1.
      */
-    public final static File BEDROOM_SCREEN = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\bedroom.png");
+    public final static File BEDROOM_SCREEN = new File("src\\data\\bedroom.png");
 
     /**
      * The primary font used throughout the game, Minecraft.
      */
-    public final static File FONT_FILE = new File("C:\\Users\\shane\\IdeaProjects\\ics4u_isp\\src\\data\\Minecraft.ttf");
+    public final static File FONT_FILE = new File("src\\data\\Minecraft.ttf");
 }

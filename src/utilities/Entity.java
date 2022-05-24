@@ -41,6 +41,8 @@ public class Entity extends Rectangle {
         super(width, height, color);
         setTranslateX(spawnX);
         setTranslateY(spawnY);
+        this.setPickOnBounds(false);
+        this.setMouseTransparent(true);
     }
 
     /**
@@ -85,16 +87,16 @@ public class Entity extends Rectangle {
     public boolean isCollidingLeft(Entity other) {
 
         // deal with Y
-        if (getY() + getHeight() <= other.getY()) return false;
-        if (getY() >= other.getY() + other.getHeight()) return false;
+        if (getTranslateY() + getHeight() <= other.getTranslateY()) return false;
+        if (getTranslateY() >= other.getTranslateY() + other.getHeight()) return false;
 
         // deal with X
-        double otherLeftX = other.getX();
+        double otherLeftX = other.getTranslateX();
         double otherRightX = otherLeftX + other.getWidth();
-        double thisLeftX = getX();
+        double thisLeftX = getTranslateX();
         double thisRightX = thisLeftX+ getWidth();
 
-        return (thisLeftX <= otherRightX && thisRightX <= otherLeftX);
+        return (thisLeftX == otherRightX);
     }
 
     /**
@@ -111,16 +113,16 @@ public class Entity extends Rectangle {
     public boolean isCollidingRight(Entity other) {
 
         // deal with Y
-        if (getY() + getHeight() <= other.getY()) return false;
-        if (getY() >= other.getY() + other.getHeight()) return false;
+        if (getTranslateY() + getHeight() <= other.getTranslateY()) return false;
+        if (getTranslateY() >= other.getTranslateY() + other.getHeight()) return false;
 
         // deal with X
-        double otherLeftX = other.getX();
+        double otherLeftX = other.getTranslateX();
         double otherRightX = otherLeftX + other.getWidth();
-        double thisLeftX = getX();
+        double thisLeftX = getTranslateX();
         double thisRightX = thisLeftX+ getWidth();
 
-        return (thisRightX >= otherLeftX && thisLeftX >= otherRightX);
+        return (thisRightX == otherLeftX);
     }
 
     /**
@@ -137,16 +139,16 @@ public class Entity extends Rectangle {
     public boolean isCollidingUp(Entity other) {
 
         // deal with X
-        if (getX() + getWidth() <= other.getX()) return false;
-        if (getX() >= other.getX() + other.getWidth()) return false;
+        if (getTranslateX() + getWidth() <= other.getTranslateX()) return false;
+        if (getTranslateX() >= other.getTranslateX() + other.getWidth()) return false;
 
         // deal with Y
-        double otherTopY = other.getY();
+        double otherTopY = other.getTranslateY();
         double otherBottomY = otherTopY + other.getHeight();
-        double thisTopY = getY();
+        double thisTopY = getTranslateY();
         double thisBottomY = thisTopY + getHeight();
 
-        return (thisTopY <= otherBottomY && thisBottomY >= otherTopY);
+        return (thisTopY == otherBottomY);
     }
 
     /**
@@ -163,16 +165,16 @@ public class Entity extends Rectangle {
     public boolean isCollidingDown(Entity other) {
 
         // deal with X
-        if (getX() + getWidth() <= other.getX()) return false;
-        if (getX() >= other.getX() + other.getWidth()) return false;
+        if (getTranslateX() + getWidth() <= other.getTranslateX()) return false;
+        if (getTranslateX() >= other.getTranslateX() + other.getWidth()) return false;
 
         // deal with Y
-        double otherTopY = other.getY();
+        double otherTopY = other.getTranslateY();
         double otherBottomY = otherTopY + other.getHeight();
-        double thisTopY = getY();
+        double thisTopY = getTranslateY();
         double thisBottomY = thisTopY + getHeight();
 
-        return (thisBottomY >= otherTopY && thisTopY >= otherBottomY);
+        return (thisBottomY == otherTopY);
     }
 
     /**

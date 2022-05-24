@@ -4,6 +4,7 @@ import components.LevelOneComponents;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import utilities.Constants;
+import utilities.Entity;
 import utilities.GameHandler;
 
 import java.util.HashSet;
@@ -68,17 +69,45 @@ public class LevelOneScreen extends GameScreen {
             String keyName = event.getCode().toString();
             keyboardInputs.remove(keyName);
         });
+
+        this.setOnMouseClicked(event -> {
+            System.out.println(event.getX() + " " + event.getY());
+        });
     }
 
     private void handleKeyboardInputs() {
         // handle movement
-        if (keyboardInputs.contains("W") ||
-            keyboardInputs.contains("A") ||
-            keyboardInputs.contains("S") ||
-            keyboardInputs.contains("D")) {
-            if (components.getActiveDialogue() == null) {
+        if ((keyboardInputs.contains("W") ||
+             keyboardInputs.contains("A") ||
+             keyboardInputs.contains("S") ||
+             keyboardInputs.contains("D")) &&
+             components.getActiveDialogue() == null) {
 
+            boolean canMoveUp = true;
+            boolean canMoveLeft = true;
+            boolean canMoveDown = true;
+            boolean canMoveRight = true;
+            for (Entity e : components.getOtherEntities()) {
+                if (components.getPlayer().isCollidingUp(e)) canMoveUp = false;
+                if (components.getPlayer().isCollidingLeft(e)) canMoveLeft = false;
+                if (components.getPlayer().isCollidingDown(e)) canMoveDown = false;
+                if (components.getPlayer().isCollidingRight(e)) canMoveRight = false;
             }
+
+
+            if (keyboardInputs.contains("W")) {
+                if (canMoveUp) components.getPlayer().moveUp();
+            }
+            if (keyboardInputs.contains("A")) {
+                if (canMoveLeft) components.getPlayer().moveLeft();
+            }
+            if (keyboardInputs.contains("S")) {
+                if (canMoveDown) components.getPlayer().moveDown();
+            }
+            if (keyboardInputs.contains("D")) {
+                if (canMoveRight) components.getPlayer().moveRight();
+            }
+
         }
 
         if (keyboardInputs.contains("SPACE")) {
@@ -103,7 +132,8 @@ public class LevelOneScreen extends GameScreen {
             if (components.getActiveDialogue() != null)
                 components.getActiveDialogue().showNextChar();
         }
-
+//        System.out.println(components.getPlayer().getX() + " " + components.getPlayer().getY()
+//         + " " + components.getPlayer().getTranslateX() + " " + components.getPlayer().getTranslateY());
     }
 
     /**

@@ -130,7 +130,7 @@ public class GameHandler extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        System.out.println("javafx.runtime.version: " + System.getProperty("javafx.runtime.version"));
         // set stage properties
         window = primaryStage;
         window.setTitle("PANIK");
