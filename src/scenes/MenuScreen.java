@@ -105,16 +105,6 @@ public class MenuScreen extends GameScreen {
     }
 
     /**
-     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
-     *
-     * By defaults, calls overridden method with {@code choice(1)}.
-     */
-    @Override
-    public void nextScene() {
-        nextScene(1);
-    }
-
-    /**
      * Switches the scene to level 1.
      */
     private void play() {
@@ -123,6 +113,16 @@ public class MenuScreen extends GameScreen {
                 Constants.SCREEN_HEIGHT,
                 controller);
         controller.changeScene(this, nxt);
+    }
+
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     *
+     * By defaults, calls overridden method with {@code choice(1)}.
+     */
+    @Override
+    public void nextScene() {
+        nextScene(1);
     }
 
     /**

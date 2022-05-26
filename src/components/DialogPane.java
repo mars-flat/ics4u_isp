@@ -52,6 +52,12 @@ public class DialogPane extends Pane {
      */
     private DialogueChangeRequest changeRequestHandler;
 
+    public DialogPane(String dialogue, DialogueChangeRequest changeRequestHandler) {
+        this(new ImageView(
+                Tools.getImage(Constants.BEDROOM_SCREEN, 960, 720, true, true)
+            ), dialogue, changeRequestHandler);
+    }
+
     /**
      * Creates an instance of this class.
      *
@@ -100,5 +106,13 @@ public class DialogPane extends Pane {
      */
     public void onChangeRequest() {
         changeRequestHandler.onChangeRequest();
+    }
+
+    public void setOnChangeRequest(DialogueChangeRequest dialogueChangeRequest) {
+        changeRequestHandler = dialogueChangeRequest;
+    }
+
+    public void reset() {
+        showChars = 0;
     }
 }

@@ -38,11 +38,17 @@ public class Entity extends Rectangle {
      *
      */
     public Entity(int spawnX, int spawnY, int width, int height, Color color) {
+        this(spawnX, spawnY, width, height, color, false);
+    }
+
+    public Entity(int spawnX, int spawnY, int width, int height, Color color, boolean mouseInteract) {
         super(width, height, color);
         setTranslateX(spawnX);
         setTranslateY(spawnY);
-        this.setPickOnBounds(false);
-        this.setMouseTransparent(true);
+        if (!mouseInteract) {
+            this.setPickOnBounds(false);
+            this.setMouseTransparent(true);
+        }
     }
 
     /**
@@ -194,10 +200,12 @@ public class Entity extends Rectangle {
      * @return
      * Whether the entity is in the vicinity of the other entity.
      */
-    public boolean inVicinity(Entity other, int range) {
-        return range * range >=
-                (getTranslateX() - other.getTranslateX()) * (getTranslateX() - other.getTranslateX()) +
-                (getTranslateY() - other.getTranslateY()) * (getTranslateY() - other.getTranslateY());
+    public boolean inVicinity(Entity other, double range) {
+        double tx = (getTranslateX() + getWidth()) / 2;
+        double ty = (getTranslateY() + getHeight()) / 2;
+        double ox = (other.getTranslateX() + other.getWidth()) / 2;
+        double oy = (other.getTranslateY() + other.getHeight()) / 2;
+        return range * range > (tx - ox) * (tx - ox) + (ty - oy) * (ty - oy);
     }
 
 
