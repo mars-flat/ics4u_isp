@@ -75,7 +75,7 @@ public class LevelOneScreen extends GameScreen {
         });
     }
 
-    private void handleKeyboardInputs() {
+    private void handleKeyboardInputs(long currentTick) {
         // handle movement
         if ((keyboardInputs.contains("W") ||
              keyboardInputs.contains("A") ||
@@ -107,7 +107,9 @@ public class LevelOneScreen extends GameScreen {
             else if (keyboardInputs.contains("D")) {
                 if (canMoveRight) components.getPlayer().moveRight();
             }
-
+            components.getPlayer().update(true, currentTick);
+        } else {
+            components.getPlayer().update(false, currentTick);
         }
 
         if (keyboardInputs.contains("SPACE")) {
@@ -127,7 +129,7 @@ public class LevelOneScreen extends GameScreen {
      */
     @Override
     public void onTick(long currentTick) {
-        handleKeyboardInputs();
+        handleKeyboardInputs(currentTick);
         if (currentTick % 3 == 0) {
             if (components.getActiveDialogue() != null)
                 components.getActiveDialogue().showNextChar();

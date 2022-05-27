@@ -219,7 +219,7 @@ public class LevelOneComponents extends ScreenComponent {
         return activeDialogue;
     }
 
-    public Entity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
