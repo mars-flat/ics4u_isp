@@ -17,6 +17,8 @@ public class Player extends Entity {
         super(spawnX, spawnY, width, height, Color.TRANSPARENT);
         loadStances();
         character = new ImageView(characterStances[9]);
+        character.setPickOnBounds(false);
+        character.setMouseTransparent(true);
         currentDirection = 7;
         character.xProperty().bind(xProperty());
         character.yProperty().bind(yProperty());

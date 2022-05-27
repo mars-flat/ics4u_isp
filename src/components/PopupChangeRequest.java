@@ -1,6 +1,6 @@
 package components;
 
 @FunctionalInterface
-public interface DialogueChangeRequest {
+public interface PopupChangeRequest {
     void onChangeRequest();
 }

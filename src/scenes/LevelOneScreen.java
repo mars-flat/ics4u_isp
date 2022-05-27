@@ -1,5 +1,6 @@
 package scenes;
 
+import components.DialoguePopup;
 import components.LevelOneComponents;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -81,7 +82,7 @@ public class LevelOneScreen extends GameScreen {
              keyboardInputs.contains("A") ||
              keyboardInputs.contains("S") ||
              keyboardInputs.contains("D")) &&
-             components.getActiveDialogue() == null) {
+             components.getActivePopup() == null) {
 
             boolean canMoveUp = true;
             boolean canMoveLeft = true;
@@ -113,8 +114,8 @@ public class LevelOneScreen extends GameScreen {
         }
 
         if (keyboardInputs.contains("SPACE")) {
-            if (components.getActiveDialogue() != null) {
-                components.getActiveDialogue().onChangeRequest();
+            if (components.getActivePopup() != null) {
+                components.getActivePopup().onChangeRequest();
                 keyboardInputs.remove("SPACE");
             }
         }
@@ -131,8 +132,8 @@ public class LevelOneScreen extends GameScreen {
     public void onTick(long currentTick) {
         handleKeyboardInputs(currentTick);
         if (currentTick % 3 == 0) {
-            if (components.getActiveDialogue() != null)
-                components.getActiveDialogue().showNextChar();
+            if (components.getActivePopup() instanceof DialoguePopup)
+                ((DialoguePopup)components.getActivePopup()).showNextChar();
         }
 //        System.out.println(components.getPlayer().getX() + " " + components.getPlayer().getY()
 //         + " " + components.getPlayer().getTranslateX() + " " + components.getPlayer().getTranslateY());

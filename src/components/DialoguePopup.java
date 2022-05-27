@@ -1,7 +1,6 @@
 package components;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Tools;
@@ -12,7 +11,11 @@ import utilities.Tools;
  * @since 1.4, 5/20/2022
  * @author Shane Chen
  */
-public class DialogPane extends Pane {
+public class DialoguePopup extends Popup {
+
+    private ImageView speaker;
+
+    private String speakerTitle;
 
     /**
      * The image the dialogue should be written over.
@@ -24,10 +27,12 @@ public class DialogPane extends Pane {
      */
     private String dialogue;
 
+    private Text titleText;
+
     /**
      * The Text object for the string of dialogue.
      */
-    private Text text;
+    private Text dialogueText;
 
     /**
      * The number of characters in the string the dialogue should show.
@@ -35,13 +40,8 @@ public class DialogPane extends Pane {
      */
     private int showChars;
 
-    /**
-     *
-     */
-    private DialogueChangeRequest changeRequestHandler;
-
-    public DialogPane(String dialogue, DialogueChangeRequest changeRequestHandler) {
-        this(new ImageView(
+    public DialoguePopup(ImageView speaker, String speakerTitle, String dialogue, PopupChangeRequest changeRequestHandler) {
+        this(speaker, speakerTitle, new ImageView(
                 Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true)
             ), dialogue, changeRequestHandler);
     }
@@ -55,10 +55,12 @@ public class DialogPane extends Pane {
      * @param dialogue
      * The dialogue string to be displayed.
      */
-    public DialogPane(ImageView dialogueBox, String dialogue, DialogueChangeRequest changeRequestHandler) {
+    public DialoguePopup(ImageView speaker, String speakerTitle, ImageView dialogueBox, String dialogue, PopupChangeRequest changeRequestHandler) {
+        super(changeRequestHandler);
+        this.speaker = speaker;
+        this.speakerTitle = speakerTitle;
         this.dialogueBox = dialogueBox;
         this.dialogue = dialogue;
-        this.changeRequestHandler = changeRequestHandler;
         showChars = 0;
         addComponents();
     }
@@ -67,12 +69,23 @@ public class DialogPane extends Pane {
      * Add components to this component.
      */
     private void addComponents() {
+        speaker.setX(80);
+        speaker.setY(220);
+        this.getChildren().add(speaker);
         this.getChildren().add(dialogueBox);
 
-        text = new Text(150, 550, dialogue.substring(0, showChars));
-        text.setFont(Tools.getCustomFont(Constants.FONT_FILE, 36));
-        text.setWrappingWidth(650);
-        this.getChildren().add(text);
+        dialogueText = new Text(150, 550, dialogue.substring(0, showChars));
+        dialogueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 36));
+        dialogueText.setWrappingWidth(650);
+        this.getChildren().add(dialogueText);
+
+        titleText = new Text(630, 430, speakerTitle);
+        titleText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 26));
+        this.getChildren().add(titleText);
+
+        Text continueText = new Text(625, 650, "SPACE to continue");
+        continueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 22));
+        this.getChildren().add(continueText);
     }
 
     /**
@@ -80,19 +93,12 @@ public class DialogPane extends Pane {
      */
     public void showNextChar() {
         if (showChars == dialogue.length()) return;
-        text.setText(dialogue.substring(0, ++showChars));
+        dialogueText.setText(dialogue.substring(0, ++showChars));
     }
 
-    /**
-     * What happens when a request has been made to change the dialogue.
-     */
     public void onChangeRequest() {
         reset();
-        changeRequestHandler.onChangeRequest();
-    }
-
-    public void setOnChangeRequest(DialogueChangeRequest dialogueChangeRequest) {
-        changeRequestHandler = dialogueChangeRequest;
+        super.getOnChangeRequest().onChangeRequest();
     }
 
     public void reset() {

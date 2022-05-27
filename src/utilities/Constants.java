@@ -55,7 +55,10 @@ public class Constants {
 
     public static final File DIALOGUE_BOX = new File(DATA_PATH + "dialoguebox.png");
 
-    public static final File CHARACTER_FRONT_IDLE = new File(DATA_PATH + "characterfrontidle.png");
-
     public static final File JOURNAL_BOX = new File(DATA_PATH + "journal.png");
+
+    public static final File OLDER_SIBLING = new File(DATA_PATH + "oldersibling.png");
+
+    public static final File JOURNAL_ICON_1 = new File(DATA_PATH + "journalicon1.png");
+    public static final File JOURNAL_ICON_2 = new File(DATA_PATH + "journalicon2.png");
 }

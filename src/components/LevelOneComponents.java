@@ -1,7 +1,11 @@
 package components;
 
-import javafx.animation.PauseTransition;
+import javafx.animation.*;
+import javafx.scene.Cursor;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utilities.Constants;
@@ -15,32 +19,27 @@ import java.util.List;
 /**
  * Components for the first level of the game.
  *
- * @since 1.3, 5/19/2022
  * @author Shane Chen
+ * @since 1.3, 5/19/2022
  */
 public class LevelOneComponents extends ScreenComponent {
 
+    boolean questComplete;
     /**
      * The current active dialogue. May be {@code null} to indicate that there is no dialogue.
      */
-    private DialogPane activeDialogue;
-
-    private DialogPane[] journalDialogues;
-
-    private DialogPane[] levelOneDialogue;
-
+    private Popup activePopup;
+    private Popup[] journalPopups;
+    private DialoguePopup[] levelOneDialogue;
     private Entity[] journals;
-
     private Player player;
-
     // place all entities on even coordinates
     private List<Entity> otherEntities;
-
     private Text journalsFoundText;
-
     private int journalsFound;
-    boolean questComplete;
-    private boolean[] found;
+    private final boolean[] found;
+    private ImageView[] journalIcons;
+    private Circle journalHighlight;
 
     /**
      * Creates an instance of this class.
@@ -54,66 +53,72 @@ public class LevelOneComponents extends ScreenComponent {
     }
 
     private void setupDialogue() {
-        levelOneDialogue = new DialogPane[5];
 
-        levelOneDialogue[0] = new DialogPane(
+        String[] dialogue = {
                 "I wonder if my sibling has the book I need.",
-                () -> this.setActiveDialogue(null)
-        );
-
-        levelOneDialogue[1] = new DialogPane(
                 "Hey, what's this?",
-                () -> this.setActiveDialogue(null)
-        );
-
-        levelOneDialogue[2] = new DialogPane(
                 "Oh my. Are there any more of these?",
-                () -> this.setActiveDialogue(null)
-        );
-
-        levelOneDialogue[3] = new DialogPane(
                 "I think I know what's going on here...",
-                () -> this.setActiveDialogue(levelOneDialogue[4])
-        );
-
-        levelOneDialogue[4] = new DialogPane(
                 "Social Anxiety.",
-                () -> this.setActiveDialogue(null)
-        );
+        };
 
-        journalDialogues = new DialogPane[3];
-        journalDialogues[0] = new DialogPane(
+        levelOneDialogue = new DialoguePopup[5];
+        for (int i = 0; i < 5; ++i) {
+            levelOneDialogue[i] = new DialoguePopup(
+                    new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
+                    "Older Sibling", dialogue[i], () -> this.setActivePopup(null)
+            );
+        }
 
-                "MONDAY SEPTEMBER XX, XXXX",
-                () -> this.setActiveDialogue(null)
-        );
-        journalDialogues[1] = new DialogPane(
-                "TUESDAY SEPTEMBER XX, XXXX",
-                () -> this.setActiveDialogue(null)
-        );
-        journalDialogues[2] = new DialogPane(
-                "WEDNESDAY SEPTEMBER XX, XXXX",
-                () -> this.setActiveDialogue(null)
-        );
+        levelOneDialogue[0].setOnChangeRequest(() -> {
+            this.setActivePopup(null);
+            StrokeTransition st1 = new StrokeTransition(Duration.millis(1000), journalHighlight, Color.YELLOW, Color.TRANSPARENT);
+            StrokeTransition st2 = new StrokeTransition(Duration.millis(1000), journalHighlight, Color.TRANSPARENT, Color.YELLOW);
+            SequentialTransition sq = new SequentialTransition(journalHighlight, st1, st2);
+            sq.setCycleCount(Timeline.INDEFINITE);
+            sq.play();
+        });
+        levelOneDialogue[3].setOnChangeRequest(() -> this.setActivePopup(levelOneDialogue[4]));
 
+        String[] journalEntries = {
+                "Why must talking be so hard. Why must socializing be so hard. Why must life be so hard. So, long story short, today some people in my class decided to go to a mall afterschool. They asked me if I wanted to go, but of course, me being my shut-in self, awkwardly rejected their invitation so now I'm sad and alone in my room writing in my sad journal. They definitely think I'm super weird and don't want to be friends with me now. Maybe not going was the best choice after all. Fewer chances to embarrass myself.",
+                "Despite my best attempt to avoid any form of eye contact and putting on the \"I hate it here\" face, the teacher called on me in class today... that was so scary, I literally almost passed out. I didn't really feel like talking, but again when did I ever feel like talking. Anyway, she asked me about, wait. I don't even remember the question anymore. I definitely messed up the answer though.",
+                "It's the first day of school today, also known as the worst day of the year. My morning started off great: couldn't find matching socks, was late to school, aaaand had to walk into the classroom with everyone staring. Spent majority of the rest of class hanging out in the bathroom, because at least toilets won't judge you for your mix-matching socks. (praying that the teacher don't think I have constipation or something)"
+        };
+
+        journalPopups = new Popup[3];
+        for (int i = 0; i < 3; ++i) {
+            journalPopups[i] = new Popup(() -> this.setActivePopup(null));
+            ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
+            Text journalText = new Text(355, 180, journalEntries[i]);
+            journalText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 16));
+            journalText.setWrappingWidth(280);
+            Rectangle darken = new Rectangle(0, 0, 960, 720);
+            darken.setFill(Color.color(0, 0, 0, 0.75));
+            Text continueText = new Text(625, 650, "SPACE to continue");
+            continueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 22));
+            continueText.setFill(Color.WHITE);
+            this.getChildren().add(continueText);
+            journalPopups[i].getChildren().addAll(darken, journalPage, journalText, continueText);
+        }
     }
 
     private void setupEntities() {
         otherEntities = new ArrayList<>();
 
         List<Entity> borderClipping = new ArrayList<>();
-        borderClipping.add(new Entity(0,0,960,280,Color.TRANSPARENT));
-        borderClipping.add(new Entity(0,0,144,720,Color.TRANSPARENT));
-        borderClipping.add(new Entity(808,0,152,720,Color.TRANSPARENT));
-        borderClipping.add(new Entity(0,624,708,96,Color.TRANSPARENT));
-        borderClipping.add(new Entity(708,680,100,80,Color.TRANSPARENT));
+        borderClipping.add(new Entity(0, 0, 960, 280, Color.TRANSPARENT));
+        borderClipping.add(new Entity(0, 0, 144, 720, Color.TRANSPARENT));
+        borderClipping.add(new Entity(808, 0, 152, 720, Color.TRANSPARENT));
+        borderClipping.add(new Entity(0, 624, 708, 96, Color.TRANSPARENT));
+        borderClipping.add(new Entity(708, 680, 100, 80, Color.TRANSPARENT));
 
         List<Entity> furnitureClipping = new ArrayList<>();
-        furnitureClipping.add(new Entity(360,250,80,80,Color.TRANSPARENT));
-        furnitureClipping.add(new Entity(724,340,86,198,Color.TRANSPARENT));
-        furnitureClipping.add(new Entity(170,240,180,250,Color.TRANSPARENT));
-        furnitureClipping.add(new Entity(660,430,40,64,Color.TRANSPARENT));
-        furnitureClipping.add(new Entity(660,394,4,30,Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(360, 250, 80, 80, Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(724, 340, 86, 198, Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(170, 240, 180, 250, Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(660, 430, 40, 64, Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(660, 394, 4, 30, Color.TRANSPARENT));
 
         otherEntities.addAll(borderClipping);
         otherEntities.addAll(furnitureClipping);
@@ -121,12 +126,28 @@ public class LevelOneComponents extends ScreenComponent {
         this.getChildren().addAll(otherEntities);
     }
 
-    private void handleJournalClick(int which) {
-        if (player.inVicinity(journals[which], 70)) {
+    private void playJournalFindAnimation(int which, int fx, int fy) {
+        Line animationPath = new Line(430, 310, fx, fy);
+        ImageView animJournal = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_2, 100, 100, true, true));
+        animJournal.setPickOnBounds(false);
+        animJournal.setMouseTransparent(true);
+        this.getChildren().add(animJournal);
+        PathTransition animation = new PathTransition(Duration.millis(1000), animationPath, animJournal);
+        animation.setOnFinished(event -> {
+            journalIcons[which].setImage(Tools.getImage(Constants.JOURNAL_ICON_2, 100, 100, true, true));
+            this.getChildren().remove(animJournal);
+        });
+        animation.play();
+    }
+
+    private void handleJournalClick(int which, boolean overrideVicinity) {
+        if (overrideVicinity || player.inVicinity(journals[which], 70)) {
+            for (ImageView img : journalIcons) img.setVisible(true);
+            journalHighlight.setVisible(false);
             if (!found[which]) {
                 journalsFound++;
-                journalsFoundText.setText(journalsFound + "/3 journal entries found");
                 if (journalsFound == 3) journalsFoundText.setFill(Color.GREEN);
+                playJournalFindAnimation(which, 60, 100 + 75 * which);
             }
             if (journalsFound == 1 && !found[which]) {
 
@@ -136,29 +157,28 @@ public class LevelOneComponents extends ScreenComponent {
                 then display the journal
                 then display message 2
                  */
-                levelOneDialogue[1].setOnChangeRequest(() -> this.setActiveDialogue(journalDialogues[which]));
-                journalDialogues[which].setOnChangeRequest(() -> this.setActiveDialogue(levelOneDialogue[2]));
-                this.setActiveDialogue(levelOneDialogue[1]);
-            }
-            else if (journalsFound == 3) {
+                levelOneDialogue[1].setOnChangeRequest(() -> this.setActivePopup(journalPopups[which]));
+                journalPopups[which].setOnChangeRequest(() -> this.setActivePopup(levelOneDialogue[2]));
+                this.setActivePopup(levelOneDialogue[1]);
+            } else if (journalsFound == 3) {
 
                 /*
                 if this is the third journal found,
                 display message 3
                  */
-                if (!questComplete) journalDialogues[which].setOnChangeRequest(() -> this.setActiveDialogue(levelOneDialogue[3]));
-                else journalDialogues[which].setOnChangeRequest(() -> this.setActiveDialogue(null));
-                this.setActiveDialogue(journalDialogues[which]);
+                if (!questComplete)
+                    journalPopups[which].setOnChangeRequest(() -> this.setActivePopup(levelOneDialogue[3]));
+                else journalPopups[which].setOnChangeRequest(() -> this.setActivePopup(null));
+                this.setActivePopup(journalPopups[which]);
                 questComplete = true;
-            }
-            else {
+            } else {
 
                 /*
                 if this is not the first or third journal found,
                 just display the journal
                  */
-                journalDialogues[which].setOnChangeRequest(() -> this.setActiveDialogue(null));
-                this.setActiveDialogue(journalDialogues[which]);
+                journalPopups[which].setOnChangeRequest(() -> this.setActivePopup(null));
+                this.setActivePopup(journalPopups[which]);
             }
             found[which] = true;
         }
@@ -166,17 +186,44 @@ public class LevelOneComponents extends ScreenComponent {
 
     private void setupJournals() {
         journals = new Entity[3];
-        journals[0] = new Entity(300, 275, 10, 50, Color.RED, true);
-        journals[0].setOnMouseClicked(event -> handleJournalClick(0));
+        journals[0] = new Entity(300, 300, 25, 25, Color.TRANSPARENT, true);
+        journals[0].setOnMouseClicked(event -> handleJournalClick(0, false));
 
+        journals[1] = new Entity(365, 515, 25, 25, Color.TRANSPARENT, true);
+        journals[1].setOnMouseClicked(event -> handleJournalClick(1, false));
 
-        journals[1] = new Entity(400, 475, 10, 50, Color.ORANGE, true);
-        journals[1].setOnMouseClicked(event -> handleJournalClick(1));
+        journals[2] = new Entity(720, 175, 25, 25, Color.TRANSPARENT, true);
+        journals[2].setOnMouseClicked(event -> handleJournalClick(2, false));
 
-        journals[2] = new Entity(700, 175, 10, 50, Color.YELLOW, true);
-        journals[2].setOnMouseClicked(event -> handleJournalClick(2));
+        for (int i = 0; i < 3; ++i) {
+            int finalI = i;
+            journals[i].setOnMouseEntered(event -> {
+                if (player.inVicinity(journals[finalI], 70)) setCursor(Cursor.HAND);
+            });
+            journals[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+        }
 
         this.getChildren().addAll(journals);
+
+        journalIcons = new ImageView[3];
+        for (int i = 0; i < 3; ++i) {
+            journalIcons[i] = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_1,
+                    100, 100, true, true));
+            journalIcons[i].setX(5);
+            journalIcons[i].setY(50 + 75 * i);
+            journalIcons[i].setVisible(false);
+            int finalI = i;
+            journalIcons[i].setOnMouseClicked(event -> {
+                if (found[finalI]) handleJournalClick(finalI, true);
+            });
+        }
+        this.getChildren().addAll(journalIcons);
+
+        journalHighlight = new Circle(737, 192, 18, Color.TRANSPARENT);
+        journalHighlight.setStrokeWidth(2.0);
+        journalHighlight.setPickOnBounds(false);
+        journalHighlight.setMouseTransparent(true);
+        this.getChildren().add(journalHighlight);
     }
 
     /**
@@ -192,7 +239,7 @@ public class LevelOneComponents extends ScreenComponent {
         setupDialogue();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
-        pt.setOnFinished(event -> setActiveDialogue(levelOneDialogue[0]));
+        pt.setOnFinished(event -> setActivePopup(levelOneDialogue[0]));
         pt.play();
 
         setupEntities();
@@ -204,19 +251,19 @@ public class LevelOneComponents extends ScreenComponent {
 
     }
 
-    public void setActiveDialogue(DialogPane newDialogue) {
-        if (activeDialogue != null) this.getChildren().remove(activeDialogue);
-        activeDialogue = newDialogue;
-        if (activeDialogue != null) this.getChildren().add(activeDialogue);
-    }
-
     /**
      * Get the current active dialogue.
-     * @return
-     * The current active dialogue, or {@code null} if there is no dialogue.
+     *
+     * @return The current active dialogue, or {@code null} if there is no dialogue.
      */
-    public DialogPane getActiveDialogue() {
-        return activeDialogue;
+    public Popup getActivePopup() {
+        return activePopup;
+    }
+
+    public void setActivePopup(Popup newPopup) {
+        if (activePopup != null) this.getChildren().remove(activePopup);
+        activePopup = newPopup;
+        if (activePopup != null) this.getChildren().add(activePopup);
     }
 
     public Player getPlayer() {

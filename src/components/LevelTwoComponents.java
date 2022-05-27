@@ -2,7 +2,7 @@ package components;
 
 public class LevelTwoComponents extends ScreenComponent {
 
-    private DialogPane activeDialogue;
+    private DialoguePopup activeDialogue;
 
     public LevelTwoComponents() {
         super();
@@ -19,13 +19,13 @@ public class LevelTwoComponents extends ScreenComponent {
 
     }
 
-    public void setActiveDialogue(DialogPane newDialogue) {
+    public void setActiveDialogue(DialoguePopup newDialogue) {
         if (activeDialogue != null) this.getChildren().remove(activeDialogue);
         activeDialogue = newDialogue;
         if (activeDialogue != null) this.getChildren().add(activeDialogue);
     }
 
-    public DialogPane getActiveDialogue() {
+    public DialoguePopup getActiveDialogue() {
         return activeDialogue;
     }
 }
