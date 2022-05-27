@@ -4,13 +4,13 @@ import java.io.File;
 
 /**
  * This class contains all the constants for the application.
- *
+ * <p>
  * This method was created for easy access to files and
  * essential, frequently-used constants throughout
  * the program, such as screen dimensions.
  *
- * @since 1.0, 5/17/2022
  * @author Annie Wong
+ * @since 1.0, 5/17/2022
  */
 public class Constants {
 
@@ -50,4 +50,8 @@ public class Constants {
      * The primary font used throughout the game, Minecraft.
      */
     public final static File FONT_FILE = new File("src\\data\\Minecraft.ttf");
+
+    public static final File DIALOGUE_BOX = new File("src\\data\\dialoguebox.png");
+
+    public static final File CHARACTER_FRONT_IDLE = new File("src\\data\\characterfrontidle.png");
 }

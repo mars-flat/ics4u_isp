@@ -52,7 +52,7 @@ public class LevelOneScreen extends GameScreen {
     }
 
     /**
-     * What happens when the scene is loaded (i.e. an instance is created).
+     * What happens when the scene is loaded (i.e., an instance is created).
      */
     private void onLoad() {
         this.setFill(Color.BLACK);
@@ -98,13 +98,13 @@ public class LevelOneScreen extends GameScreen {
             if (keyboardInputs.contains("W")) {
                 if (canMoveUp) components.getPlayer().moveUp();
             }
-            if (keyboardInputs.contains("A")) {
+            else if (keyboardInputs.contains("A")) {
                 if (canMoveLeft) components.getPlayer().moveLeft();
             }
-            if (keyboardInputs.contains("S")) {
+            else if (keyboardInputs.contains("S")) {
                 if (canMoveDown) components.getPlayer().moveDown();
             }
-            if (keyboardInputs.contains("D")) {
+            else if (keyboardInputs.contains("D")) {
                 if (canMoveRight) components.getPlayer().moveRight();
             }
 

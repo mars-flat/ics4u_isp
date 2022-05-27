@@ -27,11 +27,6 @@ public class DialogPane extends Pane {
     private ImageView dialogueBox;
 
     /**
-     * Testing box.
-     */
-    private Rectangle testBox;
-
-    /**
      * The string of dialogue to be displayed.
      */
     private String dialogue;
@@ -54,7 +49,7 @@ public class DialogPane extends Pane {
 
     public DialogPane(String dialogue, DialogueChangeRequest changeRequestHandler) {
         this(new ImageView(
-                Tools.getImage(Constants.BEDROOM_SCREEN, 960, 720, true, true)
+                Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true)
             ), dialogue, changeRequestHandler);
     }
 
@@ -81,15 +76,9 @@ public class DialogPane extends Pane {
     private void addComponents() {
         this.getChildren().add(dialogueBox);
 
-        testBox = new Rectangle(80, 420, 780, 240);
-        testBox.setFill(Color.GRAY);
-        testBox.setArcWidth(50);
-        testBox.setArcHeight(50);
-        this.getChildren().add(testBox);
-
-        text = new Text(100, 500, dialogue.substring(0, showChars));
+        text = new Text(150, 550, dialogue.substring(0, showChars));
         text.setFont(Tools.getCustomFont(Constants.FONT_FILE, 36));
-        text.setWrappingWidth(700);
+        text.setWrappingWidth(650);
         this.getChildren().add(text);
     }
 
@@ -105,6 +94,7 @@ public class DialogPane extends Pane {
      * What happens when a request has been made to change the dialogue.
      */
     public void onChangeRequest() {
+        reset();
         changeRequestHandler.onChangeRequest();
     }
 

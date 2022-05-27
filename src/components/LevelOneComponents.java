@@ -1,12 +1,12 @@
 package components;
 
 import javafx.animation.PauseTransition;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utilities.Constants;
 import utilities.Entity;
+import utilities.Player;
 import utilities.Tools;
 
 import java.util.ArrayList;
@@ -31,10 +31,12 @@ public class LevelOneComponents extends ScreenComponent {
 
     private Entity[] journals;
 
-    private Entity player;
+    private Player player;
 
     // place all entities on even coordinates
     private List<Entity> otherEntities;
+
+    private Text journalsFoundText;
 
     private int journalsFound;
     boolean questComplete;
@@ -107,39 +109,32 @@ public class LevelOneComponents extends ScreenComponent {
     private void setupEntities() {
         otherEntities = new ArrayList<>();
 
-        // add border clipping
-        Entity clipping1 = new Entity(0, 0, 960, 230, Color.TRANSPARENT);
-        Entity clipping2 = new Entity(0, 230, 152, 490, Color.TRANSPARENT);
-        Entity clipping3 = new Entity(150, 600, 572, 120, Color.TRANSPARENT);
-        Entity clipping4 = new Entity(720, 650, 100, 70, Color.TRANSPARENT);
-        Entity clipping5 = new Entity(820, 228, 142, 490, Color.TRANSPARENT);
+        List<Entity> borderClipping = new ArrayList<>();
+        borderClipping.add(new Entity(0,0,960,280,Color.TRANSPARENT));
+        borderClipping.add(new Entity(0,0,144,720,Color.TRANSPARENT));
+        borderClipping.add(new Entity(808,0,152,720,Color.TRANSPARENT));
+        borderClipping.add(new Entity(0,624,708,96,Color.TRANSPARENT));
+        borderClipping.add(new Entity(708,680,100,80,Color.TRANSPARENT));
 
-        // furniture clipping
-        Entity bedClipping = new Entity(180, 240, 180, 260, Color.TRANSPARENT);
-        Entity nightstandClipping = new Entity(370, 240, 80, 80, Color.TRANSPARENT);
-        Entity closetClipping = new Entity(490, 120, 320, 170, Color.TRANSPARENT);
-        Entity deskClipping = new Entity(736, 330, 84, 200, Color.TRANSPARENT);
-        Entity chairClipping = new Entity(670, 380, 36, 100, Color.TRANSPARENT);
+        List<Entity> furnitureClipping = new ArrayList<>();
+        furnitureClipping.add(new Entity(360,250,80,80,Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(724,340,86,198,Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(170,240,180,250,Color.TRANSPARENT));
 
-        otherEntities.add(clipping1);
-        otherEntities.add(clipping2);
-        otherEntities.add(clipping3);
-        otherEntities.add(clipping4);
-        otherEntities.add(clipping5);
-        otherEntities.add(bedClipping);
-        otherEntities.add(nightstandClipping);
-        otherEntities.add(closetClipping);
-        otherEntities.add(deskClipping);
-        otherEntities.add(chairClipping);
+        otherEntities.addAll(borderClipping);
+        otherEntities.addAll(furnitureClipping);
 
         this.getChildren().addAll(otherEntities);
     }
 
     private void handleJournalClick(int which) {
         if (player.inVicinity(journals[which], 70)) {
-            if (!found[which]) journalsFound++;
-            found[which] = true;
-            if (journalsFound == 1) {
+            if (!found[which]) {
+                journalsFound++;
+                journalsFoundText.setText(journalsFound + "/3 journal entries found");
+                if (journalsFound == 3) journalsFoundText.setFill(Color.GREEN);
+            }
+            if (journalsFound == 1 && !found[which]) {
 
                 /*
                 if this is the first journal found,
@@ -164,31 +159,28 @@ public class LevelOneComponents extends ScreenComponent {
             }
             else {
 
-                // if this is not the first or third journal found,
-                // just display the journal
+                /*
+                if this is not the first or third journal found,
+                just display the journal
+                 */
                 journalDialogues[which].setOnChangeRequest(() -> this.setActiveDialogue(null));
                 this.setActiveDialogue(journalDialogues[which]);
             }
+            found[which] = true;
         }
     }
 
     private void setupJournals() {
         journals = new Entity[3];
         journals[0] = new Entity(300, 275, 10, 50, Color.RED, true);
-        journals[0].setOnMouseClicked(event -> {
-            handleJournalClick(0);
-        });
+        journals[0].setOnMouseClicked(event -> handleJournalClick(0));
 
 
         journals[1] = new Entity(400, 475, 10, 50, Color.ORANGE, true);
-        journals[1].setOnMouseClicked(event -> {
-            handleJournalClick(1);
-        });
+        journals[1].setOnMouseClicked(event -> handleJournalClick(1));
 
         journals[2] = new Entity(700, 175, 10, 50, Color.YELLOW, true);
-        journals[2].setOnMouseClicked(event -> {
-            handleJournalClick(2);
-        });
+        journals[2].setOnMouseClicked(event -> handleJournalClick(2));
 
         this.getChildren().addAll(journals);
     }
@@ -198,6 +190,10 @@ public class LevelOneComponents extends ScreenComponent {
      */
     @Override
     public void addComponents() {
+        journalsFoundText = new Text(50, 50, "");
+        journalsFoundText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 48));
+        journalsFoundText.setFill(Color.WHITE);
+        this.getChildren().add(journalsFoundText);
 
         setupDialogue();
 
@@ -208,8 +204,9 @@ public class LevelOneComponents extends ScreenComponent {
         setupEntities();
         setupJournals();
 
-        player = new Entity(740, 600, 40, 40, Color.WHITE);
+        player = new Player(740, 600, 40, 40);
         this.getChildren().add(player);
+        this.getChildren().add(player.getCharacter());
 
     }
 
