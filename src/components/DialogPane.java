@@ -2,16 +2,9 @@ package components;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Tools;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Container for dialogue within the game.

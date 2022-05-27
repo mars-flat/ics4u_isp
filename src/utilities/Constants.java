@@ -24,34 +24,38 @@ public class Constants {
      */
     public static final int SCREEN_HEIGHT = 720;
 
+    public static final String DATA_PATH = "src\\data\\";
+
     /**
      * Main menu background images.
      */
-    public final static File MAIN_MENU_SCREEN_1 = new File("src\\data\\mainmenu1.png");
-    public final static File MAIN_MENU_SCREEN_2 = new File("src\\data\\mainmenu2.png");
-    public final static File MAIN_MENU_SCREEN_3 = new File("src\\data\\mainmenu3.png");
+    public final static File MAIN_MENU_SCREEN_1 = new File(DATA_PATH + "mainmenu1.png");
+    public final static File MAIN_MENU_SCREEN_2 = new File(DATA_PATH + "mainmenu2.png");
+    public final static File MAIN_MENU_SCREEN_3 = new File(DATA_PATH + "mainmenu3.png");
 
     /**
      * Splash screen background image.
      */
-    public final static File SPLASH_SCREEN = new File("src\\data\\splashscreen.png");
+    public final static File SPLASH_SCREEN = new File(DATA_PATH + "splashscreen.png");
 
     /**
      * Title/loading screen background image.
      */
-    public final static File TITLE_SCREEN = new File("src\\data\\titlescreen.png");
+    public final static File TITLE_SCREEN = new File(DATA_PATH + "titlescreen.png");
 
     /**
      * Bedroom image for the background of level 1.
      */
-    public final static File BEDROOM_SCREEN = new File("src\\data\\bedroom.png");
+    public final static File BEDROOM_SCREEN = new File(DATA_PATH + "bedroom.png");
 
     /**
      * The primary font used throughout the game, Minecraft.
      */
-    public final static File FONT_FILE = new File("src\\data\\Minecraft.ttf");
+    public final static File FONT_FILE = new File(DATA_PATH + "Minecraft.ttf");
 
-    public static final File DIALOGUE_BOX = new File("src\\data\\dialoguebox.png");
+    public static final File DIALOGUE_BOX = new File(DATA_PATH + "dialoguebox.png");
 
-    public static final File CHARACTER_FRONT_IDLE = new File("src\\data\\characterfrontidle.png");
+    public static final File CHARACTER_FRONT_IDLE = new File(DATA_PATH + "characterfrontidle.png");
+
+    public static final File JOURNAL_BOX = new File(DATA_PATH + "journal.png");
 }

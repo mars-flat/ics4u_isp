@@ -83,25 +83,17 @@ public class LevelOneComponents extends ScreenComponent {
 
         journalDialogues = new DialogPane[3];
         journalDialogues[0] = new DialogPane(
+
                 "MONDAY SEPTEMBER XX, XXXX",
-                () -> {
-                    journalDialogues[0].reset();
-                    this.setActiveDialogue(null);
-                }
+                () -> this.setActiveDialogue(null)
         );
         journalDialogues[1] = new DialogPane(
                 "TUESDAY SEPTEMBER XX, XXXX",
-                () -> {
-                    journalDialogues[1].reset();
-                    this.setActiveDialogue(null);
-                }
+                () -> this.setActiveDialogue(null)
         );
         journalDialogues[2] = new DialogPane(
                 "WEDNESDAY SEPTEMBER XX, XXXX",
-                () -> {
-                    journalDialogues[2].reset();
-                    this.setActiveDialogue(null);
-                }
+                () -> this.setActiveDialogue(null)
         );
 
     }
@@ -120,6 +112,8 @@ public class LevelOneComponents extends ScreenComponent {
         furnitureClipping.add(new Entity(360,250,80,80,Color.TRANSPARENT));
         furnitureClipping.add(new Entity(724,340,86,198,Color.TRANSPARENT));
         furnitureClipping.add(new Entity(170,240,180,250,Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(660,430,40,64,Color.TRANSPARENT));
+        furnitureClipping.add(new Entity(660,394,4,30,Color.TRANSPARENT));
 
         otherEntities.addAll(borderClipping);
         otherEntities.addAll(furnitureClipping);
