@@ -17,7 +17,9 @@ import java.util.HashSet;
  * event listening, and updating components on each tick.
  *
  * @since 1.3, 5/19/2022
- * @author Shane Chen
+ * Modification on 5/27/2022
+ *
+ * @author Shane Chen, Annie Wong
  */
 public class LevelOneScreen extends GameScreen {
 

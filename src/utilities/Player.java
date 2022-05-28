@@ -20,7 +20,7 @@ import java.io.File;
  * Down: 10
  *
  * @since 2.2, 5/25/2022
- * @author Shane Chen
+ * @author Shane Chen, Annie Wong
  */
 public class Player extends Entity {
 

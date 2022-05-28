@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
  * in-game objects such as the player, as well as those that interact with it.
  *
  * @since 1.0, 5/16/2022
+ * Modification on 5/27/2022
+ *
  * @author Shane Chen
  */
 public class Entity extends Rectangle {

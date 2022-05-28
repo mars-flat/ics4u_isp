@@ -21,8 +21,10 @@ import java.util.List;
 /**
  * Components for the first level of the game.
  *
- * @author Shane Chen
  * @since 1.3, 5/19/2022
+ * Modification on 5/26/2022
+ *
+ * @author Shane Chen
  */
 public class LevelOneComponents extends ScreenComponent {
 

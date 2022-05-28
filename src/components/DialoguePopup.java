@@ -10,7 +10,9 @@ import utilities.Tools;
  * Extends {@link Popup} to inherit it's change request functionality.
  *
  * @since 1.4, 5/20/2022
- * @author Shane Chen
+ * Modification on 5/27/2022
+ *
+ * @author Shane Chen, Annie Wong
  */
 public class DialoguePopup extends Popup {
 
