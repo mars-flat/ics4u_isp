@@ -5,17 +5,28 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * This class is the blueprint for movable
- * in-game objects such as the player.
+ * in-game objects such as the player, as well as those that interact with it.
  *
  * @since 1.0, 5/16/2022
  * @author Shane Chen
  */
 public class Entity extends Rectangle {
 
-    private final int movementSpeed = 2;
+    /**
+     * The entity's movement speed. Do not change.
+     */
+    private static final int movementSpeed = 2;
 
     /**
-     * Creates an {@code Entity} instance.
+     * Overloaded {@link Entity} class constructor. Defaults {@code mouseInteract}
+     * to {@code False}.
+     */
+    public Entity(int spawnX, int spawnY, int width, int height, Color color) {
+        this(spawnX, spawnY, width, height, color, false);
+    }
+
+    /**
+     * Creates an {@link Entity} instance.
      * Initially displays the entity at ({@code spawnX}, {@code spawnY}).
      *
      * Because the instance is a {@link Rectangle} the width, height,
@@ -36,11 +47,10 @@ public class Entity extends Rectangle {
      * @param color
      * The color of the rectangle bounding the entity.
      *
+     * @param mouseInteract
+     * Whether mouse actions should be handled by the entity.
+     *
      */
-    public Entity(int spawnX, int spawnY, int width, int height, Color color) {
-        this(spawnX, spawnY, width, height, color, false);
-    }
-
     public Entity(int spawnX, int spawnY, int width, int height, Color color, boolean mouseInteract) {
         super(width, height, color);
         setX(spawnX);
@@ -207,6 +217,4 @@ public class Entity extends Rectangle {
         double oy = (other.getY() + other.getHeight()) / 2;
         return range * range > (tx - ox) * (tx - ox) + (ty - oy) * (ty - oy);
     }
-
-
 }

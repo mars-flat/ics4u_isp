@@ -76,8 +76,16 @@ public class LevelOneScreen extends GameScreen {
         });
     }
 
+    /**
+     * Handles keyboard inputs such as WASD for moving the player,
+     * and SPACE for changing popups
+     *
+     * @param currentTick
+     * The current tick.
+     */
     private void handleKeyboardInputs(long currentTick) {
-        // handle movement
+
+        // handle movement, update player's character
         if ((keyboardInputs.contains("W") ||
              keyboardInputs.contains("A") ||
              keyboardInputs.contains("S") ||
@@ -113,6 +121,7 @@ public class LevelOneScreen extends GameScreen {
             components.getPlayer().update(false, currentTick);
         }
 
+        // handle the changing of popups if applicable
         if (keyboardInputs.contains("SPACE")) {
             if (components.getActivePopup() != null) {
                 components.getActivePopup().onChangeRequest();

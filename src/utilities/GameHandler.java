@@ -18,22 +18,22 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import scenes.GameScreen;
-import scenes.LevelOneScreen;
 import scenes.SplashScreen;
 
 /**
  * The GameHandler class contains the main method,
  * which launches a JavaFX application.
- *
+ * <p>
  * This class handles the displaying and ticking
  * of the current scene with an AnimationTimer.
- *
+ * <p>
  * It also controls the main window, or stage, that
  * the scenes are displayed on.
  *
- * @since 1.0, 5/16/2022
  * @author Shane Chen
+ * @since 1.0, 5/16/2022
  */
 public class GameHandler extends Application {
 
@@ -54,11 +54,20 @@ public class GameHandler extends Application {
     private AnimationTimer gameLoop;
 
     /**
+     * Main method, launches the application.
+     *
+     * @param args Command line arguments.
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
      * Instantiates the AnimationTimer. Instantiation
      * requires the implementation of the abstract method
      * {@code handle(long now)}.
-     *
-     *
+     * <p>
+     * <p>
      * The implementation in the method
      * will call the current scene's
      * {@code onTick()} method, along with the
@@ -110,23 +119,19 @@ public class GameHandler extends Application {
     private void setup() {
         makeGameLoop();
         startGameLoop();
-        //currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
-        currentScene = new LevelOneScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        //currentScene = new LevelOneScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
     }
 
     /**
      * Abstract method that must be implemented with a JavaFX application.
      * This method is called implicitly by the application.
-     *
+     * <p>
      * This method will set the properties of the main window, and set up
      * the first scene and game loop.
      *
-     * @param primaryStage
-     * The main window.
-     *
-     * @throws Exception
-     * Handle any errors that may occur with the launch of the application.
-     *
+     * @param primaryStage The main window.
+     * @throws Exception Handle any errors that may occur with the launch of the application.
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -143,23 +148,13 @@ public class GameHandler extends Application {
 
     /**
      * Change the current scene being displayed.
-     * @param oldScene
-     * The old scene.
-     * @param newScene
-     * The new scene to display.
+     *
+     * @param oldScene The old scene.
+     * @param newScene The new scene to display.
      */
     public void changeScene(Scene oldScene, Scene newScene) {
         currentScene = (GameScreen) newScene;
         window.setScene(newScene);
         window.show();
-    }
-
-    /**
-     * Main method, launches the application.
-     * @param args
-     * Command line arguments.
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

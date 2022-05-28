@@ -24,6 +24,9 @@ public class Constants {
      */
     public static final int SCREEN_HEIGHT = 720;
 
+    /**
+     * The data folder path.
+     */
     public static final String DATA_PATH = "src\\data\\";
 
     /**
@@ -53,12 +56,28 @@ public class Constants {
      */
     public final static File FONT_FILE = new File(DATA_PATH + "Minecraft.ttf");
 
+    /**
+     * The image used for the dialogue box.
+     */
     public static final File DIALOGUE_BOX = new File(DATA_PATH + "dialoguebox.png");
 
+    /**
+     * The image used for journal entries in level 1.
+     */
     public static final File JOURNAL_BOX = new File(DATA_PATH + "journal.png");
 
+    /**
+     * The older sibling's file path.
+     */
     public static final File OLDER_SIBLING = new File(DATA_PATH + "oldersibling.png");
 
+    /**
+     * Journal icon colored to indicate that the journal is not found.
+     */
     public static final File JOURNAL_ICON_1 = new File(DATA_PATH + "journalicon1.png");
+
+    /**
+     * Journal icon colored to indicate that the journal is found.
+     */
     public static final File JOURNAL_ICON_2 = new File(DATA_PATH + "journalicon2.png");
 }

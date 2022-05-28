@@ -2,12 +2,14 @@ package components;
 
 import javafx.animation.*;
 import javafx.scene.Cursor;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 import utilities.Constants;
 import utilities.Entity;
 import utilities.Player;
@@ -24,21 +26,60 @@ import java.util.List;
  */
 public class LevelOneComponents extends ScreenComponent {
 
+    /**
+     * found[i] denotes whether the i-th journal has been found.
+     */
+    private final boolean[] found;
+
+    /**
+     * This is true if all three journals have been found.
+     */
     boolean questComplete;
+
     /**
      * The current active dialogue. May be {@code null} to indicate that there is no dialogue.
      */
     private Popup activePopup;
+
+    /**
+     * The journal popups which may be displayed.
+     */
     private Popup[] journalPopups;
+
+    /**
+     * The dialogue popups which may be displayed.
+     */
     private DialoguePopup[] levelOneDialogue;
+
+    /**
+     * The journals displayed around the room for the user to find.
+     */
     private Entity[] journals;
+
+    /**
+     * The player.
+     */
     private Player player;
-    // place all entities on even coordinates
+
+    /**
+     * All the other entities within the room, such as clipping.
+     * place all entities on even coordinates for proper collision detection.
+     */
     private List<Entity> otherEntities;
-    private Text journalsFoundText;
+
+    /**
+     * The number of journals currently found.
+     */
     private int journalsFound;
-    private final boolean[] found;
+
+    /**
+     * The journal icons, denoting whether a journal has been found or not. Clickable if found to open.
+     */
     private ImageView[] journalIcons;
+
+    /**
+     * A guide to help the player begin the journal hunt.
+     */
     private Circle journalHighlight;
 
     /**
@@ -52,8 +93,12 @@ public class LevelOneComponents extends ScreenComponent {
         addComponents();
     }
 
-    private void setupDialogue() {
+    /**
+     * Set up the dialogue and journal popups.
+     */
+    private void setupPopups() {
 
+        // the dialogue to be displayed in {@link DialoguePopup} popups.
         String[] dialogue = {
                 "I wonder if my sibling has the book I need.",
                 "Hey, what's this?",
@@ -62,6 +107,7 @@ public class LevelOneComponents extends ScreenComponent {
                 "Social Anxiety.",
         };
 
+        // instantiate the dialogue popups
         levelOneDialogue = new DialoguePopup[5];
         for (int i = 0; i < 5; ++i) {
             levelOneDialogue[i] = new DialoguePopup(
@@ -70,6 +116,7 @@ public class LevelOneComponents extends ScreenComponent {
             );
         }
 
+        // set the default change request actions for certain dialogues
         levelOneDialogue[0].setOnChangeRequest(() -> {
             this.setActivePopup(null);
             StrokeTransition st1 = new StrokeTransition(Duration.millis(1000), journalHighlight, Color.YELLOW, Color.TRANSPARENT);
@@ -103,6 +150,9 @@ public class LevelOneComponents extends ScreenComponent {
         }
     }
 
+    /**
+     * Setup the entities that interact with the player (i.e., clipping).
+     */
     private void setupEntities() {
         otherEntities = new ArrayList<>();
 
@@ -126,6 +176,17 @@ public class LevelOneComponents extends ScreenComponent {
         this.getChildren().addAll(otherEntities);
     }
 
+    /**
+     * Play the journal found animation. Slides a journal page image to it's corresponding icon location.
+     * @param which
+     * Which journal.
+     *
+     * @param fx
+     * The ending x location of the journal page.
+     *
+     * @param fy
+     * The ending y location of the journal page.
+     */
     private void playJournalFindAnimation(int which, int fx, int fy) {
         Line animationPath = new Line(430, 310, fx, fy);
         ImageView animJournal = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_2, 100, 100, true, true));
@@ -140,13 +201,21 @@ public class LevelOneComponents extends ScreenComponent {
         animation.play();
     }
 
+    /**
+     * What happens when a journal has been clicked. This may open the journal in a popup.
+     *
+     * @param which
+     * Which journal.
+     *
+     * @param overrideVicinity
+     * Whether to override the vicinity requirement.
+     */
     private void handleJournalClick(int which, boolean overrideVicinity) {
         if (overrideVicinity || player.inVicinity(journals[which], 70)) {
             for (ImageView img : journalIcons) img.setVisible(true);
             journalHighlight.setVisible(false);
             if (!found[which]) {
                 journalsFound++;
-                if (journalsFound == 3) journalsFoundText.setFill(Color.GREEN);
                 playJournalFindAnimation(which, 60, 100 + 75 * which);
             }
             if (journalsFound == 1 && !found[which]) {
@@ -184,6 +253,9 @@ public class LevelOneComponents extends ScreenComponent {
         }
     }
 
+    /**
+     * Set up the actual journals in the room, as well as the icons on the side.
+     */
     private void setupJournals() {
         journals = new Entity[3];
         journals[0] = new Entity(300, 300, 25, 25, Color.TRANSPARENT, true);
@@ -231,12 +303,8 @@ public class LevelOneComponents extends ScreenComponent {
      */
     @Override
     public void addComponents() {
-        journalsFoundText = new Text(50, 50, "");
-        journalsFoundText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 48));
-        journalsFoundText.setFill(Color.WHITE);
-        this.getChildren().add(journalsFoundText);
 
-        setupDialogue();
+        setupPopups();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
         pt.setOnFinished(event -> setActivePopup(levelOneDialogue[0]));

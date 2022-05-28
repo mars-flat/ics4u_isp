@@ -7,14 +7,21 @@ import utilities.Tools;
 
 /**
  * Container for dialogue within the game.
+ * Extends {@link Popup} to inherit it's change request functionality.
  *
  * @since 1.4, 5/20/2022
  * @author Shane Chen
  */
 public class DialoguePopup extends Popup {
 
+    /**
+     * The image of the speaker.
+     */
     private ImageView speaker;
 
+    /**
+     * The title of the speaker.
+     */
     private String speakerTitle;
 
     /**
@@ -27,6 +34,9 @@ public class DialoguePopup extends Popup {
      */
     private String dialogue;
 
+    /**
+     * The Text object for the string of the title.
+     */
     private Text titleText;
 
     /**
@@ -96,11 +106,17 @@ public class DialoguePopup extends Popup {
         dialogueText.setText(dialogue.substring(0, ++showChars));
     }
 
+    /**
+     * Call the {@code onChangeRequest()} of the superclass instance.
+     */
     public void onChangeRequest() {
         reset();
         super.getOnChangeRequest().onChangeRequest();
     }
 
+    /**
+     * Reset the number of characters in the string the dialogue should show to 0.
+     */
     public void reset() {
         showChars = 0;
     }
