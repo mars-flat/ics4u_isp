@@ -100,7 +100,7 @@ public class LevelOneComponents extends ScreenComponent {
      */
     private void setupPopups() {
 
-        // the dialogue to be displayed in {@link DialoguePopup} popups.
+        // the dialogue to be displayed in dialogue popups.
         String[] dialogue = {
                 "I wonder if my sibling has the book I need.",
                 "Hey, what's this?",
@@ -138,17 +138,25 @@ public class LevelOneComponents extends ScreenComponent {
         journalPopups = new Popup[3];
         for (int i = 0; i < 3; ++i) {
             journalPopups[i] = new Popup(() -> this.setActivePopup(null));
+
             ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
-            Text journalText = new Text(355, 180, journalEntries[i]);
+
+            Text date = new Text(360, 165, "September " + (i == 0 ? 15 : i == 1 ? 13 : 12));
+            date.setFont(Tools.getCustomFont(Constants.FONT_FILE, 18));
+
+            Text journalText = new Text(360, 215, journalEntries[i]);
             journalText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 16));
             journalText.setWrappingWidth(280);
+
             Rectangle darken = new Rectangle(0, 0, 960, 720);
             darken.setFill(Color.color(0, 0, 0, 0.75));
+
             Text continueText = new Text(625, 650, "SPACE to continue");
             continueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 22));
             continueText.setFill(Color.WHITE);
+
             this.getChildren().add(continueText);
-            journalPopups[i].getChildren().addAll(darken, journalPage, journalText, continueText);
+            journalPopups[i].getChildren().addAll(darken, journalPage, date, journalText, continueText);
         }
     }
 
@@ -290,6 +298,10 @@ public class LevelOneComponents extends ScreenComponent {
             journalIcons[i].setOnMouseClicked(event -> {
                 if (found[finalI]) handleJournalClick(finalI, true);
             });
+            journalIcons[i].setOnMouseEntered(event -> {
+                if (found[finalI]) setCursor(Cursor.HAND);
+            });
+            journalIcons[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
         }
         this.getChildren().addAll(journalIcons);
 
@@ -330,16 +342,34 @@ public class LevelOneComponents extends ScreenComponent {
         return activePopup;
     }
 
+    /**
+     * Sets the active popup. May be null to indicate that there is no active popup.
+     *
+     * @param newPopup
+     * The new active popup, or null if there will be no active popup.
+     */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
         activePopup = newPopup;
         if (activePopup != null) this.getChildren().add(activePopup);
     }
 
+    /**
+     * Returns the player.
+     *
+     * @return
+     * The player.
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Returns all other entities that the player will interact with.
+     *
+     * @return
+     * A list containing all other entities.
+     */
     public List<Entity> getOtherEntities() {
         return otherEntities;
     }
