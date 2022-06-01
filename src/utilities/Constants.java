@@ -69,9 +69,14 @@ public class Constants {
     public static final File JOURNAL_BOX = new File(DATA_PATH + "journal.png");
 
     /**
-     * The older sibling's file path.
+     * The older sibling's image file path.
      */
     public static final File OLDER_SIBLING = new File(DATA_PATH + "oldersibling.png");
+
+    /**
+     * The younger sibling's image file path.
+     */
+    public static final File YOUNGER_SIBLING = new File(DATA_PATH + "youngersibling.png");
 
     /**
      * Journal icon colored to indicate that the journal is not found.

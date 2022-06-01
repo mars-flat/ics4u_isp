@@ -28,7 +28,7 @@ public class Player extends Entity {
      * The characters stances. In other words, the possible ways that the player
      * can be displayed on the screen.
      */
-    private Image[] characterStances; // 4 x [a, b, idle]
+    private Image[] characterStances; // 4 x [a, b, idle] in L R U D order
 
     /**
      * The current image that is depicting the character.
@@ -61,11 +61,11 @@ public class Player extends Entity {
      * The height of the rectangle bounding the player's hitbox.
      *
      */
-    public Player(int spawnX, int spawnY, int width, int height) {
+    public Player(int spawnX, int spawnY, int width, int height, boolean older) {
         super(spawnX, spawnY, width, height, Color.TRANSPARENT);
 
         // load stances from data
-        loadStances();
+        loadStances(older);
 
         // set initial character stance
         character = new ImageView(characterStances[9]);
@@ -81,16 +81,16 @@ public class Player extends Entity {
     /**
      * Loads all stances from data and stores them for access.
      */
-    private void loadStances() {
+    private void loadStances(boolean older) {
         characterStances = new Image[13];
         for (int i = 1; i <= 12; ++i) {
-            characterStances[i] = Tools.getImage(new File(Constants.DATA_PATH + "stances\\character" + i + ".png"),
+            characterStances[i] = Tools.getImage(new File(Constants.DATA_PATH + "stances\\" + (older ? "older" : "younger") + i + ".png"),
                     (int) getWidth() + 20, (int) getHeight() + 20, true, true);
         }
     }
 
     /**
-     * Moves the entity left by {@link Entity#movementSpeed} pixels.
+     * Calls the superclass {@code moveLeft()} method.
      * Sets the current direction to 1 (left).
      */
     public void moveLeft() {
@@ -99,7 +99,7 @@ public class Player extends Entity {
     }
 
     /**
-     * Moves the entity right by {@link Entity#movementSpeed} pixels.
+     * Calls the superclass {@code moveRight()} method.
      * Sets the current direction to 4 (right).
      */
     public void moveRight() {
@@ -108,7 +108,7 @@ public class Player extends Entity {
     }
 
     /**
-     * Moves the entity up by {@link Entity#movementSpeed} pixels.
+     * Calls the superclass {@code moveUp()} method.
      * Sets the current direction to 7 (up).
      */
     public void moveUp() {
@@ -117,7 +117,7 @@ public class Player extends Entity {
     }
 
     /**
-     * Moves the entity down by {@link Entity#movementSpeed} pixels.
+     * Calls the superclass {@code moveDown()} method.
      * Sets the current direction to 10 (down).
      */
     public void moveDown() {
