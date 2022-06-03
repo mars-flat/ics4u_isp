@@ -1,31 +1,93 @@
 package components;
 
+import javafx.animation.PauseTransition;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import utilities.Constants;
+import utilities.Tools;
+
 public class LevelTwoComponents extends ScreenComponent {
 
-    private DialoguePopup activeDialogue;
+    private final static int TOTAL_QUESTIONS = 6;
+
+    private Popup activePopup;
+    private DialoguePopup[] levelTwoDialogue;
+    private QuestionCard[] questions;
+    private int currentQuestion;
 
     public LevelTwoComponents() {
         super();
+        currentQuestion = 0;
         addComponents();
     }
 
     private void setupDialogue() {
 
+        // the dialogue to be displayed in dialogue popups.
+        String[] dialogue = {
+                "Let's play a game. I have these cards with questions and answers on them, and you pick what you think is the best answer.",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+        };
+
+        levelTwoDialogue = new DialoguePopup[8];
+
+        for (int i = 0; i < 1; ++i) {
+            levelTwoDialogue[i] = new DialoguePopup(
+                    new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
+                    "Older Sibling", dialogue[i], () -> this.setActivePopup(questions[0])
+            );
+        }
+
+    }
+
+    private void setupQuestions() {
+
+        String[] qs = {
+                "Q: You’re greeted by a classmate you’ve never talked to before. What do you do?",
+                "Q: You have a question about homework. What do you do?",
+                "Q: You’re talking with others in a group, and you stumble on your words. What will they most likely do?",
+                "Q: You forgot your pencils for a quiz. What do you do?",
+                "Q: You see a group of people during lunch that are talking about something you like. What do you do?",
+                "Q: When faced with a presentation, you should:"
+        };
+
+        questions = new QuestionCard[TOTAL_QUESTIONS];
+        questions[0] = new QuestionCard(qs[0],
+                new String[]{"Duck into the nearest washroom",
+                        "Pretend to look at a squirrel outside",
+                        "Wave or greet them back",
+                        "Look at them awkwardly and give no response"},
+                2, () -> {
+
+        });
     }
 
     @Override
     public void addComponents() {
-        // play the cutscene
+        // TODO: cutscene
+
+        setupDialogue();
+        setupQuestions();
+
+        PauseTransition pt = new PauseTransition(Duration.millis(500));
+        pt.setOnFinished(event -> setActivePopup(levelTwoDialogue[0]));
+        pt.play();
 
     }
 
-    public void setActiveDialogue(DialoguePopup newDialogue) {
-        if (activeDialogue != null) this.getChildren().remove(activeDialogue);
-        activeDialogue = newDialogue;
-        if (activeDialogue != null) this.getChildren().add(activeDialogue);
+    public Popup getActivePopup() {
+        return activePopup;
     }
 
-    public DialoguePopup getActiveDialogue() {
-        return activeDialogue;
+    public void setActivePopup(Popup newPopup) {
+        if (activePopup != null) this.getChildren().remove(activePopup);
+        activePopup = newPopup;
+        if (activePopup != null) this.getChildren().add(activePopup);
     }
 }

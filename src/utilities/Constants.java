@@ -54,9 +54,19 @@ public class Constants {
     public final static File BEDROOM_SCREEN = new File(DATA_PATH + "bedroom.png");
 
     /**
+     * Table image with cards for the background of level 2.
+     */
+    public static final File TABLE_SCREEN = new File(DATA_PATH + "table.png");
+
+    /**
      * The primary font used throughout the game, Minecraft.
      */
-    public final static File FONT_FILE = new File(DATA_PATH + "Minecraft.ttf");
+    public final static File PIXEL_FONT = new File(DATA_PATH + "Minecraft.ttf");
+
+
+    public static final File PRINT_FONT = new File(DATA_PATH + "Verdana.ttf");
+
+    public static final File HANDWRITING_FONT = new File(DATA_PATH + "caveat.regular.ttf");
 
     /**
      * The image used for the dialogue box.

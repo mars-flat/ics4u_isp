@@ -141,18 +141,18 @@ public class LevelOneComponents extends ScreenComponent {
 
             ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
 
-            Text date = new Text(360, 165, "September " + (i == 0 ? 15 : i == 1 ? 13 : 12));
-            date.setFont(Tools.getCustomFont(Constants.FONT_FILE, 18));
+            Text date = new Text(360, 160, "September " + (i == 0 ? 15 : i == 1 ? 13 : 12));
+            date.setFont(Tools.getCustomFont(Constants.HANDWRITING_FONT, 18));
 
             Text journalText = new Text(360, 215, journalEntries[i]);
-            journalText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 16));
+            journalText.setFont(Tools.getCustomFont(Constants.HANDWRITING_FONT, 16));
             journalText.setWrappingWidth(280);
 
             Rectangle darken = new Rectangle(0, 0, 960, 720);
             darken.setFill(Color.color(0, 0, 0, 0.75));
 
             Text continueText = new Text(625, 650, "SPACE to continue");
-            continueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 22));
+            continueText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
             continueText.setFill(Color.WHITE);
 
             this.getChildren().add(continueText);

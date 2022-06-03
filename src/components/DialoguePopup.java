@@ -19,17 +19,17 @@ public class DialoguePopup extends Popup {
     /**
      * The image of the speaker.
      */
-    private ImageView speaker;
+    private final ImageView speaker;
 
     /**
      * The title of the speaker.
      */
-    private String speakerTitle;
+    private final String speakerTitle;
 
     /**
      * The image the dialogue should be written over.
      */
-    private ImageView dialogueBox;
+    private final ImageView dialogueBox;
 
     /**
      * The string of dialogue to be displayed.
@@ -86,17 +86,17 @@ public class DialoguePopup extends Popup {
         this.getChildren().add(speaker);
         this.getChildren().add(dialogueBox);
 
-        dialogueText = new Text(150, 550, dialogue.substring(0, showChars));
-        dialogueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 36));
+        dialogueText = new Text(150, 510, dialogue.substring(0, showChars));
+        dialogueText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         dialogueText.setWrappingWidth(650);
         this.getChildren().add(dialogueText);
 
         titleText = new Text(630, 430, speakerTitle);
-        titleText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 26));
+        titleText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
         this.getChildren().add(titleText);
 
         Text continueText = new Text(625, 650, "SPACE to continue");
-        continueText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 22));
+        continueText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
         this.getChildren().add(continueText);
     }
 
@@ -121,5 +121,13 @@ public class DialoguePopup extends Popup {
      */
     public void reset() {
         showChars = 0;
+    }
+
+    public String getDialogue() {
+        return dialogue;
+    }
+
+    public void setDialogue(String newDialogue) {
+        dialogue = newDialogue;
     }
 }

@@ -119,7 +119,7 @@ public class MenuScreenComponents extends ScreenComponent {
         transitionRectangle.setMouseTransparent(true);
 
         loadingText = new Text(390, 320, "Loading...");
-        loadingText.setFont(Tools.getCustomFont(Constants.FONT_FILE, 48));
+        loadingText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         loadingText.setPickOnBounds(false);
         loadingText.setMouseTransparent(true);
         loadingText.setFill(Color.WHITE);
