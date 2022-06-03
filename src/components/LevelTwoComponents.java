@@ -6,6 +6,10 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.Tools;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class LevelTwoComponents extends ScreenComponent {
 
     private final static int TOTAL_QUESTIONS = 6;
@@ -52,28 +56,27 @@ public class LevelTwoComponents extends ScreenComponent {
     }
 
     private void setupQuestions() {
-
-        String[] qs = {
-                "Q: You're greeted by a classmate you’ve never talked to before. What do you do?",
-                "Q: You have a question about homework. What do you do?",
-                "Q: You're talking with others in a group, and you stumble on your words. What will they most likely do?",
-                "Q: You forgot your pencils for a quiz. What do you do?",
-                "Q: You see a group of people during lunch that are talking about something you like. What do you do?",
-                "Q: When faced with a presentation, you should:"
-        };
-
+        Scanner fr = null;
+        try {
+            fr = new Scanner(new File(Constants.DATA_PATH + "cardcontent.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         questions = new QuestionCard[TOTAL_QUESTIONS];
-        questions[0] = new QuestionCard(qs[0],
-                new String[]{"Duck into the nearest washroom",
-                        "Pretend to look at a squirrel outside",
-                        "Wave or greet them back",
-                        "Look at them awkwardly and give no response"},
-                new String[]{"The other classmate would be sad that you ignored them...",
-                        "The other classmate would be sad that you think an imaginary squirrel is more important than them...",
-                        "That's right, a simple hi back not only resolves this crisis and could earn you a potential new friend!",
-                        "That's just going to make things more awkward than it should be."
-                },
-                2, this);
+        
+        for (int i = 0; i < TOTAL_QUESTIONS; ++i) {
+            String question = fr.nextLine();
+            String[] answers = new String[4];
+            String[] responses = new String[4];
+            for (int j = 0; j < 4; ++j) {
+                answers[j] = fr.nextLine();
+                responses[j] = fr.nextLine();
+            }
+            int correctAnswer = Integer.parseInt(fr.nextLine());
+            questions[i] = new QuestionCard(question, answers, responses, correctAnswer, this);
+        }
+
+        fr.close();
     }
 
     @Override
@@ -97,6 +100,11 @@ public class LevelTwoComponents extends ScreenComponent {
         if (activePopup != null) this.getChildren().remove(activePopup);
         activePopup = newPopup;
         if (activePopup != null) this.getChildren().add(activePopup);
+    }
+
+    public void nextQuestion() {
+        if (curQuestionNum == TOTAL_QUESTIONS-1) setCurrentQuestion(null);
+        else setCurrentQuestion(questions[++curQuestionNum]);
     }
 
     public void setCurrentQuestion(QuestionCard newQuestion) {

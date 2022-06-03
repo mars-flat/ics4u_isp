@@ -144,7 +144,7 @@ public class LevelOneComponents extends ScreenComponent {
             Text date = new Text(360, 160, "September " + (i == 0 ? 15 : i == 1 ? 13 : 12));
             date.setFont(Tools.getCustomFont(Constants.HANDWRITING_FONT, 18));
 
-            Text journalText = new Text(360, 215, journalEntries[i]);
+            Text journalText = new Text(360, 205, journalEntries[i]);
             journalText.setFont(Tools.getCustomFont(Constants.HANDWRITING_FONT, 16));
             journalText.setWrappingWidth(280);
 

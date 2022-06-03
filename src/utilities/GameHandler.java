@@ -2,7 +2,7 @@
  * Name: Shane Chen, Annie Wong
  * Teacher: Ms. Krasteva
  * Date: May 16, 2022
- * Program Description: Everyone has their own fears that crawl and coil around their minds. But don't let
+ * Program Description: Everyone has their own fears that crawls and coils around their minds. But don't let
  * it control you. Panik is a game aimed to help teens raise awareness of/overcome the social adversity known as
  * social anxiety. Level one, the deficiencies room, educates about the symptoms of social anxiety and what
  * it's like. Level two, the panic room, involves a card game that focuses on what you should do to block
@@ -19,7 +19,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import scenes.*;
+import scenes.GameScreen;
+import scenes.LevelOneScreen;
+import scenes.LevelTwoScreen;
+import scenes.SplashScreen;
 
 /**
  * The GameHandler class contains the main method,
@@ -119,9 +122,8 @@ public class GameHandler extends Application {
         makeGameLoop();
         startGameLoop();
         //currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
-        currentScene = new MenuScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
         //currentScene = new LevelOneScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
-        //currentScene = new LevelTwoScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        currentScene = new LevelTwoScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
     }
 
     /**
