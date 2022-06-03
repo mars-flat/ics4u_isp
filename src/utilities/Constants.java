@@ -32,13 +32,6 @@ public class Constants {
     public static final String DATA_PATH = "src\\data\\";
 
     /**
-     * Main menu background images.
-     */
-    public final static File MAIN_MENU_SCREEN_1 = new File(DATA_PATH + "mainmenu1.png");
-    public final static File MAIN_MENU_SCREEN_2 = new File(DATA_PATH + "mainmenu2.png");
-    public final static File MAIN_MENU_SCREEN_3 = new File(DATA_PATH + "mainmenu3.png");
-
-    /**
      * Splash screen background image.
      */
     public final static File SPLASH_SCREEN = new File(DATA_PATH + "splashscreen.png");
@@ -47,6 +40,18 @@ public class Constants {
      * Title/loading screen background image.
      */
     public final static File TITLE_SCREEN = new File(DATA_PATH + "titlescreen.png");
+
+    /**
+     * Main menu background images.
+     */
+    public final static File MAIN_MENU_SCREEN_1 = new File(DATA_PATH + "mainmenu1.png");
+    public final static File MAIN_MENU_SCREEN_2 = new File(DATA_PATH + "mainmenu2.png");
+    public final static File MAIN_MENU_SCREEN_3 = new File(DATA_PATH + "mainmenu3.png");
+
+    /**
+     * About screen background image.
+     */
+    public final static File ABOUT_SCREEN = new File(DATA_PATH + "about.png");
 
     /**
      * Bedroom image for the background of level 1.
