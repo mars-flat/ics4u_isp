@@ -69,7 +69,6 @@ public class GameHandler extends Application {
      * requires the implementation of the abstract method
      * {@code handle(long now)}.
      * <p>
-     * <p>
      * The implementation in the method
      * will call the current scene's
      * {@code onTick()} method, along with the

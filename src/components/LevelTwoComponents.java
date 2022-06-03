@@ -10,22 +10,57 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Components for the second level of the game.
+ *
+ * @since 3.0, 5/30/2022
+ *
+ * @author Shane Chen
+ */
 public class LevelTwoComponents extends ScreenComponent {
 
+    /**
+     * The total number of questions.
+     */
     private final static int TOTAL_QUESTIONS = 6;
 
+    /**
+     * The current active popup. May be {@code null} to indicate that there is no popup.
+     */
     private Popup activePopup;
+
+    /**
+     * The current question. May be {@code null} to indicate that there is no question.
+     */
     private QuestionCard currentQuestion;
+
+    /**
+     * The dialogue popups which may be displayed.
+     */
     private DialoguePopup[] levelTwoDialogue;
+
+    /**
+     * The question cards which may be displayed.
+     */
     private QuestionCard[] questions;
+
+    /**
+     * The current question index.
+     */
     private int curQuestionNum;
 
+    /**
+     * Creates an instance of this class.
+     */
     public LevelTwoComponents() {
         super();
         curQuestionNum = 0;
         addComponents();
     }
 
+    /**
+     * Set up the dialogue.
+     */
     private void setupDialogue() {
 
         // the dialogue to be displayed in dialogue popups.
@@ -55,6 +90,10 @@ public class LevelTwoComponents extends ScreenComponent {
 
     }
 
+    /**
+     * Sets up the questions. Question content is located in a text file
+     * which is read with a {@link Scanner}.
+     */
     private void setupQuestions() {
         Scanner fr = null;
         try {
@@ -63,7 +102,8 @@ public class LevelTwoComponents extends ScreenComponent {
             e.printStackTrace();
         }
         questions = new QuestionCard[TOTAL_QUESTIONS];
-        
+
+        // each question card has 10 lines in the txt file
         for (int i = 0; i < TOTAL_QUESTIONS; ++i) {
             String question = fr.nextLine();
             String[] answers = new String[4];
@@ -79,6 +119,9 @@ public class LevelTwoComponents extends ScreenComponent {
         fr.close();
     }
 
+    /**
+     * Add components to this root component.
+     */
     @Override
     public void addComponents() {
         // TODO: cutscene
@@ -92,21 +135,41 @@ public class LevelTwoComponents extends ScreenComponent {
 
     }
 
+    /**
+     * Get the current active popup.
+     *
+     * @return The current active popup, or {@code null} if there is none.
+     */
     public Popup getActivePopup() {
         return activePopup;
     }
 
+    /**
+     * Sets the active popup. May be {@code null} to indicate that there is no active popup.
+     *
+     * @param newPopup
+     * The new active popup, or {@code null} if there will be no active popup.
+     */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
         activePopup = newPopup;
         if (activePopup != null) this.getChildren().add(activePopup);
     }
 
+    /**
+     * Goes to the next question, or {@code null} if there is no question after.
+     */
     public void nextQuestion() {
         if (curQuestionNum == TOTAL_QUESTIONS-1) setCurrentQuestion(null);
         else setCurrentQuestion(questions[++curQuestionNum]);
     }
 
+    /**
+     * Sets the current quesiton. May be {@code null} to indicate to have no question.
+     * 
+     * @param newQuestion
+     * The new question, or {@code null} if there will be no question.
+     */
     public void setCurrentQuestion(QuestionCard newQuestion) {
         if (currentQuestion != null) this.getChildren().remove(currentQuestion);
         currentQuestion = newQuestion;

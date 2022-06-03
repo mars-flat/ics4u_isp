@@ -19,16 +19,6 @@ import java.util.List;
 
 public class QuestionCard extends Pane {
 
-    /**
-     * current todos:
-     *
-     * shuffle deck
-     * Display card & text within it
-     * make clicking work -> map to associated dialogue
-     * Deal with the correct/wrong answer gui & functionality
-     *
-     */
-
     private LevelTwoComponents controller;
 
     private String question;
@@ -89,12 +79,10 @@ public class QuestionCard extends Pane {
                         "Older Sibling", responses[idx], () -> {
                     if (correctAnswer == finalI) controller.nextQuestion();
                     controller.setActivePopup(null);
-                }
-                );
+                });
                 PauseTransition pt = new PauseTransition(Duration.millis(500));
                 pt.setOnFinished(e -> controller.setActivePopup(response));
                 pt.play();
-
             });
 
             Text answerText = new Text(230 + 135 * i, 400, options[idx]);

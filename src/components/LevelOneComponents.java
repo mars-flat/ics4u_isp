@@ -39,7 +39,7 @@ public class LevelOneComponents extends ScreenComponent {
     boolean questComplete;
 
     /**
-     * The current active dialogue. May be {@code null} to indicate that there is no dialogue.
+     * The current active popup. May be {@code null} to indicate that there is no popup.
      */
     private Popup activePopup;
 
@@ -334,19 +334,19 @@ public class LevelOneComponents extends ScreenComponent {
     }
 
     /**
-     * Get the current active dialogue.
+     * Get the current active popup.
      *
-     * @return The current active dialogue, or {@code null} if there is no dialogue.
+     * @return The current active popup, or {@code null} if there is none.
      */
     public Popup getActivePopup() {
         return activePopup;
     }
 
     /**
-     * Sets the active popup. May be null to indicate that there is no active popup.
+     * Sets the active popup. May be {@code null} to indicate that there is no active popup.
      *
      * @param newPopup
-     * The new active popup, or null if there will be no active popup.
+     * The new active popup, or {@code null} if there will be no active popup.
      */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
