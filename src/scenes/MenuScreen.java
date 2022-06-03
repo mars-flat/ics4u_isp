@@ -98,10 +98,6 @@ public class MenuScreen extends GameScreen {
         PauseTransition pt = new PauseTransition(
                 Duration.millis(2000)
         );
-
-        SequentialTransition loadAnimation = new SequentialTransition(ft, pt);
-        loadAnimation.setOnFinished(event -> play());
-        loadAnimation.play();
     }
 
     /**
@@ -109,6 +105,14 @@ public class MenuScreen extends GameScreen {
      */
     private void play() {
         LevelOneScreen nxt = new LevelOneScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
+    }
+
+    private void about() {
+        AboutScreen nxt = new AboutScreen(
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT,
                 controller);
@@ -138,15 +142,16 @@ public class MenuScreen extends GameScreen {
         components.getTransitionRectangle().setPickOnBounds(true);
         components.getTransitionRectangle().setMouseTransparent(false);
 
+        transitionOut();
+
         switch (choice) {
             case 1:
-                transitionOut();
+                play();
                 break;
             case 2:
-                // about
+                about();
                 break;
             case 3:
-                controller.closeProgram();
                 break;
         }
     }
