@@ -6,22 +6,61 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.Tools;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+/**
+ * Components for the second level of the game.
+ *
+ * @since 3.0, 5/30/2022
+ *
+ * @author Shane Chen
+ */
 public class LevelTwoComponents extends ScreenComponent {
 
+    /**
+     * The total number of questions.
+     */
     private final static int TOTAL_QUESTIONS = 6;
 
+    /**
+     * The current active popup. May be {@code null} to indicate that there is no popup.
+     */
     private Popup activePopup;
+
+    /**
+     * The current question. May be {@code null} to indicate that there is no question.
+     */
     private QuestionCard currentQuestion;
+
+    /**
+     * The dialogue popups which may be displayed.
+     */
     private DialoguePopup[] levelTwoDialogue;
+
+    /**
+     * The question cards which may be displayed.
+     */
     private QuestionCard[] questions;
+
+    /**
+     * The current question index.
+     */
     private int curQuestionNum;
 
+    /**
+     * Creates an instance of this class.
+     */
     public LevelTwoComponents() {
         super();
         curQuestionNum = 0;
         addComponents();
     }
 
+    /**
+     * Set up the dialogue.
+     */
     private void setupDialogue() {
 
         // the dialogue to be displayed in dialogue popups.
@@ -51,31 +90,38 @@ public class LevelTwoComponents extends ScreenComponent {
 
     }
 
+    /**
+     * Sets up the questions. Question content is located in a text file
+     * which is read with a {@link Scanner}.
+     */
     private void setupQuestions() {
-
-        String[] qs = {
-                "Q: You're greeted by a classmate you’ve never talked to before. What do you do?",
-                "Q: You have a question about homework. What do you do?",
-                "Q: You're talking with others in a group, and you stumble on your words. What will they most likely do?",
-                "Q: You forgot your pencils for a quiz. What do you do?",
-                "Q: You see a group of people during lunch that are talking about something you like. What do you do?",
-                "Q: When faced with a presentation, you should:"
-        };
-
+        Scanner fr = null;
+        try {
+            fr = new Scanner(new File(Constants.DATA_PATH + "cardcontent.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         questions = new QuestionCard[TOTAL_QUESTIONS];
-        questions[0] = new QuestionCard(qs[0],
-                new String[]{"Duck into the nearest washroom",
-                        "Pretend to look at a squirrel outside",
-                        "Wave or greet them back",
-                        "Look at them awkwardly and give no response"},
-                new String[]{"The other classmate would be sad that you ignored them...",
-                        "The other classmate would be sad that you think an imaginary squirrel is more important than them...",
-                        "That's right, a simple hi back not only resolves this crisis and could earn you a potential new friend!",
-                        "That's just going to make things more awkward than it should be."
-                },
-                2, this);
+
+        // each question card has 10 lines in the txt file
+        for (int i = 0; i < TOTAL_QUESTIONS; ++i) {
+            String question = fr.nextLine();
+            String[] answers = new String[4];
+            String[] responses = new String[4];
+            for (int j = 0; j < 4; ++j) {
+                answers[j] = fr.nextLine();
+                responses[j] = fr.nextLine();
+            }
+            int correctAnswer = Integer.parseInt(fr.nextLine());
+            questions[i] = new QuestionCard(question, answers, responses, correctAnswer, this);
+        }
+
+        fr.close();
     }
 
+    /**
+     * Add components to this root component.
+     */
     @Override
     public void addComponents() {
         // TODO: cutscene
@@ -89,16 +135,41 @@ public class LevelTwoComponents extends ScreenComponent {
 
     }
 
+    /**
+     * Get the current active popup.
+     *
+     * @return The current active popup, or {@code null} if there is none.
+     */
     public Popup getActivePopup() {
         return activePopup;
     }
 
+    /**
+     * Sets the active popup. May be {@code null} to indicate that there is no active popup.
+     *
+     * @param newPopup
+     * The new active popup, or {@code null} if there will be no active popup.
+     */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
         activePopup = newPopup;
         if (activePopup != null) this.getChildren().add(activePopup);
     }
 
+    /**
+     * Goes to the next question, or {@code null} if there is no question after.
+     */
+    public void nextQuestion() {
+        if (curQuestionNum == TOTAL_QUESTIONS-1) setCurrentQuestion(null);
+        else setCurrentQuestion(questions[++curQuestionNum]);
+    }
+
+    /**
+     * Sets the current quesiton. May be {@code null} to indicate to have no question.
+     * 
+     * @param newQuestion
+     * The new question, or {@code null} if there will be no question.
+     */
     public void setCurrentQuestion(QuestionCard newQuestion) {
         if (currentQuestion != null) this.getChildren().remove(currentQuestion);
         currentQuestion = newQuestion;

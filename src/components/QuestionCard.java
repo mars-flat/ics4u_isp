@@ -1,5 +1,6 @@
 package components;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -7,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import utilities.Constants;
 import utilities.Tools;
 
@@ -16,16 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestionCard extends Pane {
-
-    /**
-     * current todos:
-     *
-     * shuffle deck
-     * Display card & text within it
-     * make clicking work -> map to associated dialogue
-     * Deal with the correct/wrong answer gui & functionality
-     *
-     */
 
     private LevelTwoComponents controller;
 
@@ -37,7 +29,7 @@ public class QuestionCard extends Pane {
     private Group[] cardsUp;
     private Group[] cardsDown;
 
-    private boolean down;
+    private boolean[] down;
     private int correctAnswer;
 
     public QuestionCard(String question, String[] options, String[] responses, int correctIndex, LevelTwoComponents parent) {
@@ -60,7 +52,7 @@ public class QuestionCard extends Pane {
             }
         }
 
-        down = false;
+        down = new boolean[4];
         addComponents();
     }
 
@@ -78,15 +70,19 @@ public class QuestionCard extends Pane {
             int idx = order.get(i);
 
             Rectangle clickBox = new Rectangle(230 + 135 * i, 370, 80, 120);
-            clickBox.setFill(Color.GRAY);
+            clickBox.setFill(Color.TRANSPARENT);
+            int finalI = i;
             clickBox.setOnMouseClicked(event -> {
-                flip();
+                flip(idx);
                 DialoguePopup response = new DialoguePopup(
                         new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
-                        "Older Sibling", responses[idx], () -> controller.setActivePopup(null)
-                );
-
-                controller.setActivePopup(response);
+                        "Older Sibling", responses[idx], () -> {
+                    if (correctAnswer == finalI) controller.nextQuestion();
+                    controller.setActivePopup(null);
+                });
+                PauseTransition pt = new PauseTransition(Duration.millis(500));
+                pt.setOnFinished(e -> controller.setActivePopup(response));
+                pt.play();
             });
 
             Text answerText = new Text(230 + 135 * i, 400, options[idx]);
@@ -99,24 +95,25 @@ public class QuestionCard extends Pane {
             cardsUp[idx] = new Group(clickBox, answerText);
 
             ImageView downCardImage = new ImageView(Tools.getImage((correctAnswer == i ? Constants.GOOD_CARD_DOWN : Constants.BAD_CARD_DOWN), 104, 140, true, true));
-            downCardImage.setX(220 + 135 * i);
-            downCardImage.setY(360);
+            downCardImage.setX(217 + 135 * i);
+            downCardImage.setY(357);
 
             cardsDown[idx] = new Group(downCardImage);
-
+            cardsDown[idx].setVisible(false);
         }
 
+        this.getChildren().addAll(cardsDown);
         this.getChildren().addAll(cardsUp);
 
     }
 
-    public void flip() {
-        if (down) {
-            // nothing for now
+    public void flip(int idx) {
+        if (!down[idx]) {
+            cardsUp[idx].setVisible(false);
+            cardsDown[idx].setVisible(true);
         } else {
-            for (Group g : cardsUp) this.getChildren().remove(g);
-            for (Group g : cardsDown) this.getChildren().add(g);
+            cardsUp[idx].setVisible(false);
+            cardsDown[idx].setVisible(true);
         }
-        down = true;
     }
 }
