@@ -102,4 +102,8 @@ public class Constants {
      * Journal icon colored to indicate that the journal is found.
      */
     public static final File JOURNAL_ICON_2 = new File(DATA_PATH + "journalicon2.png");
+
+    public static final File BAD_CARD_DOWN = new File(DATA_PATH + "badcarddown.png");
+
+    public static final File GOOD_CARD_DOWN = new File(DATA_PATH + "goodcarddown.png");
 }
