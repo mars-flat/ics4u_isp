@@ -54,6 +54,12 @@ public class Constants {
     public final static File ABOUT_SCREEN = new File(DATA_PATH + "about.png");
 
     /**
+     * Level select screen background images.
+     */
+    public final static File LEVEL_SELECT_SCREEN_1 = new File(DATA_PATH + "levelselect1.png");
+    public final static File LEVEL_SELECT_SCREEN_2 = new File(DATA_PATH + "levelselect2.png");
+    public final static File LEVEL_SELECT_SCREEN_3 = new File(DATA_PATH + "levelselect3.png");
+    /**
      * Bedroom image for the background of level 1.
      */
     public final static File BEDROOM_SCREEN = new File(DATA_PATH + "bedroom.png");

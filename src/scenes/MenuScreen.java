@@ -101,10 +101,10 @@ public class MenuScreen extends GameScreen {
     }
 
     /**
-     * Switches the scene to level 1.
+     * Switches the scene to level select.
      */
     private void play() {
-        LevelOneScreen nxt = new LevelOneScreen(
+        LevelSelectScreen nxt = new LevelSelectScreen(
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT,
                 controller);
@@ -152,6 +152,7 @@ public class MenuScreen extends GameScreen {
                 about();
                 break;
             case 3:
+                controller.closeProgram();
                 break;
         }
     }
