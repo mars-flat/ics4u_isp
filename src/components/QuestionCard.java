@@ -17,21 +17,80 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Container for the components of a question in level 2.
+ *
+ * @since 3.4, 6/3/2022
+ *
+ * @author Shane Chen
+ */
 public class QuestionCard extends Pane {
 
+    /**
+     * Required for dialogue and question changing.
+     */
     private LevelTwoComponents controller;
 
+    /**
+     * The question to display.
+     */
     private String question;
+
+    /**
+     * The options to display.
+     */
     private String[] options;
+
+    /**
+     * The responses for the dialogue when an option is selected.
+     */
     private String[] responses;
+
+    /**
+     * The to-be-randomized order of the cards.
+     */
     private List<Integer> order;
 
+    /**
+     * The components of the cards when face up.
+     */
     private Group[] cardsUp;
+
+    /**
+     * The components of the cards when face down.
+     */
     private Group[] cardsDown;
 
+    /**
+     * Whether the i-th card is up or down.
+     */
     private boolean[] down;
+
+    /**
+     * The index of the correct answer.
+     */
     private int correctAnswer;
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param question
+     * The question to display.
+     *
+     * @param options
+     * The options to display.
+     *
+     * @param responses
+     * The responses for the dialogue when an option is pressed.
+     *
+     * @param correctIndex
+     * The correct answer index of the question.
+     *
+     * @param parent
+     * The {@link LevelTwoComponents} instance required
+     * for dialogue and question changing.
+     *
+     */
     public QuestionCard(String question, String[] options, String[] responses, int correctIndex, LevelTwoComponents parent) {
         controller = parent;
         this.question = question;
@@ -56,6 +115,11 @@ public class QuestionCard extends Pane {
         addComponents();
     }
 
+    /**
+     * Add components and their respective functionality.
+     *
+     * Answer cards have individual mouse click event handlers which trigger dialogue change.
+     */
     private void addComponents() {
 
         cardsUp = new Group[4];
@@ -107,6 +171,13 @@ public class QuestionCard extends Pane {
 
     }
 
+    /**
+     * Flip a card. Currently supports both up to down and down to up flipping but the cards
+     * only have up to down functionality.
+     *
+     * @param idx
+     * The index of the card to flip.
+     */
     public void flip(int idx) {
         if (!down[idx]) {
             cardsUp[idx].setVisible(false);
