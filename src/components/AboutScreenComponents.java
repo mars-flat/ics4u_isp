@@ -9,23 +9,41 @@ import scenes.MenuScreen;
 import utilities.Constants;
 import utilities.Tools;
 
+/**
+ * The components for the about screen.
+ *
+ * @since 3.4, 6/2/2022
+ * @author Annie Wong
+ */
 public class AboutScreenComponents extends ScreenComponent {
 
+    /**
+     * {@link Rectangle} object to create the {@link javafx.animation.FillTransition}
+     * effect.
+     */
     private Rectangle transitionRectangle;
 
+    /**
+     * Creates an instance of this class.
+     */
     public AboutScreenComponents() {
         super();
         addComponents();
     }
 
+    /**
+     * Add components to this root component.
+     */
     @Override
     public void addComponents() {
+        //arrow button
         Rectangle arrowButton = new Rectangle(25, 20, 90, 70);
         arrowButton.setFill(Color.TRANSPARENT);
         arrowButton.setOnMouseClicked(event -> {
             ((AboutScreen) this.getScene()).nextScene();
         });
 
+        //text descriptions
         Text generalDescrip = new Text(75, 120, "Everyone has their own fears that crawl and coil around their minds. But don't let\n" +
                 "it control you. Panik is a game aimed to help teens raise awareness of/overcome\n" +
                 "the social adversity known as social anxiety.");
@@ -67,6 +85,12 @@ public class AboutScreenComponents extends ScreenComponent {
         this.getChildren().addAll(arrowButton, generalDescrip, level1Descrip, level2Descrip, level3Descrip);
     }
 
+    /**
+     * Get the Rectangle object.
+     *
+     * @return
+     * The Rectangle object.
+     */
     public Rectangle getTransitionRectangle() {
         return transitionRectangle;
     }

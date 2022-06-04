@@ -11,10 +11,35 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
+/**
+ * The level select screen for the  of the game.
+ *
+ * Required functionality includes mouse event handling.
+ *
+ * @since 3.4, 6/3/2022
+ * @author Annie Wong
+ */
 public class LevelSelectScreen extends GameScreen {
 
+    /**
+     * Instance of associated component class.
+     * @see LevelSelectComponents
+     */
     private LevelSelectComponents components;
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param width
+     * Width of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param height
+     * Height of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param controller
+     * {@link GameHandler} instance.
+     *
+     */
     public LevelSelectScreen(double width, double height, GameHandler controller) {
         super(new LevelSelectComponents(), width, height, controller);
         components = (LevelSelectComponents) super.getRoot();
@@ -64,7 +89,7 @@ public class LevelSelectScreen extends GameScreen {
      * What happens on a transition into this scene.
      *
      * In this case, a loading screen pairs with a transition to load
-     * the next scene..
+     * the next scene.
      */
     @Override
     public void transitionOut() {
@@ -78,6 +103,9 @@ public class LevelSelectScreen extends GameScreen {
         );
     }
 
+    /**
+     * Switches the scene to level one.
+     */
     private void level1() {
         LevelOneScreen nxt = new LevelOneScreen(
                 Constants.SCREEN_WIDTH,
@@ -86,11 +114,24 @@ public class LevelSelectScreen extends GameScreen {
         controller.changeScene(this, nxt);
     }
 
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     *
+     * By defaults, calls overridden method with {@code choice(1)}.
+     */
     @Override
     public void nextScene() {
         nextScene(1);
     }
 
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     *
+     * The parameter handles multiple selections from the level select.
+     *
+     * @param choice
+     * The next event to occur. This will be handled in a switch inside the method.
+     */
     public void nextScene(int choice) {
 
         components.getTransitionRectangle().setPickOnBounds(true);
@@ -99,19 +140,19 @@ public class LevelSelectScreen extends GameScreen {
         transitionOut();
 
         switch (choice) {
-            case 0:
+            case 0: //return to main menu
                 MenuScreen nxt = new MenuScreen(
                         Constants.SCREEN_WIDTH,
                         Constants.SCREEN_HEIGHT,
                         controller);
                 controller.changeScene(this, nxt);
                 break;
-            case 1:
+            case 1: //level 1
                 level1();
                 break;
-            case 2:
+            case 2: //level 2
                 break;
-            case 3:
+            case 3: //level 3
                 break;
         }
     }

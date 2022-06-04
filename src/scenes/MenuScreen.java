@@ -84,7 +84,7 @@ public class MenuScreen extends GameScreen {
      * What happens on a transition into this scene.
      *
      * In this case, a loading screen pairs with a transition to load
-     * the next scene..
+     * the next scene.
      */
     @Override
     public void transitionOut() {

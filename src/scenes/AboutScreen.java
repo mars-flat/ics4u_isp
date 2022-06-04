@@ -1,17 +1,31 @@
 package scenes;
 
 import components.AboutScreenComponents;
+import components.MenuScreenComponents;
 import javafx.animation.FillTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
+/**
+ * The screen for the about screen of the game.
+ *
+ * Required functionality includes mouse event handling.
+ *
+ * @since 3.4, 6/3/2022
+ * @author Annie Wong
+ */
 public class AboutScreen extends GameScreen {
 
+    /**
+     * Instance of associated component class.
+     * @see AboutScreenComponents
+     */
     private AboutScreenComponents components;
 
     /**
@@ -26,6 +40,9 @@ public class AboutScreen extends GameScreen {
         this.onLoad();
     }
 
+    /**
+     * What happens when the scene is loaded (i.e. an instance is created).
+     */
     private void onLoad() {
         components.changeBackground(Constants.ABOUT_SCREEN);
         transitionIn();
@@ -34,11 +51,23 @@ public class AboutScreen extends GameScreen {
         });
     }
 
+    /**
+     * What happens on each tick. AnimationTimer in {@link GameHandler} will
+     * repeatedly call this method of the currently displayed scene.
+     *
+     * @param currentTick
+     * The current tick count.
+     */
     @Override
     public void onTick(long currentTick) {
 
     }
 
+    /**
+     * What happens on a transition into this scene.
+     *
+     * In this case, a {@link FillTransition} plays for 1 second.
+     */
     @Override
     public void transitionIn() {
         FillTransition ft = new FillTransition(
@@ -49,6 +78,12 @@ public class AboutScreen extends GameScreen {
         ft.play();
     }
 
+    /**
+     * What happens on a transition into this scene.
+     *
+     * In this case, a loading screen pairs with a transition to load
+     * the next scene..
+     */
     @Override
     public void transitionOut() {
         FillTransition ft = new FillTransition(
@@ -61,6 +96,12 @@ public class AboutScreen extends GameScreen {
         );
     }
 
+    /**
+     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
+     * In this case, the next scene is returning to the main menu.
+     *
+     * By defaults, calls overridden method with {@code choice(1)}.
+     */
     @Override
     public void nextScene() {
         transitionOut();
