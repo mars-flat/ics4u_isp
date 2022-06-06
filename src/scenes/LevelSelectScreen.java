@@ -97,7 +97,6 @@ public class LevelSelectScreen extends GameScreen {
                 Duration.millis(400),
                 components.getTransitionRectangle(),
                 Color.TRANSPARENT, Color.BLACK);
-
         PauseTransition pt = new PauseTransition(
                 Duration.millis(2000)
         );
@@ -108,6 +107,17 @@ public class LevelSelectScreen extends GameScreen {
      */
     private void level1() {
         LevelOneScreen nxt = new LevelOneScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
+    }
+
+    /**
+     * Switches the scene to level two.
+     */
+    private void level2() {
+        LevelTwoScreen nxt = new LevelTwoScreen(
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT,
                 controller);
@@ -151,6 +161,7 @@ public class LevelSelectScreen extends GameScreen {
                 level1();
                 break;
             case 2: //level 2
+                level2();
                 break;
             case 3: //level 3
                 break;

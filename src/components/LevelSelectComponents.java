@@ -52,7 +52,8 @@ public class LevelSelectComponents extends ScreenComponent {
      * Background state for when the button is selected.
      */
     private void addLevelButton(int zoneX, int zoneY, int zoneWidth, int zoneHeight,
-                                int buttonX, int buttonY, int buttonWidth, int buttonHeight, File screen){
+                                int buttonX, int buttonY, int buttonWidth, int buttonHeight,
+                                int choice, File screen){
         Rectangle levelButtonZone = new Rectangle(zoneX, zoneY, zoneWidth, zoneHeight);
         levelButtonZone.setFill(Color.TRANSPARENT);
         levelButtonZone.setOnMouseEntered(event -> {
@@ -65,7 +66,7 @@ public class LevelSelectComponents extends ScreenComponent {
             this.changeBackground(screen);
         });
         levelButton.setOnMouseClicked(event -> {
-            ((LevelSelectScreen) this.getScene()).nextScene(1);
+            ((LevelSelectScreen) this.getScene()).nextScene(choice);
         });
 
         this.getChildren().addAll(levelButtonZone, levelButton);
@@ -77,9 +78,9 @@ public class LevelSelectComponents extends ScreenComponent {
     @Override
     public void addComponents() {
         //level select buttons
-        addLevelButton(0, 0, 340, 720, 75, 300, 225, 300, Constants.LEVEL_SELECT_SCREEN_1);
-        addLevelButton(341, 0, 340, 720, 380, 335, 225, 300, Constants.LEVEL_SELECT_SCREEN_2);
-        addLevelButton(681, 0, 340, 720, 665, 325, 225, 300, Constants.LEVEL_SELECT_SCREEN_3);
+        addLevelButton(0, 0, 340, 720, 75, 300, 225, 300, 1, Constants.LEVEL_SELECT_SCREEN_1);
+        addLevelButton(341, 0, 340, 720, 380, 335, 225, 300, 2, Constants.LEVEL_SELECT_SCREEN_2);
+        addLevelButton(681, 0, 340, 720, 665, 325, 225, 300, 3, Constants.LEVEL_SELECT_SCREEN_3);
 
         //arrow button to return to main menu
         Rectangle arrowButton = new Rectangle(25, 20, 90, 70);
