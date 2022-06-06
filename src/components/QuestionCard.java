@@ -141,8 +141,8 @@ public class QuestionCard extends Pane {
                 DialoguePopup response = new DialoguePopup(
                         new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
                         "Older Sibling", responses[idx], () -> {
-                    if (correctAnswer == finalI) controller.nextQuestion();
                     controller.setActivePopup(null);
+                    if (correctAnswer == finalI) controller.nextQuestion();
                 });
                 PauseTransition pt = new PauseTransition(Duration.millis(500));
                 pt.setOnFinished(e -> controller.setActivePopup(response));

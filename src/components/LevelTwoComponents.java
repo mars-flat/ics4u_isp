@@ -6,6 +6,7 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.Tools;
 
+import javax.tools.Tool;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -22,7 +23,7 @@ public class LevelTwoComponents extends ScreenComponent {
     /**
      * The total number of questions.
      */
-    private final static int TOTAL_QUESTIONS = 6;
+    public final static int TOTAL_QUESTIONS = 6;
 
     /**
      * The current active popup. May be {@code null} to indicate that there is no popup.
@@ -66,28 +67,31 @@ public class LevelTwoComponents extends ScreenComponent {
         // the dialogue to be displayed in dialogue popups.
         String[] dialogue = {
                 "Let's play a game. I have these cards with questions and answers on them, and you pick what you think is the best answer.",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
+                "Hm. Thanks for the advice, I guess?",
+                "Trust me. If you do the right things, you'll get over it.",
+                "I've experienced social anxiety myself. These cards helped me a ton. Listen, none of your fears are real. Get out there and try!",
+                "*Convinced* I- You didn't tell me?",
+                "For the same reason you didn't tell me.",
+                "Well then, thanks. I guess."
         };
 
         levelTwoDialogue = new DialoguePopup[8];
-
-        for (int i = 0; i < 1; ++i) {
+        levelTwoDialogue[0] = new DialoguePopup(
+                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
+                "Older Sibling", dialogue[0], () ->
+        {
+            this.setActivePopup(null);
+            this.setCurrentQuestion(questions[0]);
+        });
+        for (int i = 1; i <= 6; ++i) {
+            int finalI = i;
             levelTwoDialogue[i] = new DialoguePopup(
-                    new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
-                    "Older Sibling", dialogue[i], () ->
-            {
-                this.setActivePopup(null);
-                this.setCurrentQuestion(questions[0]);
-            }
-            );
+                    new ImageView(Tools.getImage(
+                            (i == 1 || i == 4 || i == 6) ? Constants.YOUNGER_SIBLING : Constants.OLDER_SIBLING, 240, 280, true, true)),
+                            (i == 1 || i == 4 || i == 6) ? "Younger Sibling" : "Older Sibling", dialogue[i], () -> {
+                this.setActivePopup(finalI == 6 ? null : levelTwoDialogue[finalI + 1]);
+            });
         }
-
     }
 
     /**
@@ -160,8 +164,11 @@ public class LevelTwoComponents extends ScreenComponent {
      * Goes to the next question, or {@code null} if there is no question after.
      */
     public void nextQuestion() {
-        if (curQuestionNum == TOTAL_QUESTIONS-1) setCurrentQuestion(null);
-        else setCurrentQuestion(questions[++curQuestionNum]);
+        if (curQuestionNum == TOTAL_QUESTIONS-1) {
+            this.setCurrentQuestion(null);
+            this.setActivePopup(levelTwoDialogue[1]);
+        }
+        else this.setCurrentQuestion(questions[++curQuestionNum]);
     }
 
     /**
