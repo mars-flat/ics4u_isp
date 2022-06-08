@@ -327,7 +327,7 @@ public class LevelOneComponents extends ScreenComponent {
         setupEntities();
         setupJournals();
 
-        player = new Player(740, 600, 40, 40, true);
+        player = new Player(740, 600, 40, 40, 7, true);
         this.getChildren().add(player);
         this.getChildren().add(player.getCharacter());
 

@@ -61,7 +61,7 @@ public class Player extends Entity {
      * The height of the rectangle bounding the player's hitbox.
      *
      */
-    public Player(int spawnX, int spawnY, int width, int height, boolean older) {
+    public Player(int spawnX, int spawnY, int width, int height, int startingDirection, boolean older) {
         super(spawnX, spawnY, width, height, Color.TRANSPARENT);
 
         // load stances from data
@@ -71,7 +71,7 @@ public class Player extends Entity {
         character = new ImageView(characterStances[9]);
         character.setPickOnBounds(false);
         character.setMouseTransparent(true);
-        currentDirection = 7;
+        currentDirection = startingDirection;
 
         // ensures that the character retains the x and y coordinates of the player
         character.xProperty().bind(xProperty());

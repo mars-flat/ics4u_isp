@@ -1,0 +1,20 @@
+rooms\\hallway1.png
+Front Foyer
+0
+2
+0 100 50 50 1
+900 100 50 50 2
+254
+284
+rooms\\office.png
+Office
+0
+0
+400
+300
+rooms\\washroom.png
+Washroom
+0
+0
+250
+500

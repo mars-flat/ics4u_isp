@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Shane Chen
  */
-public class QuestionCard extends Pane {
+public class QuestionCard extends ScreenComponent {
 
     /**
      * Required for dialogue and question changing.
@@ -120,7 +120,7 @@ public class QuestionCard extends Pane {
      *
      * Answer cards have individual mouse click event handlers which trigger dialogue change.
      */
-    private void addComponents() {
+    public void addComponents() {
 
         cardsUp = new Group[4];
         cardsDown = new Group[4];

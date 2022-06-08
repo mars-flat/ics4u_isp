@@ -1,10 +1,6 @@
 package components;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import utilities.Constants;
-import utilities.Tools;
 
 /**
  * Container for popups within the game.
@@ -16,8 +12,8 @@ import utilities.Tools;
  * @author Shane Chen
  */
 public class Popup extends Pane {
-    private PopupChangeRequest changeRequestHandler;
-    public Popup(PopupChangeRequest changeRequestHandler) {
+    private ChangeRequest changeRequestHandler;
+    public Popup(ChangeRequest changeRequestHandler) {
         super();
         this.changeRequestHandler = changeRequestHandler;
     }
@@ -26,11 +22,11 @@ public class Popup extends Pane {
         changeRequestHandler.onChangeRequest();
     }
 
-    public void setOnChangeRequest(PopupChangeRequest dialogueChangeRequest) {
+    public void setOnChangeRequest(ChangeRequest dialogueChangeRequest) {
         changeRequestHandler = dialogueChangeRequest;
     }
 
-    public PopupChangeRequest getOnChangeRequest() {
+    public ChangeRequest getOnChangeRequest() {
         return changeRequestHandler;
     }
 }

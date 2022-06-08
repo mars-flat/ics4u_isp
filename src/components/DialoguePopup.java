@@ -52,7 +52,7 @@ public class DialoguePopup extends Popup {
      */
     private int showChars;
 
-    public DialoguePopup(ImageView speaker, String speakerTitle, String dialogue, PopupChangeRequest changeRequestHandler) {
+    public DialoguePopup(ImageView speaker, String speakerTitle, String dialogue, ChangeRequest changeRequestHandler) {
         this(speaker, speakerTitle, new ImageView(
                 Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true)
             ), dialogue, changeRequestHandler);
@@ -67,7 +67,7 @@ public class DialoguePopup extends Popup {
      * @param dialogue
      * The dialogue string to be displayed.
      */
-    public DialoguePopup(ImageView speaker, String speakerTitle, ImageView dialogueBox, String dialogue, PopupChangeRequest changeRequestHandler) {
+    public DialoguePopup(ImageView speaker, String speakerTitle, ImageView dialogueBox, String dialogue, ChangeRequest changeRequestHandler) {
         super(changeRequestHandler);
         this.speaker = speaker;
         this.speakerTitle = speakerTitle;

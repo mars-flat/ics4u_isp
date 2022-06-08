@@ -19,10 +19,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import scenes.GameScreen;
-import scenes.LevelOneScreen;
-import scenes.LevelTwoScreen;
-import scenes.SplashScreen;
+import scenes.*;
 
 /**
  * The GameHandler class contains the main method,
@@ -120,9 +117,10 @@ public class GameHandler extends Application {
     private void setup() {
         makeGameLoop();
         startGameLoop();
-        currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        //currentScene = new SplashScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
         //currentScene = new LevelOneScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
         //currentScene = new LevelTwoScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
+        currentScene = new LevelThreeScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, this);
     }
 
     /**
