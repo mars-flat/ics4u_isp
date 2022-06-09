@@ -70,7 +70,6 @@ public class MenuScreen extends GameScreen {
      *
      * In this case, a {@link FillTransition} plays for 1 second.
      */
-    @Override
     public void transitionIn() {
         FillTransition ft = new FillTransition(
                 Duration.millis(1000),
@@ -86,7 +85,6 @@ public class MenuScreen extends GameScreen {
      * In this case, a loading screen pairs with a transition to load
      * the next scene.
      */
-    @Override
     public void transitionOut() {
         components.getLoadingText().setVisible(true);
 
@@ -124,7 +122,6 @@ public class MenuScreen extends GameScreen {
      *
      * By defaults, calls overridden method with {@code choice(1)}.
      */
-    @Override
     public void nextScene() {
         nextScene(1);
     }

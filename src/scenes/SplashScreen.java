@@ -90,7 +90,6 @@ public class SplashScreen extends GameScreen {
     /**
      * What happens on a transition into this scene.
      */
-    @Override
     public void transitionIn() {
         FillTransition ft = new FillTransition(
                 Duration.millis(1000),
@@ -104,7 +103,6 @@ public class SplashScreen extends GameScreen {
     /**
      * What happens on a transition out of this scene.
      */
-    @Override
     public void transitionOut() {
         FillTransition ft = new FillTransition(
                 Duration.millis(1000),

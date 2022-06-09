@@ -86,19 +86,4 @@ public class LevelTwoScreen extends GameScreen {
                 ((DialoguePopup)components.getActivePopup()).showNextChar();
         }
     }
-
-    @Override
-    public void transitionIn() {
-
-    }
-
-    @Override
-    public void transitionOut() {
-
-    }
-
-    @Override
-    public void nextScene() {
-
-    }
 }

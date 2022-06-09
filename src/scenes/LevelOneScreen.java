@@ -149,28 +149,4 @@ public class LevelOneScreen extends GameScreen {
 //        System.out.println(components.getPlayer().getX() + " " + components.getPlayer().getY()
 //         + " " + components.getPlayer().getTranslateX() + " " + components.getPlayer().getTranslateY());
     }
-
-    /**
-     * What happens on a transition into this scene.
-     */
-    @Override
-    public void transitionIn() {
-
-    }
-
-    /**
-     * What happens on a transition out of this scene.
-     */
-    @Override
-    public void transitionOut() {
-
-    }
-
-    /**
-     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
-     */
-    @Override
-    public void nextScene() {
-
-    }
 }

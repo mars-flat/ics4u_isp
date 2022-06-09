@@ -3,7 +3,6 @@ package scenes;
 import components.DialoguePopup;
 import components.LevelThreeComponents;
 import javafx.scene.paint.Color;
-import utilities.Constants;
 import utilities.Entity;
 import utilities.GameHandler;
 
@@ -72,11 +71,11 @@ public class LevelThreeScreen extends GameScreen {
 
         // handle the changing of popups if applicable
         if (keyboardInputs.contains("SPACE")) {
+            keyboardInputs.remove("SPACE");
             if (components.getActivePopup() != null) {
                 components.getActivePopup().onChangeRequest();
-                keyboardInputs.remove("SPACE");
-            }
 
+            }
             components.checkForRoomChange();
         }
     }
@@ -113,17 +112,14 @@ public class LevelThreeScreen extends GameScreen {
         }
     }
 
-    @Override
     public void transitionIn() {
 
     }
 
-    @Override
     public void transitionOut() {
 
     }
 
-    @Override
     public void nextScene() {
 
     }

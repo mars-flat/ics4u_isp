@@ -55,17 +55,20 @@ public class SchoolRoom extends ScreenComponent {
         }
     }
 
-    public boolean checkInBounds() {
+    public int checkInBounds() {
         for (RoomChangeEntity r : roomChangers) {
             if (player.intersects(r.getBoundsInLocal())) {
-                return true;
+                return r.getRoomChangeNumber();
             }
         }
-        return false;
+        return -1;
     }
 
     @Override
     public void addComponents() {
+        for (Entity e : otherEntities) {
+            this.getChildren().add(e);
+        }
         for (RoomChangeEntity r : roomChangers) {
             this.getChildren().add(r);
         }
@@ -79,6 +82,8 @@ public class SchoolRoom extends ScreenComponent {
     public List<Entity> getOtherEntities() {
         return otherEntities;
     }
+
+    public List<RoomChangeEntity> getRoomChangers() { return roomChangers; }
 
     public File getBackgroundImage() {
         return background;

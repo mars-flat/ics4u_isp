@@ -48,19 +48,4 @@ public abstract class GameScreen extends Scene {
      * The current tick count.
      */
     public abstract void onTick(long currentTick);
-
-    /**
-     * What happens on a transition into this scene.
-     */
-    public abstract void transitionIn();
-
-    /**
-     * What happens on a transition out of this scene.
-     */
-    public abstract void transitionOut();
-
-    /**
-     * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
-     */
-    public abstract void nextScene();
 }

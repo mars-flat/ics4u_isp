@@ -6,10 +6,16 @@ import utilities.Entity;
 public class RoomChangeEntity extends Entity {
 
     private ChangeRequest roomChangeHandler;
+    private final int roomChangeNumber;
 
-    public RoomChangeEntity(int x, int y, int width, int height, ChangeRequest roomChangeHandler) {
-        super(x, y, width, height, Color.GRAY); //TODO: set to transparent
+    public RoomChangeEntity(int x, int y, int width, int height, int roomChangeNumber, ChangeRequest roomChangeHandler) {
+        super(x, y, width, height, Color.LIGHTBLUE); //TODO: set to transparent
         this.roomChangeHandler = roomChangeHandler;
+        this.roomChangeNumber = roomChangeNumber;
+    }
+
+    public int getRoomChangeNumber() {
+        return roomChangeNumber;
     }
 
     public void onChangeRoomRequest() {

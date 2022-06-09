@@ -61,11 +61,11 @@ public class Player extends Entity {
      * The height of the rectangle bounding the player's hitbox.
      *
      */
-    public Player(int spawnX, int spawnY, int width, int height, int startingDirection, boolean older) {
+    public Player(int spawnX, int spawnY, int width, int height, int startingDirection, int offsetR, int offsetB, boolean older) {
         super(spawnX, spawnY, width, height, Color.TRANSPARENT);
 
         // load stances from data
-        loadStances(older);
+        loadStances(older, offsetR, offsetB);
 
         // set initial character stance
         character = new ImageView(characterStances[9]);
@@ -81,11 +81,11 @@ public class Player extends Entity {
     /**
      * Loads all stances from data and stores them for access.
      */
-    private void loadStances(boolean older) {
+    private void loadStances(boolean older, int offsetR, int offsetB) {
         characterStances = new Image[13];
         for (int i = 1; i <= 12; ++i) {
             characterStances[i] = Tools.getImage(new File(Constants.DATA_PATH + "stances\\" + (older ? "older" : "younger") + i + ".png"),
-                    (int) getWidth() + 20, (int) getHeight() + 20, true, true);
+                    (int) getWidth() + offsetR, (int) getHeight() + offsetB, true, true);
         }
     }
 

@@ -2,6 +2,7 @@ package components;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import utilities.Constants;
 import utilities.Entity;
 import utilities.Player;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class LevelThreeComponents extends ScreenComponent {
 
     public static final int TOTAL_DIALOGUE = 20;
-    public static final int TOTAL_ROOMS = 3;
+    public static final int TOTAL_ROOMS = 8;
     public static final int TOTAL_MINIGAMES = 5;
 
     private DialoguePopup[] levelThreeDialogue;
@@ -30,6 +31,8 @@ public class LevelThreeComponents extends ScreenComponent {
 
     private Player player;
     private Text interactionText;
+
+    private String[] rceText;
 
     public LevelThreeComponents() {
         super();
@@ -61,7 +64,7 @@ public class LevelThreeComponents extends ScreenComponent {
          schoolRoom[i]:
          0 -> front foyer
          1 -> office
-         2 -> washroom
+         2 -> washroom 1
          3 -> hallway 1
          4 -> library
          5 -> cafeteria
@@ -76,6 +79,25 @@ public class LevelThreeComponents extends ScreenComponent {
          14 -> classroom 3
          15 -> washroom 2
          */
+        rceText = new String[] {
+                "SPACE to go to Front foyer",
+                "SPACE to go to Office",
+                "SPACE to go to Washroom 1",
+                "SPACE to go to Hallway 1",
+                "SPACE to go to Library",
+                "SPACE to go to Cafeteria",
+                "SPACE to go to Shop",
+                "SPACE to go to Storage room",
+                "SPACE to go to Hallway 2",
+                "SPACE to go to Classroom 1",
+                "SPACE to go to Gym",
+                "SPACE to go to Hallway 3",
+                "SPACE to go to Classroom 2",
+                "SPACE to go to Hallway 4",
+                "SPACE to go to Classroom 3",
+                "SPACE to go to Washroom 2",
+                "SPACE to interact"
+        };
 
         Scanner fr = null;
         try {
@@ -97,7 +119,7 @@ public class LevelThreeComponents extends ScreenComponent {
                 int ey = Integer.parseInt(ndat[1]);
                 int ew = Integer.parseInt(ndat[2]);
                 int eh = Integer.parseInt(ndat[3]);
-                oe.add(new Entity(ex, ey, ew, eh, Color.GRAY)); // TODO: make transparent
+                oe.add(new Entity(ex, ey, ew, eh, Color.color(0.1,0.1,0.1,0.5))); // TODO: make transparent Color.color(0.1,0.1,0.1,0.5)
             }
 
             List<RoomChangeEntity> rce = new ArrayList<>();
@@ -110,7 +132,9 @@ public class LevelThreeComponents extends ScreenComponent {
                 int w = Integer.parseInt(mdat[2]);
                 int h = Integer.parseInt(mdat[3]);
                 int nxt = Integer.parseInt(mdat[4]);
-                rce.add(new RoomChangeEntity(x, y, w, h, () -> setCurrentRoom(schoolRooms[nxt])));
+                rce.add(new RoomChangeEntity(x, y, w, h, nxt, () -> {
+                    if (nxt != 16) setCurrentRoom(schoolRooms[nxt]);
+                }));
             }
 
             int px = Integer.parseInt(fr.nextLine());
@@ -127,8 +151,7 @@ public class LevelThreeComponents extends ScreenComponent {
                     this
                     );
         }
-
-        setCurrentRoom(schoolRooms[0]);
+        setCurrentRoom(schoolRooms[3]);
     }
 
     private void setupMinigames() {
@@ -137,22 +160,29 @@ public class LevelThreeComponents extends ScreenComponent {
 
     @Override
     public void addComponents() {
-        player = new Player(120, 550, 40, 40, 4, false);
+        player = new Player(120, 550, 40, 60, 10, 20, 0, false);
 
         setupDialogue();
         setupRooms();
         setupMinigames();
 
-        interactionText = new Text(500, 500, "SPACE to interact");
+        interactionText = new Text(360, 700, "SPACE to interact");
         interactionText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
         interactionText.setFill(Color.WHITE);
+        interactionText.setTextAlignment(TextAlignment.CENTER);
         interactionText.setVisible(false);
         this.getChildren().add(interactionText);
     }
 
     public void checkInBounds() {
-        if (currentRoom != null) {
-            interactionText.setVisible(currentRoom.checkInBounds());
+        if (currentRoom != null && currentRoom.checkInBounds() != -1) {
+            int id = currentRoom.checkInBounds();
+            this.getChildren().remove(interactionText);
+            interactionText.setText(rceText[id]);
+            this.getChildren().add(interactionText);
+            interactionText.setVisible(true);
+        } else {
+            interactionText.setVisible(false);
         }
     }
 
@@ -175,7 +205,6 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     public void setCurrentRoom(SchoolRoom newRoom) {
-        System.out.println(newRoom);
         this.getChildren().remove(currentRoom);
         currentRoom = newRoom;
 
