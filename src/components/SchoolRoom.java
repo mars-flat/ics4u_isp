@@ -64,6 +64,14 @@ public class SchoolRoom extends ScreenComponent {
         return -1;
     }
 
+    public void onRoomEntered() {
+        changeBackground(background);
+        player.setX(sx);
+        player.setY(sy);
+        getChildren().add(player);
+        getChildren().add(player.getCharacter());
+    }
+
     @Override
     public void addComponents() {
         for (Entity e : otherEntities) {
@@ -84,18 +92,6 @@ public class SchoolRoom extends ScreenComponent {
     }
 
     public List<RoomChangeEntity> getRoomChangers() { return roomChangers; }
-
-    public File getBackgroundImage() {
-        return background;
-    }
-
-    public int getSpawnX() {
-        return sx;
-    }
-
-    public int getSpawnY() {
-        return sy;
-    }
 
     public void setSpawnX(int newSx) {
         sx = newSx;

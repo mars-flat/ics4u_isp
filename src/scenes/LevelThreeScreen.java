@@ -76,7 +76,10 @@ public class LevelThreeScreen extends GameScreen {
                 components.getActivePopup().onChangeRequest();
 
             }
-            components.checkForRoomChange();
+        }
+
+        if (keyboardInputs.contains("E")) {
+            if (components.getActivePopup() == null) components.checkForRoomChange();
         }
     }
 

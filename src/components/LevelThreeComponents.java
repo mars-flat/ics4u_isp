@@ -1,5 +1,6 @@
 package components;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 20;
+    public static final int TOTAL_DIALOGUE = 2;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
@@ -47,7 +48,16 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     private void setupDialogue() {
-
+        String[] dialogue = new String[] {
+                "Ugh, school. And there's so much on the agenda today that I must do before I leave...",
+                "Oh, how I wish I could leave this dreaded place. But I can't.",
+        };
+        for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
+            levelThreeDialogue[i] = new DialoguePopup(
+                    new ImageView(Tools.getImage(Constants.YOUNGER_SIBLING, 240, 280, true, true)),
+                    "Younger Sibling", dialogue[i], () -> this.setActivePopup(null)
+            );
+        }
     }
 
     private void setupRooms() {
@@ -82,23 +92,23 @@ public class LevelThreeComponents extends ScreenComponent {
          15 -> washroom 2
          */
         rceText = new String[] {
-                "SPACE to go to Front foyer",
-                "SPACE to go to Office",
-                "SPACE to go to Washroom 1",
-                "SPACE to go to Hallway 1",
-                "SPACE to go to Library",
-                "SPACE to go to Cafeteria",
-                "SPACE to go to Shop",
-                "SPACE to go to Storage room",
-                "SPACE to go to Hallway 2",
-                "SPACE to go to Classroom 1",
-                "SPACE to go to Gym",
-                "SPACE to go to Hallway 3",
-                "SPACE to go to Classroom 2",
-                "SPACE to go to Hallway 4",
-                "SPACE to go to Classroom 3",
-                "SPACE to go to Washroom 2",
-                "SPACE to interact"
+                "E to go to Front foyer",
+                "E to go to Office",
+                "E to go to Washroom 1",
+                "E to go to Hallway 1",
+                "E to go to Library",
+                "E to go to Cafeteria",
+                "E to go to Shop",
+                "E to go to Storage room",
+                "E to go to Hallway 2",
+                "E to go to Classroom 1",
+                "E to go to Gym",
+                "E to go to Hallway 3",
+                "E to go to Classroom 2",
+                "E to go to Hallway 4",
+                "E to go to Classroom 3",
+                "E to go to Washroom 2",
+                "E to interact"
         };
 
         Scanner fr = null;
@@ -157,6 +167,11 @@ public class LevelThreeComponents extends ScreenComponent {
                     );
         }
 
+        schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> setActivePopup(levelThreeDialogue[1]));
+
+        schoolRooms[4].getRoomChangers().add(new RoomChangeEntity(470, 300, 50, 36, 16, () -> setActiveMinigame(minigames[0])));
+
+
         roomFound[0] = true;
         setCurrentRoom(schoolRooms[0]);
     }
@@ -179,6 +194,8 @@ public class LevelThreeComponents extends ScreenComponent {
         interactionText.setTextAlignment(TextAlignment.CENTER);
         interactionText.setVisible(false);
         this.getChildren().add(interactionText);
+
+        setActivePopup(levelThreeDialogue[0]);
     }
 
     public void checkInBounds() {
@@ -214,13 +231,8 @@ public class LevelThreeComponents extends ScreenComponent {
     public void setCurrentRoom(SchoolRoom newRoom) {
         this.getChildren().remove(currentRoom);
         currentRoom = newRoom;
-
         this.getChildren().add(newRoom);
-        changeBackground(currentRoom.getBackgroundImage());
-        player.setX(currentRoom.getSpawnX());
-        player.setY(currentRoom.getSpawnY());
-        currentRoom.getChildren().add(player);
-        currentRoom.getChildren().add(player.getCharacter());
+        currentRoom.onRoomEntered();
     }
 
     public Minigame getActiveMinigame() {
