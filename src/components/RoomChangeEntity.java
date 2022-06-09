@@ -9,7 +9,7 @@ public class RoomChangeEntity extends Entity {
     private final int roomChangeNumber;
 
     public RoomChangeEntity(int x, int y, int width, int height, int roomChangeNumber, ChangeRequest roomChangeHandler) {
-        super(x, y, width, height, Color.LIGHTBLUE); //TODO: set to transparent
+        super(x, y, width, height, Color.TRANSPARENT); //TODO: set to transparent
         this.roomChangeHandler = roomChangeHandler;
         this.roomChangeNumber = roomChangeNumber;
     }

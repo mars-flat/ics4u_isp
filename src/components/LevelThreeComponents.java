@@ -121,7 +121,7 @@ public class LevelThreeComponents extends ScreenComponent {
                 int ey = Integer.parseInt(ndat[1]);
                 int ew = Integer.parseInt(ndat[2]);
                 int eh = Integer.parseInt(ndat[3]);
-                oe.add(new Entity(ex, ey, ew, eh, Color.color(0.1,0.1,0.1,0.5))); // TODO: make transparent Color.color(0.1,0.1,0.1,0.5)
+                oe.add(new Entity(ex, ey, ew, eh, Color.TRANSPARENT)); // TODO: make transparent Color.color(0.1,0.1,0.1,0.5)
             }
 
             List<RoomChangeEntity> rce = new ArrayList<>();
@@ -158,7 +158,7 @@ public class LevelThreeComponents extends ScreenComponent {
         }
 
         roomFound[0] = true;
-        setCurrentRoom(schoolRooms[13]);
+        setCurrentRoom(schoolRooms[0]);
     }
 
     private void setupMinigames() {
