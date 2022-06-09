@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class LevelThreeComponents extends ScreenComponent {
 
     public static final int TOTAL_DIALOGUE = 20;
-    public static final int TOTAL_ROOMS = 8;
+    public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
     private DialoguePopup[] levelThreeDialogue;
@@ -33,6 +33,7 @@ public class LevelThreeComponents extends ScreenComponent {
     private Text interactionText;
 
     private String[] rceText;
+    private boolean[] roomFound;
 
     public LevelThreeComponents() {
         super();
@@ -40,6 +41,7 @@ public class LevelThreeComponents extends ScreenComponent {
         levelThreeDialogue = new DialoguePopup[TOTAL_DIALOGUE];
         schoolRooms = new SchoolRoom[TOTAL_ROOMS];
         minigames = new Minigame[TOTAL_MINIGAMES];
+        roomFound = new boolean[TOTAL_ROOMS+1];
 
         addComponents();
     }
@@ -133,7 +135,10 @@ public class LevelThreeComponents extends ScreenComponent {
                 int h = Integer.parseInt(mdat[3]);
                 int nxt = Integer.parseInt(mdat[4]);
                 rce.add(new RoomChangeEntity(x, y, w, h, nxt, () -> {
-                    if (nxt != 16) setCurrentRoom(schoolRooms[nxt]);
+                    if (nxt != 16) {
+                        setCurrentRoom(schoolRooms[nxt]);
+                        roomFound[nxt] = true;
+                    }
                 }));
             }
 
@@ -151,7 +156,9 @@ public class LevelThreeComponents extends ScreenComponent {
                     this
                     );
         }
-        setCurrentRoom(schoolRooms[3]);
+
+        roomFound[0] = true;
+        setCurrentRoom(schoolRooms[13]);
     }
 
     private void setupMinigames() {
@@ -178,7 +185,7 @@ public class LevelThreeComponents extends ScreenComponent {
         if (currentRoom != null && currentRoom.checkInBounds() != -1) {
             int id = currentRoom.checkInBounds();
             this.getChildren().remove(interactionText);
-            interactionText.setText(rceText[id]);
+            interactionText.setText(roomFound[id] ? rceText[id] : rceText[16]);
             this.getChildren().add(interactionText);
             interactionText.setVisible(true);
         } else {
