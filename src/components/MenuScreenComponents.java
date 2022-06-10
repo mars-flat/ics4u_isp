@@ -1,11 +1,14 @@
 package components;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import scenes.MenuScreen;
 import utilities.Constants;
 import utilities.Tools;
+
+import java.io.File;
 
 /**
  * The components for the main menu.
@@ -25,6 +28,23 @@ public class MenuScreenComponents extends ScreenComponent {
      * Loading Text object.
      */
     private Text loadingText;
+
+    /**
+     * Ending Text object, to be displayed after exit is pressed.
+     */
+    private Text endMessage1;
+
+    /**
+     * Ending Text object, to be displayed after exit is pressed.
+     */
+    private Text endMessage2;
+
+    /**
+     * Black rectangle object, used as background for ending message.
+     */
+    private Rectangle black;
+
+    private ImageView logo;
 
     /**
      * Creates an instance of this class.
@@ -125,8 +145,30 @@ public class MenuScreenComponents extends ScreenComponent {
         loadingText.setFill(Color.WHITE);
         loadingText.setVisible(false);
 
+        endMessage1 = new Text(150, 420, "Thank you for playing Panik.");
+        endMessage1.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        endMessage1.setPickOnBounds(false);
+        endMessage1.setMouseTransparent(true);
+        endMessage1.setFill(Color.WHITE);
+        endMessage1.setVisible(false);
 
-        this.getChildren().addAll(transitionRectangle, loadingText);
+        endMessage2 = new Text(50, 520, "Made by Shane Chen and Annie Wong.");
+        endMessage2.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        endMessage2.setPickOnBounds(false);
+        endMessage2.setMouseTransparent(true);
+        endMessage2.setFill(Color.WHITE);
+        endMessage2.setVisible(false);
+
+        logo = new ImageView(Tools.getImage(Constants.LOGO, 217, 303, true, true));
+        logo.setX(380);
+        logo.setY(100);
+        logo.setVisible(false);
+
+        black = new Rectangle(0, 0, 960, 720);
+        black.setFill(Color.BLACK);
+        black.setVisible(false);
+
+        this.getChildren().addAll(transitionRectangle, loadingText, black, logo, endMessage1, endMessage2);
     }
 
     /**
@@ -140,12 +182,19 @@ public class MenuScreenComponents extends ScreenComponent {
     }
 
     /**
-     * Get the Text object.
+     * Get the Loading Text object.
      *
      * @return
-     * The Text object.
+     * The Loading Text object.
      */
     public Text getLoadingText() {
         return loadingText;
+    }
+
+    public void setEndMessageVisible(){
+        black.setVisible(true);
+        logo.setVisible(true);
+        endMessage1.setVisible(true);
+        endMessage2.setVisible(true);
     }
 }

@@ -117,6 +117,13 @@ public class MenuScreen extends GameScreen {
         controller.changeScene(this, nxt);
     }
 
+    private void exit(){
+        components.setEndMessageVisible();
+        PauseTransition pt = new PauseTransition(Duration.millis(3000));
+        pt.setOnFinished(event -> controller.closeProgram());
+        pt.play();
+    }
+
     /**
      * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
      *
@@ -149,7 +156,7 @@ public class MenuScreen extends GameScreen {
                 about();
                 break;
             case 3:
-                controller.closeProgram();
+                exit();
                 break;
         }
     }
