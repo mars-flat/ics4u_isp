@@ -114,4 +114,10 @@ public class Constants {
     public static final File GOOD_CARD_DOWN = new File(DATA_PATH + "goodcarddown.png");
 
     public static final File LIBRARIAN = new File(DATA_PATH + "librarian.png");
+
+    public static final File CASHIER = new File(DATA_PATH + "cashier.png");
+
+    public static final File CHECKBOX = new File(DATA_PATH + "checkbox.png");
+
+    public static final File CHECKMARK = new File(DATA_PATH + "checkmark.png");
 }
