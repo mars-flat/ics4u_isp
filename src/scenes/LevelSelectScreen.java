@@ -11,6 +11,8 @@ import javafx.util.Duration;
 import utilities.Constants;
 import utilities.GameHandler;
 
+import java.awt.*;
+
 /**
  * The level select screen for the  of the game.
  *
@@ -101,6 +103,17 @@ public class LevelSelectScreen extends GameScreen {
     }
 
     /**
+     * Switches the scene back to main menu.
+     */
+    private void menu() {
+        MenuScreen nxt = new MenuScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
+    }
+
+    /**
      * Switches the scene to level one.
      */
     private void level1() {
@@ -148,11 +161,7 @@ public class LevelSelectScreen extends GameScreen {
 
         switch (choice) {
             case 0: //return to main menu
-                MenuScreen nxt = new MenuScreen(
-                        Constants.SCREEN_WIDTH,
-                        Constants.SCREEN_HEIGHT,
-                        controller);
-                controller.changeScene(this, nxt);
+                menu();
                 break;
             case 1: //level 1
                 level1();

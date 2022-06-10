@@ -48,4 +48,9 @@ public abstract class GameScreen extends Scene {
      * The current tick count.
      */
     public abstract void onTick(long currentTick);
+
+    /**
+     * Moves on to the next scene/screen.
+     */
+    public abstract void nextScene();
 }

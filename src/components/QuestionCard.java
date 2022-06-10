@@ -71,6 +71,8 @@ public class QuestionCard extends ScreenComponent {
      */
     private int correctAnswer;
 
+    private boolean firstTry;
+
     /**
      * Creates an instance of this class.
      *
@@ -113,6 +115,7 @@ public class QuestionCard extends ScreenComponent {
 
         down = new boolean[4];
         addComponents();
+        firstTry = false;
     }
 
     /**
@@ -142,7 +145,12 @@ public class QuestionCard extends ScreenComponent {
                         new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
                         "Older Sibling", responses[idx], () -> {
                     controller.setActivePopup(null);
-                    if (correctAnswer == finalI) controller.nextQuestion();
+                    if (correctAnswer == finalI) {
+                        if(finalI == 0){
+                            firstTry = true;
+                        }
+                        controller.nextQuestion();
+                    }
                 });
                 PauseTransition pt = new PauseTransition(Duration.millis(500));
                 pt.setOnFinished(e -> controller.setActivePopup(response));
@@ -186,5 +194,9 @@ public class QuestionCard extends ScreenComponent {
             cardsUp[idx].setVisible(false);
             cardsDown[idx].setVisible(true);
         }
+    }
+
+    public boolean getFirstTry(){
+        return firstTry;
     }
 }

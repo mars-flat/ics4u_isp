@@ -4,9 +4,12 @@ import components.DialoguePopup;
 import components.LevelOneComponents;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Entity;
 import utilities.GameHandler;
+import utilities.Tools;
 
 import java.util.HashSet;
 
@@ -148,5 +151,15 @@ public class LevelOneScreen extends GameScreen {
         }
 //        System.out.println(components.getPlayer().getX() + " " + components.getPlayer().getY()
 //         + " " + components.getPlayer().getTranslateX() + " " + components.getPlayer().getTranslateY());
+    }
+
+    @Override
+    public void nextScene() {
+        //return to menu screen
+        LevelSelectScreen nxt = new LevelSelectScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
     }
 }

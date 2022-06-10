@@ -114,14 +114,6 @@ public class LevelThreeScreen extends GameScreen {
         }
     }
 
-    public void transitionIn() {
-
-    }
-
-    public void transitionOut() {
-
-    }
-
     public void nextScene() {
 
     }

@@ -86,4 +86,14 @@ public class LevelTwoScreen extends GameScreen {
                 ((DialoguePopup)components.getActivePopup()).showNextChar();
         }
     }
+
+    @Override
+    public void nextScene() {
+        //return to level select
+        LevelSelectScreen nxt = new LevelSelectScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
+    }
 }
