@@ -114,6 +114,11 @@ public class LevelTwoComponents extends ScreenComponent {
         ending.getChildren().addAll(bg, complete, ret);
     }
 
+    // for improvement later
+    private void cardAnimations() {
+
+    }
+
     /**
      * Sets up the questions. Question content is located in a text file
      * which is read with a {@link Scanner}.
@@ -154,9 +159,8 @@ public class LevelTwoComponents extends ScreenComponent {
         setupQuestions();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
-        pt.setOnFinished(event -> setActivePopup(levelTwoDialogue[6]));
+        pt.setOnFinished(event -> setActivePopup(levelTwoDialogue[0]));
         pt.play();
-
     }
 
     /**

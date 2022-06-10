@@ -136,6 +136,17 @@ public class LevelSelectScreen extends GameScreen {
     }
 
     /**
+     * Switches the scene to level three.
+     */
+    private void level3() {
+        LevelThreeScreen nxt = new LevelThreeScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
+    }
+
+    /**
      * Handle the switching of scenes. This should utilize {@link GameHandler#changeScene(Scene, Scene)}.
      *
      * By defaults, calls overridden method with {@code choice(1)}.
@@ -170,6 +181,7 @@ public class LevelSelectScreen extends GameScreen {
                 level2();
                 break;
             case 3: //level 3
+                level3();
                 break;
         }
     }

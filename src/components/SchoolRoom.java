@@ -24,6 +24,8 @@ public class SchoolRoom extends ScreenComponent {
 
     private LevelThreeComponents controller;
 
+    private ChangeRequest roomEnteredChangeRequest;
+
     private int sx;
     private int sy;
 
@@ -32,7 +34,8 @@ public class SchoolRoom extends ScreenComponent {
                       List<Entity> otherEntities,
                       List<RoomChangeEntity> roomChangers,
                       Player player, int sx, int sy, // ensure sx and sy are not in any room changers bounds
-                      LevelThreeComponents controller) {
+                      LevelThreeComponents controller,
+                      ChangeRequest roomEnteredChangeRequest) {
         super();
         this.background = background;
         this.roomName = roomName;
@@ -41,6 +44,7 @@ public class SchoolRoom extends ScreenComponent {
         this.player = player;
         this.sx = sx;
         this.sy = sy;
+        this.roomEnteredChangeRequest = roomEnteredChangeRequest;
 
         this.controller = controller;
         addComponents();
@@ -48,6 +52,7 @@ public class SchoolRoom extends ScreenComponent {
 
     public void checkForRoomChange() {
         for (RoomChangeEntity r : roomChangers) {
+            if (r.getDisabled()) continue;
             if (player.intersects(r.getBoundsInLocal())) {
                 r.onChangeRoomRequest();
                 break;
@@ -57,6 +62,7 @@ public class SchoolRoom extends ScreenComponent {
 
     public int checkInBounds() {
         for (RoomChangeEntity r : roomChangers) {
+            if (r.getDisabled()) continue;
             if (player.intersects(r.getBoundsInLocal())) {
                 return r.getRoomChangeNumber();
             }
@@ -70,6 +76,7 @@ public class SchoolRoom extends ScreenComponent {
         player.setY(sy);
         getChildren().add(player);
         getChildren().add(player.getCharacter());
+        roomEnteredChangeRequest.onChangeRequest();
     }
 
     @Override
@@ -99,5 +106,9 @@ public class SchoolRoom extends ScreenComponent {
 
     public void setSpawnY(int newSy) {
         sy = newSy;
+    }
+
+    public void setRoomEnteredChangeRequest(ChangeRequest newRequest) {
+        roomEnteredChangeRequest = newRequest;
     }
 }

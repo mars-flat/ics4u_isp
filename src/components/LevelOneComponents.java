@@ -169,7 +169,7 @@ public class LevelOneComponents extends ScreenComponent {
             Rectangle darken = new Rectangle(0, 0, 960, 720);
             darken.setFill(Color.color(0, 0, 0, 0.75));
 
-            Text continueText = new Text(625, 650, "SPACE to continue");
+            Text continueText = new Text(625, 650, "SPACE to close");
             continueText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
             continueText.setFill(Color.WHITE);
 
@@ -341,7 +341,7 @@ public class LevelOneComponents extends ScreenComponent {
         setupPopups();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
-        pt.setOnFinished(event -> setActivePopup(levelOneDialogue[4]));
+        pt.setOnFinished(event -> setActivePopup(levelOneDialogue[0]));
         pt.play();
 
         setupEntities();

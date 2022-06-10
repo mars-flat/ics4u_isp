@@ -1,5 +1,7 @@
 package components;
 
+import javafx.scene.Cursor;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -17,10 +19,13 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 2;
+    public static final int TOTAL_DIALOGUE = 3;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
+    private AnxietyBar anxietyBar;
+
+    private String[] dialogue;
     private DialoguePopup[] levelThreeDialogue;
     private Popup activePopup;
 
@@ -35,6 +40,12 @@ public class LevelThreeComponents extends ScreenComponent {
 
     private String[] rceText;
     private boolean[] roomFound;
+    private boolean[] minigameInteracted;
+
+    private Popup agenda;
+    private ImageView[] checks;
+    private ImageView agendaIcon;
+
 
     public LevelThreeComponents() {
         super();
@@ -43,14 +54,16 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms = new SchoolRoom[TOTAL_ROOMS];
         minigames = new Minigame[TOTAL_MINIGAMES];
         roomFound = new boolean[TOTAL_ROOMS+1];
+        minigameInteracted = new boolean[TOTAL_MINIGAMES+1];
 
         addComponents();
     }
 
     private void setupDialogue() {
-        String[] dialogue = new String[] {
+        dialogue = new String[] {
                 "Ugh, school. And there's so much on the agenda today that I must do before I leave...",
-                "Oh, how I wish I could leave this dreaded place. But I can't.",
+                "Oh, how I wish I could leave this dreaded place. But I can't until my tasks are complete.",
+                "Woah, the library! Maybe I can find the book I need for English class here."
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -163,21 +176,103 @@ public class LevelThreeComponents extends ScreenComponent {
                     player,
                     px,
                     py,
-                    this
+                    this,
+                    () -> {}
                     );
         }
 
+        // dialogue on room enter
         schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> setActivePopup(levelThreeDialogue[1]));
+        schoolRooms[4].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
+        });
 
-        schoolRooms[4].getRoomChangers().add(new RoomChangeEntity(470, 300, 50, 36, 16, () -> setActiveMinigame(minigames[0])));
+        // minigame 2
+        RoomChangeEntity shopMinigameLauncher = new RoomChangeEntity(532, 362, 50, 40, 16, () -> {});
+        shopMinigameLauncher.setOnChangeRequest(() -> {
+            setActiveMinigame(minigames[2]);
+            setMinigameDone(2, shopMinigameLauncher);
+        });
+        schoolRooms[6].getRoomChangers().add(shopMinigameLauncher);
+        schoolRooms[6].getChildren().add(shopMinigameLauncher);
 
+        // minigame 3
+
+
+        // minigame 4
+        RoomChangeEntity libMinigameLauncher = new RoomChangeEntity(470, 330, 50, 50, 16, () -> {});
+        libMinigameLauncher.setOnChangeRequest(() -> {
+            setActiveMinigame(minigames[4]);
+            setMinigameDone(4, libMinigameLauncher);
+        });
+        schoolRooms[4].getRoomChangers().add(libMinigameLauncher);
+        schoolRooms[4].getChildren().add(libMinigameLauncher);
 
         roomFound[0] = true;
         setCurrentRoom(schoolRooms[0]);
     }
 
-    private void setupMinigames() {
+    public void setMinigameDone(int minigameIdx, RoomChangeEntity toDisable) {
+        minigameInteracted[minigameIdx] = true;
+        checks[minigameIdx].setVisible(true);
+        toDisable.disable();
+    }
 
+    private void setupMinigames() {
+        minigames[2] = new ShopMinigame(new ImageView(Tools.getImage(Constants.CASHIER, 960, 720, true, true)), this);
+        minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN, 960, 720, true, true)), this);
+    }
+
+    private void setupAgenda() {
+        agenda = new Popup(() -> this.setActivePopup(null));
+        ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
+
+        String[] tasks = new String[] {
+            "group discussion in classroom 3 :(",
+            "make a friend???",
+            "buy lunch from the store",
+            "do a presentation at classroom 1 T_T",
+            "find the book for English at the library"
+        };
+        ImageView page = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
+        agenda.getChildren().add(page);
+
+        checks = new ImageView[TOTAL_MINIGAMES];
+
+        int cx = 330, cy = 200;
+        for (int i = 0; i < TOTAL_MINIGAMES; ++i) {
+            ImageView checkbox = new ImageView(Tools.getImage(Constants.CHECKBOX, 30, 30, true, true));
+            ImageView checkmark = new ImageView(Tools.getImage(Constants.CHECKMARK, 30, 30, true, true));
+            checks[i] = checkmark;
+            checks[i].setVisible(false);
+            checkmark.xProperty().bind(checkbox.xProperty());
+            checkmark.yProperty().bind(checkbox.yProperty());
+            checkbox.setX(cx+30);
+            checkbox.setY(cy+5);
+
+            Text taskText = new Text(cx + 30, cy, tasks[i]);
+            taskText.setFont(Tools.getCustomFont(Constants.HANDWRITING_FONT, 20));
+            agenda.getChildren().addAll(checkbox, checkmark, taskText);
+            cy += 50;
+        }
+
+        agendaIcon = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_2, 100, 100, true, true));
+        agendaIcon.setX(20);
+        agendaIcon.setY(100);
+        agendaIcon.setOnMouseClicked(event -> {
+            setActivePopup(agenda);
+        });
+        agendaIcon.setOnMouseEntered(event -> {
+            setCursor(Cursor.HAND);
+        });
+        agendaIcon.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+
+        Text continueText = new Text(625, 650, "SPACE to close");
+        continueText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
+        continueText.setFill(Color.WHITE);
+        agenda.getChildren().add(continueText);
+
+        currentRoom.getChildren().add(agendaIcon);
     }
 
     @Override
@@ -187,6 +282,7 @@ public class LevelThreeComponents extends ScreenComponent {
         setupDialogue();
         setupRooms();
         setupMinigames();
+        setupAgenda();
 
         interactionText = new Text(360, 700, "SPACE to interact");
         interactionText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
@@ -195,11 +291,14 @@ public class LevelThreeComponents extends ScreenComponent {
         interactionText.setVisible(false);
         this.getChildren().add(interactionText);
 
+        anxietyBar = new AnxietyBar();
+        currentRoom.getChildren().add(anxietyBar);
+
         setActivePopup(levelThreeDialogue[0]);
     }
 
     public void checkInBounds() {
-        if (currentRoom != null && currentRoom.checkInBounds() != -1) {
+        if (currentRoom != null && currentRoom.checkInBounds() != -1 && activeMinigame == null) {
             int id = currentRoom.checkInBounds();
             this.getChildren().remove(interactionText);
             interactionText.setText(roomFound[id] ? rceText[id] : rceText[16]);
@@ -228,11 +327,17 @@ public class LevelThreeComponents extends ScreenComponent {
         return currentRoom;
     }
 
+    public AnxietyBar getAnxietyBar() {
+        return anxietyBar;
+    }
+
     public void setCurrentRoom(SchoolRoom newRoom) {
         this.getChildren().remove(currentRoom);
         currentRoom = newRoom;
         this.getChildren().add(newRoom);
         currentRoom.onRoomEntered();
+        if (agendaIcon != null) currentRoom.getChildren().add(agendaIcon);
+        if (anxietyBar != null) currentRoom.getChildren().add(anxietyBar);
     }
 
     public Minigame getActiveMinigame() {
@@ -240,9 +345,12 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     public void setActiveMinigame(Minigame newMinigame) {
-        if (newMinigame != null) this.getChildren().remove(newMinigame);
+        if (activeMinigame != null) this.getChildren().remove(activeMinigame);
         activeMinigame = newMinigame;
-        if (activeMinigame != null) this.getChildren().add(activeMinigame);
+        if (activeMinigame != null) {
+            this.getChildren().add(activeMinigame);
+            activeMinigame.onLaunch();
+        }
     }
 
     public List<Entity> getOtherEntities() {
