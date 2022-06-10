@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import scenes.LevelOneScreen;
 import utilities.Constants;
 import utilities.Entity;
 import utilities.Player;
@@ -117,6 +118,23 @@ public class LevelOneComponents extends ScreenComponent {
                     "Older Sibling", dialogue[i], () -> this.setActivePopup(null)
             );
         }
+
+        //level ending popup
+        Popup ending = new Popup(() -> ((LevelOneScreen) this.getScene()).nextScene());
+        levelOneDialogue[4].setOnChangeRequest(() -> this.setActivePopup(ending));
+        Rectangle bg = new Rectangle(0, 0, 960, 720);
+        bg.setFill(Color.BLACK);
+        Text complete = new Text(250, 320, "Level 1 Completed.");
+        complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        complete.setPickOnBounds(false);
+        complete.setMouseTransparent(true);
+        complete.setFill(Color.WHITE);
+        Text ret = new Text(110, 450, "SPACE to return to level select.");
+        ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        ret.setPickOnBounds(false);
+        ret.setMouseTransparent(true);
+        ret.setFill(Color.WHITE);
+        ending.getChildren().addAll(bg, complete, ret);
 
         // set the default change request actions for certain dialogues
         levelOneDialogue[0].setOnChangeRequest(() -> {
@@ -312,6 +330,8 @@ public class LevelOneComponents extends ScreenComponent {
         this.getChildren().add(journalHighlight);
     }
 
+
+
     /**
      * Add components to this root component.
      */
@@ -321,7 +341,7 @@ public class LevelOneComponents extends ScreenComponent {
         setupPopups();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
-        pt.setOnFinished(event -> setActivePopup(levelOneDialogue[0]));
+        pt.setOnFinished(event -> setActivePopup(levelOneDialogue[4]));
         pt.play();
 
         setupEntities();
@@ -330,7 +350,6 @@ public class LevelOneComponents extends ScreenComponent {
         player = new Player(740, 600, 40, 40, 7, 20, 20, true);
         this.getChildren().add(player);
         this.getChildren().add(player.getCharacter());
-
     }
 
     /**

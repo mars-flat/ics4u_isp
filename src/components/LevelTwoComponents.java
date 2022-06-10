@@ -2,7 +2,11 @@ package components;
 
 import javafx.animation.PauseTransition;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
+import scenes.LevelTwoScreen;
 import utilities.Constants;
 import utilities.Tools;
 
@@ -75,7 +79,7 @@ public class LevelTwoComponents extends ScreenComponent {
                 "Well then, thanks. I guess."
         };
 
-        levelTwoDialogue = new DialoguePopup[8];
+        levelTwoDialogue = new DialoguePopup[7];
         levelTwoDialogue[0] = new DialoguePopup(
                 new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
                 "Older Sibling", dialogue[0], () ->
@@ -92,6 +96,22 @@ public class LevelTwoComponents extends ScreenComponent {
                 this.setActivePopup(finalI == 6 ? null : levelTwoDialogue[finalI + 1]);
             });
         }
+        //level ending popup
+        Popup ending = new Popup(() -> ((LevelTwoScreen) this.getScene()).nextScene());
+        levelTwoDialogue[6].setOnChangeRequest(() -> this.setActivePopup(ending));
+        Rectangle bg = new Rectangle(0, 0, 960, 720);
+        bg.setFill(Color.BLACK);
+        Text complete = new Text(250, 450, "Level 2 Completed.");
+        complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        complete.setPickOnBounds(false);
+        complete.setMouseTransparent(true);
+        complete.setFill(Color.WHITE);
+        Text ret = new Text(110, 550, "SPACE to return to level select.");
+        ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        ret.setPickOnBounds(false);
+        ret.setMouseTransparent(true);
+        ret.setFill(Color.WHITE);
+        ending.getChildren().addAll(bg, complete, ret);
     }
 
     /**
@@ -134,7 +154,7 @@ public class LevelTwoComponents extends ScreenComponent {
         setupQuestions();
 
         PauseTransition pt = new PauseTransition(Duration.millis(500));
-        pt.setOnFinished(event -> setActivePopup(levelTwoDialogue[0]));
+        pt.setOnFinished(event -> setActivePopup(levelTwoDialogue[6]));
         pt.play();
 
     }
@@ -164,6 +184,7 @@ public class LevelTwoComponents extends ScreenComponent {
      * Goes to the next question, or {@code null} if there is no question after.
      */
     public void nextQuestion() {
+
         if (curQuestionNum == TOTAL_QUESTIONS-1) {
             this.setCurrentQuestion(null);
             this.setActivePopup(levelTwoDialogue[1]);
@@ -181,5 +202,15 @@ public class LevelTwoComponents extends ScreenComponent {
         if (currentQuestion != null) this.getChildren().remove(currentQuestion);
         currentQuestion = newQuestion;
         if (newQuestion != null) this.getChildren().add(newQuestion);
+    }
+
+    public int getNumCorrect(){
+        int numCorrect = 0;
+        for(QuestionCard q: questions){
+            if(q.getFirstTry()){
+                numCorrect++;
+            }
+        }
+        return numCorrect;
     }
 }
