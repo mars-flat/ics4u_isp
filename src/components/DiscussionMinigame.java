@@ -6,14 +6,14 @@ import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Tools;
 
-public class ShopMinigame extends Minigame {
+public class DiscussionMinigame extends Minigame {
 
     private LevelThreeComponents controller;
 
     private DialoguePopup[] minigameDialogue;
     private Group choice;
 
-    public ShopMinigame(ImageView background, LevelThreeComponents controller) {
+    public DiscussionMinigame(ImageView background, LevelThreeComponents controller) {
         super(background, controller);
         this.controller = controller;
         addComponents();
@@ -56,36 +56,6 @@ public class ShopMinigame extends Minigame {
                 "That'll be $8.25. Enjoy!",
                 "You ended up not eating lunch... (+1 Anxiety)"
         };
-
-        minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.YOUNGER_SIBLING, 240, 280, true, true)),
-                "Younger Sibling", dialogue[0], () -> {
-            controller.setActivePopup(minigameDialogue[2]);
-        }
-        );
-
-        minigameDialogue[1] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
-                "Cashier", dialogue[1], () -> {
-            controller.setActivePopup(minigameDialogue[3]);
-            controller.setActiveMinigame(null);
-        }
-        );
-
-        minigameDialogue[2] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
-                "Cashier", dialogue[2], () -> {
-            controller.setActivePopup(null);
-            controller.setActiveMinigame(null);
-        }
-        );
-
-        minigameDialogue[3] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
-                "Narration", dialogue[3], () -> {
-                    controller.setActivePopup(null);
-                    controller.getAnxietyBar().incrementAnxiety();
-                });
     }
 
     public void onLaunch() {

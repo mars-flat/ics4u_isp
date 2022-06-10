@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 3;
+    public static final int TOTAL_DIALOGUE = 4;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
@@ -63,7 +63,8 @@ public class LevelThreeComponents extends ScreenComponent {
         dialogue = new String[] {
                 "Ugh, school. And there's so much on the agenda today that I must do before I leave...",
                 "Oh, how I wish I could leave this dreaded place. But I can't until my tasks are complete.",
-                "Woah, the library! Maybe I can find the book I need for English class here."
+                "Woah, the library! Maybe I can find the book I need for English class here.",
+                "I'm hungry, maybe I should buy something here.",
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -186,6 +187,16 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[4].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
         });
+        schoolRooms[6].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[6]) setActivePopup(levelThreeDialogue[3]);
+        });
+        schoolRooms[9].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[9]) {
+                System.out.println("orz");
+                setActiveMinigame(minigames[3]);
+                setMinigameDone(3, null);
+            }
+        });
 
         // minigame 2
         RoomChangeEntity shopMinigameLauncher = new RoomChangeEntity(532, 362, 50, 40, 16, () -> {});
@@ -215,11 +226,12 @@ public class LevelThreeComponents extends ScreenComponent {
     public void setMinigameDone(int minigameIdx, RoomChangeEntity toDisable) {
         minigameInteracted[minigameIdx] = true;
         checks[minigameIdx].setVisible(true);
-        toDisable.disable();
+        if (toDisable != null) toDisable.disable();
     }
 
     private void setupMinigames() {
         minigames[2] = new ShopMinigame(new ImageView(Tools.getImage(Constants.CASHIER, 960, 720, true, true)), this);
+        minigames[3] = new PresentationMinigame(new ImageView(Tools.getImage(Constants.TEACHER, 960, 720, true, true)), this);
         minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN, 960, 720, true, true)), this);
     }
 

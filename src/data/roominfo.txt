@@ -226,7 +226,7 @@ Classroom 3
 1
 570 290 50 50 11
 580
-330
+360
 rooms\\washroom2.png
 Washroom 2
 5

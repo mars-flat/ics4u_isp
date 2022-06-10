@@ -331,7 +331,6 @@ public class LevelOneComponents extends ScreenComponent {
     }
 
 
-
     /**
      * Add components to this root component.
      */

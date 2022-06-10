@@ -115,6 +115,8 @@ public class Constants {
 
     public static final File LIBRARIAN = new File(DATA_PATH + "librarian.png");
 
+    public static final File TEACHER = new File(DATA_PATH + "teacher.png");
+
     public static final File CASHIER = new File(DATA_PATH + "cashier.png");
 
     public static final File CHECKBOX = new File(DATA_PATH + "checkbox.png");
