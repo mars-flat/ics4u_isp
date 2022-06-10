@@ -1,5 +1,6 @@
 package components;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -17,10 +18,11 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 2;
+    public static final int TOTAL_DIALOGUE = 3;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
+    private String[] dialogue;
     private DialoguePopup[] levelThreeDialogue;
     private Popup activePopup;
 
@@ -35,6 +37,7 @@ public class LevelThreeComponents extends ScreenComponent {
 
     private String[] rceText;
     private boolean[] roomFound;
+    private boolean[] minigameInteracted;
 
     public LevelThreeComponents() {
         super();
@@ -43,14 +46,16 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms = new SchoolRoom[TOTAL_ROOMS];
         minigames = new Minigame[TOTAL_MINIGAMES];
         roomFound = new boolean[TOTAL_ROOMS+1];
+        minigameInteracted = new boolean[TOTAL_MINIGAMES+1];
 
         addComponents();
     }
 
     private void setupDialogue() {
-        String[] dialogue = new String[] {
+        dialogue = new String[] {
                 "Ugh, school. And there's so much on the agenda today that I must do before I leave...",
                 "Oh, how I wish I could leave this dreaded place. But I can't.",
+                "Woah, the library! Maybe I can find the book I need for English class here."
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -163,21 +168,30 @@ public class LevelThreeComponents extends ScreenComponent {
                     player,
                     px,
                     py,
-                    this
+                    this,
+                    () -> {}
                     );
         }
 
         schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> setActivePopup(levelThreeDialogue[1]));
 
-        schoolRooms[4].getRoomChangers().add(new RoomChangeEntity(470, 300, 50, 36, 16, () -> setActiveMinigame(minigames[0])));
-
+        RoomChangeEntity libMinigameLauncher = new RoomChangeEntity(470, 330, 50, 50, 16, () -> {});
+        libMinigameLauncher.setOnChangeRequest(() -> {
+            setActiveMinigame(minigames[0]);
+            libMinigameLauncher.disable();
+        });
+        schoolRooms[4].getRoomChangers().add(libMinigameLauncher);
+        schoolRooms[4].getChildren().add(libMinigameLauncher);
+        schoolRooms[4].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
+        });
 
         roomFound[0] = true;
         setCurrentRoom(schoolRooms[0]);
     }
 
     private void setupMinigames() {
-
+        minigames[0] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN, 960, 720, true, true)), this);
     }
 
     @Override
@@ -199,7 +213,7 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     public void checkInBounds() {
-        if (currentRoom != null && currentRoom.checkInBounds() != -1) {
+        if (currentRoom != null && currentRoom.checkInBounds() != -1 && activeMinigame == null) {
             int id = currentRoom.checkInBounds();
             this.getChildren().remove(interactionText);
             interactionText.setText(roomFound[id] ? rceText[id] : rceText[16]);
@@ -240,9 +254,12 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     public void setActiveMinigame(Minigame newMinigame) {
-        if (newMinigame != null) this.getChildren().remove(newMinigame);
+        if (activeMinigame != null) this.getChildren().remove(activeMinigame);
         activeMinigame = newMinigame;
-        if (activeMinigame != null) this.getChildren().add(activeMinigame);
+        if (activeMinigame != null) {
+            this.getChildren().add(activeMinigame);
+            activeMinigame.onLaunch();
+        }
     }
 
     public List<Entity> getOtherEntities() {

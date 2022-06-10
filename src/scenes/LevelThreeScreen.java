@@ -38,7 +38,7 @@ public class LevelThreeScreen extends GameScreen {
                 keyboardInputs.contains("A") ||
                 keyboardInputs.contains("S") ||
                 keyboardInputs.contains("D")) &&
-                components.getActivePopup() == null) {
+                components.getActivePopup() == null && components.getActiveMinigame() == null) {
 
             boolean canMoveUp = true;
             boolean canMoveLeft = true;
@@ -74,11 +74,10 @@ public class LevelThreeScreen extends GameScreen {
             keyboardInputs.remove("SPACE");
             if (components.getActivePopup() != null) {
                 components.getActivePopup().onChangeRequest();
-
             }
         }
 
-        if (keyboardInputs.contains("E")) {
+        if (keyboardInputs.contains("E") && components.getActiveMinigame() == null) {
             if (components.getActivePopup() == null) components.checkForRoomChange();
         }
     }
