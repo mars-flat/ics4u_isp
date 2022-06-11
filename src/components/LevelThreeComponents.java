@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 4;
+    public static final int TOTAL_DIALOGUE = 5;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
@@ -65,6 +65,7 @@ public class LevelThreeComponents extends ScreenComponent {
                 "Oh, how I wish I could leave this dreaded place. But I can't until my tasks are complete.",
                 "Woah, the library! Maybe I can find the book I need for English class here.",
                 "I'm hungry, maybe I should buy something here.",
+                "I's lunchtime... maybe I should try talking with others instead of eating in the bathroom again."
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -187,16 +188,27 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[4].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
         });
+        schoolRooms[5].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[5]) setActivePopup(levelThreeDialogue[4]);
+        });
         schoolRooms[6].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[6]) setActivePopup(levelThreeDialogue[3]);
         });
         schoolRooms[9].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[9]) {
-                System.out.println("orz");
                 setActiveMinigame(minigames[3]);
                 setMinigameDone(3, null);
             }
         });
+
+        // minigame 1
+        RoomChangeEntity friendMinigameLauncher = new RoomChangeEntity(600, 400, 50, 50, 16, () -> {});
+        friendMinigameLauncher.setOnChangeRequest(() -> {
+            setActiveMinigame(minigames[1]);
+            setMinigameDone(1, friendMinigameLauncher);
+        });
+        schoolRooms[5].getRoomChangers().add(friendMinigameLauncher);
+        schoolRooms[5].getChildren().add(friendMinigameLauncher);
 
         // minigame 2
         RoomChangeEntity shopMinigameLauncher = new RoomChangeEntity(532, 362, 50, 40, 16, () -> {});
@@ -206,8 +218,6 @@ public class LevelThreeComponents extends ScreenComponent {
         });
         schoolRooms[6].getRoomChangers().add(shopMinigameLauncher);
         schoolRooms[6].getChildren().add(shopMinigameLauncher);
-
-        // minigame 3
 
 
         // minigame 4
@@ -230,6 +240,8 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     private void setupMinigames() {
+        minigames[1] = new FriendMinigame(new ImageView(Tools.getImage(new File(Constants.DATA_PATH + "rooms\\cafeteria.png"),
+                960, 720, true, true)), this);
         minigames[2] = new ShopMinigame(new ImageView(Tools.getImage(Constants.CASHIER, 960, 720, true, true)), this);
         minigames[3] = new PresentationMinigame(new ImageView(Tools.getImage(Constants.TEACHER, 960, 720, true, true)), this);
         minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN, 960, 720, true, true)), this);
