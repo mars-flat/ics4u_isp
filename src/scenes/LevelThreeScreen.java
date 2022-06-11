@@ -3,6 +3,7 @@ package scenes;
 import components.DialoguePopup;
 import components.LevelThreeComponents;
 import javafx.scene.paint.Color;
+import utilities.Constants;
 import utilities.Entity;
 import utilities.GameHandler;
 
@@ -112,9 +113,17 @@ public class LevelThreeScreen extends GameScreen {
             if (components.getActivePopup() instanceof DialoguePopup)
                 ((DialoguePopup)components.getActivePopup()).showNextChar();
         }
+
+        components.checkGameOver();
     }
 
+    @Override
     public void nextScene() {
-
+        //return to menu screen
+        LevelSelectScreen nxt = new LevelSelectScreen(
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                controller);
+        controller.changeScene(this, nxt);
     }
 }

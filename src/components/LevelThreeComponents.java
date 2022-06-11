@@ -4,8 +4,11 @@ import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import scenes.LevelOneScreen;
+import scenes.LevelThreeScreen;
 import utilities.Constants;
 import utilities.Entity;
 import utilities.Player;
@@ -19,7 +22,7 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 5;
+    public static final int TOTAL_DIALOGUE = 6;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
@@ -46,6 +49,9 @@ public class LevelThreeComponents extends ScreenComponent {
     private ImageView[] checks;
     private ImageView agendaIcon;
 
+    private Popup ending;
+    private Popup gameOver;
+
 
     public LevelThreeComponents() {
         super();
@@ -65,7 +71,8 @@ public class LevelThreeComponents extends ScreenComponent {
                 "Oh, how I wish I could leave this dreaded place. But I can't until my tasks are complete.",
                 "Woah, the library! Maybe I can find the book I need for English class here.",
                 "I'm hungry, maybe I should buy something here.",
-                "I's lunchtime... maybe I should try talking with others instead of eating in the bathroom again."
+                "I's lunchtime... maybe I should try talking with others instead of eating in the bathroom again.",
+                "Wow. Math. My favourite subject. I love math. Yay."
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -184,7 +191,14 @@ public class LevelThreeComponents extends ScreenComponent {
         }
 
         // dialogue on room enter
-        schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> setActivePopup(levelThreeDialogue[1]));
+        schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> {
+            if (tasksComplete()) setActivePopup(ending);
+            else setActivePopup(levelThreeDialogue[1]);
+        });
+        schoolRooms[13].getRoomChangers().get(0).setOnChangeRequest(() -> {
+            if (tasksComplete()) setActivePopup(ending);
+            else setActivePopup(levelThreeDialogue[1]);
+        });
         schoolRooms[4].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
         });
@@ -199,6 +213,15 @@ public class LevelThreeComponents extends ScreenComponent {
                 setActiveMinigame(minigames[3]);
                 setMinigameDone(3, null);
             }
+        });
+        schoolRooms[12].setRoomEnteredChangeRequest(() -> {
+            if (!roomFound[12]) {
+                setActivePopup(levelThreeDialogue[5]);
+            }
+        });
+        levelThreeDialogue[5].setOnChangeRequest(() -> {
+            setActiveMinigame(minigames[0]);
+            setMinigameDone(0, null);
         });
 
         // minigame 1
@@ -240,6 +263,8 @@ public class LevelThreeComponents extends ScreenComponent {
     }
 
     private void setupMinigames() {
+        minigames[0] = new MathMinigame(new ImageView(Tools.getImage(new File(Constants.DATA_PATH + "rooms\\classroom2.png"),
+                960, 720, true, true)), this);
         minigames[1] = new FriendMinigame(new ImageView(Tools.getImage(new File(Constants.DATA_PATH + "rooms\\cafeteria.png"),
                 960, 720, true, true)), this);
         minigames[2] = new ShopMinigame(new ImageView(Tools.getImage(Constants.CASHIER, 960, 720, true, true)), this);
@@ -252,8 +277,8 @@ public class LevelThreeComponents extends ScreenComponent {
         ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
 
         String[] tasks = new String[] {
-            "group discussion in classroom 3 :(",
-            "make a friend???",
+            "math class in classroom 2 :(",
+            "make a friend at lunch???",
             "buy lunch from the store",
             "do a presentation at classroom 1 T_T",
             "find the book for English at the library"
@@ -319,6 +344,32 @@ public class LevelThreeComponents extends ScreenComponent {
         currentRoom.getChildren().add(anxietyBar);
 
         setActivePopup(levelThreeDialogue[0]);
+
+        //level ending popup
+        ending = new Popup(() -> ((LevelThreeScreen) this.getScene()).nextScene());
+        Rectangle bg = new Rectangle(0, 0, 960, 720);
+        bg.setFill(Color.BLACK);
+        Text complete = new Text(250, 320, "Level 3 Completed!!!");
+        complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        complete.setFill(Color.WHITE);
+        Text ret = new Text(110, 450, "SPACE to return to level select.");
+        ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        ret.setFill(Color.WHITE);
+        ending.getChildren().addAll(bg, complete, ret);
+
+        // game over popup
+        gameOver = new Popup(() -> ((LevelThreeScreen) this.getScene()).nextScene());
+        Rectangle gameOverBg = new Rectangle(0, 0, 960, 720);
+        bg.setFill(Color.BLACK);
+        Text gameOverText = new Text(250, 320, "Game Over...");
+        gameOverText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        gameOverText.setFill(Color.WHITE);
+        Text returnText = new Text(110, 450, "SPACE to return to level select.");
+        returnText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        returnText.setFill(Color.WHITE);
+        gameOver.getChildren().addAll(gameOverBg, gameOverText, returnText);
+
+
     }
 
     public void checkInBounds() {
@@ -383,5 +434,21 @@ public class LevelThreeComponents extends ScreenComponent {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public boolean tasksComplete() {
+        for (int i = 0; i < TOTAL_MINIGAMES; ++i) {
+            if (!minigameInteracted[i]) {
+                System.out.println("Not complete " + i);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void checkGameOver() {
+        if (anxietyBar.panic()) {
+            setActivePopup(gameOver);
+        }
     }
 }
