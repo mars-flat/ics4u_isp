@@ -413,6 +413,8 @@ public class LevelThreeComponents extends ScreenComponent {
         currentRoom.onRoomEntered();
         if (agendaIcon != null) currentRoom.getChildren().add(agendaIcon);
         if (anxietyBar != null) currentRoom.getChildren().add(anxietyBar);
+        for (RoomChangeEntity rce : currentRoom.getRoomChangers()) if (!currentRoom.getChildren().contains(rce.getIndicator()))
+            currentRoom.getChildren().add(rce.getIndicator());
     }
 
     public Minigame getActiveMinigame() {
