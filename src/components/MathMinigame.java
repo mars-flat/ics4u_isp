@@ -84,7 +84,6 @@ public class MathMinigame extends Minigame {
                 new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
                 "Narration", dialogue[3], () -> {
             controller.setActivePopup(minigameDialogue[4]);
-            controller.getAnxietyBar().incrementAnxiety();
         });
 
         minigameDialogue[4] = new DialoguePopup(
@@ -92,6 +91,7 @@ public class MathMinigame extends Minigame {
                 "Narration", dialogue[4], () -> {
             controller.setActivePopup(null);
             controller.setActiveMinigame(null);
+            controller.getAnxietyBar().incrementAnxiety();
         });
     }
 
