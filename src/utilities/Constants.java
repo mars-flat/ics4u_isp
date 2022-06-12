@@ -31,7 +31,7 @@ public class Constants {
     /**
      * The data folder path.
      */
-    public static final String DATA_PATH = f.getAbsolutePath().substring(0, f.getAbsolutePath().length() - 1) + "data\\";
+    public static final String DATA_PATH = f.getAbsolutePath().substring(0, f.getAbsolutePath().length() - 1) + "src\\data\\";
 
     /**
      * Splash screen background image.
@@ -126,4 +126,6 @@ public class Constants {
     public static final File CHECKMARK = new File(DATA_PATH + "checkmark.png");
 
     public static final File LOGO = new File(DATA_PATH + "logo.png");
+
+    public static final File INDICATOR = new File(DATA_PATH + "indicator.png");
 }
