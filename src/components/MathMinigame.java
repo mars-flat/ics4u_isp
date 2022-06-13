@@ -59,7 +59,7 @@ public class MathMinigame extends Minigame {
         };
 
         minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.TEACHER_2, 240, 280, true, true)),
                 "Teacher", dialogue[0], () -> {
             controller.setActivePopup(null);
             choice.setVisible(true);
@@ -74,7 +74,7 @@ public class MathMinigame extends Minigame {
         });
 
         minigameDialogue[2] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.TEACHER_2, 240, 280, true, true)),
                 "Teacher", dialogue[2], () -> {
             controller.setActivePopup(null);
             controller.setActiveMinigame(null);

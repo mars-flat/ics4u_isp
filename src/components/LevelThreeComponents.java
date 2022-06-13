@@ -1,13 +1,11 @@
 package components;
 
 import javafx.scene.Cursor;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import scenes.LevelOneScreen;
 import scenes.LevelThreeScreen;
 import utilities.Constants;
 import utilities.Entity;
@@ -22,7 +20,7 @@ import java.util.Scanner;
 
 public class LevelThreeComponents extends ScreenComponent {
 
-    public static final int TOTAL_DIALOGUE = 6;
+    public static final int TOTAL_DIALOGUE = 7;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
@@ -72,7 +70,8 @@ public class LevelThreeComponents extends ScreenComponent {
                 "Woah, the library! Maybe I can find the book I need for English class here.",
                 "I'm hungry, maybe I should buy something here.",
                 "I's lunchtime... maybe I should try talking with others instead of eating in the bathroom again.",
-                "Wow. Math. My favourite subject. I love math. Yay."
+                "Wow. Math. My favourite subject. I love math. Yay.",
+                "This door is locked."
         };
         for (int i = 0; i < TOTAL_DIALOGUE; ++i) {
             levelThreeDialogue[i] = new DialoguePopup(
@@ -199,6 +198,9 @@ public class LevelThreeComponents extends ScreenComponent {
             if (tasksComplete()) setActivePopup(ending);
             else setActivePopup(levelThreeDialogue[1]);
         });
+        schoolRooms[3].getRoomChangers().get(0).setOnChangeRequest(() -> {
+            setActivePopup(levelThreeDialogue[6]);
+        });
         schoolRooms[4].setRoomEnteredChangeRequest(() -> {
             if (!roomFound[4]) setActivePopup(levelThreeDialogue[2]);
         });
@@ -252,7 +254,7 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[4].getRoomChangers().add(libMinigameLauncher);
         schoolRooms[4].getChildren().add(libMinigameLauncher);
 
-        roomFound[0] = true;
+        roomFound[0] = roomFound[3] = roomFound[8] = roomFound[11] = roomFound[13] = true;
         setCurrentRoom(schoolRooms[0]);
     }
 
@@ -268,8 +270,8 @@ public class LevelThreeComponents extends ScreenComponent {
         minigames[1] = new FriendMinigame(new ImageView(Tools.getImage(new File(Constants.DATA_PATH + "rooms\\cafeteria.png"),
                 960, 720, true, true)), this);
         minigames[2] = new ShopMinigame(new ImageView(Tools.getImage(Constants.CASHIER, 960, 720, true, true)), this);
-        minigames[3] = new PresentationMinigame(new ImageView(Tools.getImage(Constants.TEACHER, 960, 720, true, true)), this);
-        minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN, 960, 720, true, true)), this);
+        minigames[3] = new PresentationMinigame(new ImageView(Tools.getImage(Constants.TEACHER_BACKGROUND_1, 960, 720, true, true)), this);
+        minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN_BACKGROUND, 960, 720, true, true)), this);
     }
 
     private void setupAgenda() {
@@ -284,7 +286,11 @@ public class LevelThreeComponents extends ScreenComponent {
             "find the book for English at the library"
         };
         ImageView page = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
-        agenda.getChildren().add(page);
+
+        Rectangle darken = new Rectangle(0, 0, 960, 720);
+        darken.setFill(Color.color(0, 0, 0, 0.75));
+
+        agenda.getChildren().addAll(darken, page);
 
         checks = new ImageView[TOTAL_MINIGAMES];
 
@@ -306,7 +312,7 @@ public class LevelThreeComponents extends ScreenComponent {
         }
 
         agendaIcon = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_2, 100, 100, true, true));
-        agendaIcon.setX(20);
+        agendaIcon.setX(820);
         agendaIcon.setY(100);
         agendaIcon.setOnMouseClicked(event -> {
             setActivePopup(agenda);

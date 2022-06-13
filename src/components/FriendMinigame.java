@@ -59,7 +59,7 @@ public class FriendMinigame extends Minigame {
         };
 
         minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.STUDENT, 240, 280, true, true)),
                 "Student", dialogue[0], () -> {
                     controller.setActivePopup(null);
                     choice.setVisible(true);

@@ -60,12 +60,12 @@ public class PresentationMinigame extends Minigame {
         };
 
         minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.TEACHER_1, 240, 280, true, true)),
                 "Teacher", dialogue[0], () -> { controller.setActivePopup(minigameDialogue[1]); }
         );
 
         minigameDialogue[1] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.TEACHER_1, 240, 280, true, true)),
                 "Teacher", dialogue[1], () -> {
                     controller.setActivePopup(null);
                     choice.setVisible(true);

@@ -70,53 +70,55 @@ public class LevelTwoComponents extends ScreenComponent {
 
         // the dialogue to be displayed in dialogue popups.
         String[] dialogue = {
-                "Let's play a game. I have these cards with questions and answers on them, and you pick what you think is the best answer.",
+                "What did you call me for?",
+                "I want us to play a game. I have these cards with questions and answers on them, and you pick what you think is the best answer.",
                 "Hm. Thanks for the advice, I guess?",
                 "Trust me. If you do the right things, you'll get over it.",
                 "I've experienced social anxiety myself. These cards helped me a ton. Listen, none of your fears are real. Get out there and try!",
                 "*Convinced* I- You didn't tell me?",
                 "For the same reason you didn't tell me.",
-                "Well then, thanks. I guess."
+                "Well then, thanks. I guess.",
         };
 
-        levelTwoDialogue = new DialoguePopup[7];
+        levelTwoDialogue = new DialoguePopup[8];
         levelTwoDialogue[0] = new DialoguePopup(
+                new ImageView(Tools.getImage(Constants.YOUNGER_SIBLING, 240, 280, true, true)),
+                "Younger Sibling", dialogue[0], () ->
+        {
+            this.setActivePopup(levelTwoDialogue[1]);
+        });
+        levelTwoDialogue[1] = new DialoguePopup(
                 new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
-                "Older Sibling", dialogue[0], () ->
+                "Older Sibling", dialogue[1], () ->
         {
             this.setActivePopup(null);
             this.setCurrentQuestion(questions[0]);
         });
-        for (int i = 1; i <= 6; ++i) {
+        for (int i = 2; i <= 7; ++i) {
             int finalI = i;
             levelTwoDialogue[i] = new DialoguePopup(
                     new ImageView(Tools.getImage(
-                            (i == 1 || i == 4 || i == 6) ? Constants.YOUNGER_SIBLING : Constants.OLDER_SIBLING, 240, 280, true, true)),
-                            (i == 1 || i == 4 || i == 6) ? "Younger Sibling" : "Older Sibling", dialogue[i], () -> {
-                this.setActivePopup(finalI == 6 ? null : levelTwoDialogue[finalI + 1]);
+                            (i == 2 || i == 5 || i == 7) ? Constants.YOUNGER_SIBLING : Constants.OLDER_SIBLING, 240, 280, true, true)),
+                            (i == 2 || i == 5 || i == 7) ? "Younger Sibling" : "Older Sibling", dialogue[i], () -> {
+                this.setActivePopup(finalI == 7 ? null : levelTwoDialogue[finalI + 1]);
             });
         }
         //level ending popup
         Popup ending = new Popup(() -> ((LevelTwoScreen) this.getScene()).nextScene());
-        levelTwoDialogue[6].setOnChangeRequest(() -> this.setActivePopup(ending));
+        levelTwoDialogue[7].setOnChangeRequest(() -> this.setActivePopup(ending));
         Rectangle bg = new Rectangle(0, 0, 960, 720);
         bg.setFill(Color.BLACK);
-        Text complete = new Text(250, 450, "Level 2 Completed.");
+        Text complete = new Text(250, 320, "Level 2 Completed.");
         complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         complete.setPickOnBounds(false);
         complete.setMouseTransparent(true);
         complete.setFill(Color.WHITE);
-        Text ret = new Text(110, 550, "SPACE to return to level select.");
+        Text ret = new Text(110, 450, "SPACE to return to level select.");
         ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         ret.setPickOnBounds(false);
         ret.setMouseTransparent(true);
         ret.setFill(Color.WHITE);
         ending.getChildren().addAll(bg, complete, ret);
-    }
-
-    // for improvement later
-    private void cardAnimations() {
-
     }
 
     /**
@@ -191,7 +193,7 @@ public class LevelTwoComponents extends ScreenComponent {
 
         if (curQuestionNum == TOTAL_QUESTIONS-1) {
             this.setCurrentQuestion(null);
-            this.setActivePopup(levelTwoDialogue[1]);
+            this.setActivePopup(levelTwoDialogue[2]);
         }
         else this.setCurrentQuestion(questions[++curQuestionNum]);
     }

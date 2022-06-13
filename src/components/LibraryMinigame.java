@@ -59,7 +59,7 @@ public class LibraryMinigame extends Minigame {
         };
 
         minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
                 "Librarian", dialogue[0], () -> {
                     controller.setActivePopup(null);
                     choice.setVisible(true);
@@ -67,7 +67,7 @@ public class LibraryMinigame extends Minigame {
         );
 
         minigameDialogue[1] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
                 "Librarian", dialogue[1], () -> {
             controller.setActivePopup(minigameDialogue[4]);
             controller.setActiveMinigame(null);
@@ -75,7 +75,7 @@ public class LibraryMinigame extends Minigame {
         );
 
         minigameDialogue[2] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 1, 1, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
                 "Librarian", dialogue[2], () -> {
             controller.setActivePopup(null);
             controller.setActiveMinigame(null);

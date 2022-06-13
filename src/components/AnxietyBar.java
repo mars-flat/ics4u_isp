@@ -17,8 +17,8 @@ public class AnxietyBar extends Group {
         for (int i = 0; i < 4; ++i) {
             bars[i] = new ImageView(Tools.getImage(
                     new File(Constants.DATA_PATH + "bars\\bar" + (i+1) + ".png"), 300, 60, true, true));
-            bars[i].setX(40);
-            bars[i].setY(10);
+            bars[i].setX(775);
+            bars[i].setY(30);
             bars[i].setVisible(false);
             getChildren().add(bars[i]);
         }

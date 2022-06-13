@@ -88,7 +88,7 @@ public class SchoolRoom extends ScreenComponent {
             this.getChildren().add(r);
         }
 
-        Text roomNameText = new Text(50, 100, roomName);
+        Text roomNameText = new Text(50, 80, roomName);
         roomNameText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
         roomNameText.setFill(Color.WHITE);
         this.getChildren().add(roomNameText);

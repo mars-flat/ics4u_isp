@@ -82,7 +82,7 @@ public class DialoguePopup extends Popup {
      */
     private void addComponents() {
         speaker.setX(80);
-        speaker.setY(220);
+        speaker.setY(240);
         this.getChildren().add(speaker);
         this.getChildren().add(dialogueBox);
 
