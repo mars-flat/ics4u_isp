@@ -6,6 +6,9 @@ import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Tools;
 
+/**
+ *
+ */
 public class LibraryMinigame extends Minigame {
 
     private LevelThreeComponents controller;

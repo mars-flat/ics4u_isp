@@ -10,5 +10,9 @@ package components;
  */
 @FunctionalInterface
 public interface ChangeRequest {
+
+    /**
+     * What runs on a change request.
+     */
     void onChangeRequest();
 }

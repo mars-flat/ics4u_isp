@@ -18,39 +18,110 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Components for the third level of the game.
+ *
+ * @since 4.0, 5/6/2022
+ * @author Shane Chen
+ */
 public class LevelThreeComponents extends ScreenComponent {
 
+    /**
+     * Constants denoting asset counts for dialogue, rooms, and minigames
+     */
     public static final int TOTAL_DIALOGUE = 7;
     public static final int TOTAL_ROOMS = 16;
     public static final int TOTAL_MINIGAMES = 5;
 
+    /**
+     * Anxiety bar component instance.
+     */
     private AnxietyBar anxietyBar;
 
+    /**
+     * Dialogue containers.
+     */
     private String[] dialogue;
     private DialoguePopup[] levelThreeDialogue;
+
+    /**
+     * Active popup (i.e., dialogue, agenda), or null to indicate that there is no current popup.
+     */
     private Popup activePopup;
 
+    /**
+     * School room container.
+     */
     private SchoolRoom[] schoolRooms;
+
+    /**
+     * The current room. Should not be null.
+     */
     private SchoolRoom currentRoom;
 
+    /**
+     * Minigame container.
+     */
     private Minigame[] minigames;
+
+    /**
+     * The active minigame, or null to indicate that there is no active minigame.
+     */
     private Minigame activeMinigame;
 
+    /**
+     * The player. Controls are handled in {@link LevelThreeScreen}.
+     */
     private Player player;
+
+    /**
+     * Interaction text when the player walks in the bounds of an interaction (i.e., {@link RoomChangeEntity}) entity.
+     */
     private Text interactionText;
 
+    /**
+     * Room change entity text.
+     */
     private String[] rceText;
+
+    /**
+     * Whether a room has been found.
+     */
     private boolean[] roomFound;
+
+    /**
+     * Whether a minigame has been interacted. Minigames may only be interacted once.
+     */
     private boolean[] minigameInteracted;
 
+    /**
+     * The agenda component.
+     */
     private Popup agenda;
+
+    /**
+     * Checks within the agenda to indicate whether a minigame has been played or not.
+     */
     private ImageView[] checks;
+
+    /**
+     * The agenda icon that can be clicked to open the agenda.
+     */
     private ImageView agendaIcon;
 
+    /**
+     * Ending screen.
+     */
     private Popup ending;
+
+    /**
+     * Game over screen.
+     */
     private Popup gameOver;
 
-
+    /**
+     * Instantiates this class and its components.
+     */
     public LevelThreeComponents() {
         super();
 
@@ -63,6 +134,9 @@ public class LevelThreeComponents extends ScreenComponent {
         addComponents();
     }
 
+    /**
+     * Sets up the dialogue for this level.
+     */
     private void setupDialogue() {
         dialogue = new String[] {
                 "Ugh, school. And there's so much on the agenda today that I must do before I leave...",
@@ -81,37 +155,40 @@ public class LevelThreeComponents extends ScreenComponent {
         }
     }
 
+    /**
+     * Sets up the rooms for this level. Reads from {@code roominfo.txt}.
+     * Also sets up messages for interaction, minigame launchers,
+     * and dialogue when entering rooms.
+     *
+     * make sure the txt is in this order:
+     * [room url]
+     * [room name]
+     * [number of other entities: N]
+     * [N lines: x y w h, space-separated]
+     * [number of room change entities: M]
+     * [M lines: x y w h i: room index, space separated]
+     * [player x]
+     * [player y]
+     *
+     * schoolRoom[i] should be:
+     * 0 -> front foyer
+     * 1 -> office
+     * 2 -> washroom 1
+     * 3 -> hallway 1
+     * 4 -> library
+     * 5 -> cafeteria
+     * 6 -> shop
+     * 7 -> storage room
+     * 8 -> hallway 2
+     * 9 -> classroom 1
+     * 10 -> gym
+     * 11 -> hallway 3
+     * 12 -> classroom 2
+     * 13 -> hallway 4
+     * 14 -> classroom 3
+     * 15 -> washroom 2
+     */
     private void setupRooms() {
-
-        /*
-         make sure the txt is in this order
-         [room url]
-         [room name]
-         [number of other entities: N]
-         [N lines: x y w h, space-separated]
-         [number of room change entities: M]
-         [M lines: x y w h i: room index, space separated]
-         [player x]
-         [player y]
-
-         schoolRoom[i]:
-         0 -> front foyer
-         1 -> office
-         2 -> washroom 1
-         3 -> hallway 1
-         4 -> library
-         5 -> cafeteria
-         6 -> shop
-         7 -> storage room
-         8 -> hallway 2
-         9 -> classroom 1
-         10 -> gym
-         11 -> hallway 3
-         12 -> classroom 2
-         13 -> hallway 4
-         14 -> classroom 3
-         15 -> washroom 2
-         */
         rceText = new String[] {
                 "E to go to Front foyer",
                 "E to go to Office",
@@ -258,12 +335,23 @@ public class LevelThreeComponents extends ScreenComponent {
         setCurrentRoom(schoolRooms[0]);
     }
 
+    /**
+     * Sets whether the minigame has been played or interacted with.
+     * @param minigameIdx
+     * The index of the minigame.
+     * @param toDisable
+     * The RoomChangeEntity to disable, if applicable (null otherwise). Some minigames are launched
+     * as the player enters the room.
+     */
     public void setMinigameDone(int minigameIdx, RoomChangeEntity toDisable) {
         minigameInteracted[minigameIdx] = true;
         checks[minigameIdx].setVisible(true);
         if (toDisable != null) toDisable.disable();
     }
 
+    /**
+     * Instantiates minigames and stores it in their container.
+     */
     private void setupMinigames() {
         minigames[0] = new MathMinigame(new ImageView(Tools.getImage(new File(Constants.DATA_PATH + "rooms\\classroom2.png"),
                 960, 720, true, true)), this);
@@ -274,6 +362,9 @@ public class LevelThreeComponents extends ScreenComponent {
         minigames[4] = new LibraryMinigame(new ImageView(Tools.getImage(Constants.LIBRARIAN_BACKGROUND, 960, 720, true, true)), this);
     }
 
+    /**
+     * Sets up the agenda component.
+     */
     private void setupAgenda() {
         agenda = new Popup(() -> this.setActivePopup(null));
         ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
@@ -330,6 +421,9 @@ public class LevelThreeComponents extends ScreenComponent {
         currentRoom.getChildren().add(agendaIcon);
     }
 
+    /**
+     * Add components to this root component.
+     */
     @Override
     public void addComponents() {
         player = new Player(120, 550, 40, 60, 10, 20, 0, false);
@@ -378,6 +472,9 @@ public class LevelThreeComponents extends ScreenComponent {
 
     }
 
+    /**
+     * Determine whether the player is in the bounds of an interaction entity.
+     */
     public void checkInBounds() {
         if (currentRoom != null && currentRoom.checkInBounds() != -1 && activeMinigame == null) {
             int id = currentRoom.checkInBounds();
@@ -390,28 +487,57 @@ public class LevelThreeComponents extends ScreenComponent {
         }
     }
 
+    /**
+     * Checks for a room change. This is done every tick by {@link LevelThreeScreen}.
+     */
     public void checkForRoomChange() {
         if (currentRoom != null) currentRoom.checkForRoomChange();
     }
 
+    /**
+     * Gets the active popup.
+     * @return
+     * The active popup.
+     */
     public Popup getActivePopup() {
         return activePopup;
     }
 
+    /**
+     * Sets the active popup.
+     * @param newPopup
+     * The popup to set to.
+     */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
         activePopup = newPopup;
         if (activePopup != null) this.getChildren().add(activePopup);
     }
 
+    /**
+     * Gets the current room.
+     * @return
+     * The currentRoom.
+     */
     public SchoolRoom getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     * Gets the anxiety bar.
+     * @return
+     * The anxiety bar component.
+     */
     public AnxietyBar getAnxietyBar() {
         return anxietyBar;
     }
 
+    /**
+     * Sets the current room, and updates all components.
+     *
+     * @param newRoom
+     * The room to set to.
+     */
     public void setCurrentRoom(SchoolRoom newRoom) {
         this.getChildren().remove(currentRoom);
         currentRoom = newRoom;
@@ -423,10 +549,20 @@ public class LevelThreeComponents extends ScreenComponent {
             currentRoom.getChildren().add(rce.getIndicator());
     }
 
+    /**
+     * Gets the active minigame.
+     * @return
+     * The active minigame.
+     */
     public Minigame getActiveMinigame() {
         return activeMinigame;
     }
 
+    /**
+     * Sets the active minigame.
+     * @param newMinigame
+     * The minigame to set to.
+     */
     public void setActiveMinigame(Minigame newMinigame) {
         if (activeMinigame != null) this.getChildren().remove(activeMinigame);
         activeMinigame = newMinigame;
@@ -436,14 +572,29 @@ public class LevelThreeComponents extends ScreenComponent {
         }
     }
 
+    /**
+     * Gets the list of all the other entities (i.e., clipping).
+     * @return
+     * All the other entities.
+     */
     public List<Entity> getOtherEntities() {
         return currentRoom.getOtherEntities();
     }
 
+    /**
+     * Gets the player.
+     * @return
+     * The player.
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Returns whether all the minigames have been played  or interacted.
+     * @return
+     * Whether all the minigames have been played or interacted.
+     */
     public boolean tasksComplete() {
         for (int i = 0; i < TOTAL_MINIGAMES; ++i) {
             if (!minigameInteracted[i]) {
@@ -454,6 +605,10 @@ public class LevelThreeComponents extends ScreenComponent {
         return true;
     }
 
+    /**
+     * Checks whether the anxiety is at maximum, and if so, the player has lost and the
+     * game over screen is displayed.
+     */
     public void checkGameOver() {
         if (anxietyBar.panic()) {
             setActivePopup(gameOver);
