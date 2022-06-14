@@ -72,13 +72,18 @@ public class Constants {
     public static final File TABLE_SCREEN = new File(DATA_PATH + "table.png");
 
     /**
-     * The primary font used throughout the game, Minecraft.
+     * Minecraft font.
      */
     public final static File PIXEL_FONT = new File(DATA_PATH + "Minecraft.ttf");
 
-
+    /**
+     * Print font.
+     */
     public static final File PRINT_FONT = new File(DATA_PATH + "Verdana.ttf");
 
+    /**
+     * Handwriting font.
+     */
     public static final File HANDWRITING_FONT = new File(DATA_PATH + "caveat.regular.ttf");
 
     /**
@@ -111,29 +116,68 @@ public class Constants {
      */
     public static final File JOURNAL_ICON_2 = new File(DATA_PATH + "journalicon2.png");
 
+    /**
+     * The bad card flipped down image.
+     */
     public static final File BAD_CARD_DOWN = new File(DATA_PATH + "badcarddown.png");
 
+    /**
+     * The good card flipped down image.
+     */
     public static final File GOOD_CARD_DOWN = new File(DATA_PATH + "goodcarddown.png");
 
+    /**
+     * Librarian background image.
+     */
     public static final File LIBRARIAN_BACKGROUND = new File(DATA_PATH + "librarianbackground.png");
 
+    /**
+     * Librarian face.
+     */
     public static final File LIBRARIAN = new File(DATA_PATH + "librarian.png");
 
+    /**
+     * Teacher 1 background image.
+     */
     public static final File TEACHER_BACKGROUND_1 = new File(DATA_PATH + "teacherbackground1.png");
 
+    /**
+     * Teacher 1 face image.
+     */
     public static final File TEACHER_1 = new File(DATA_PATH + "teacher1.png");
 
+    /**
+     * Teacher 2 face image.
+     */
     public static final File TEACHER_2 = new File(DATA_PATH + "teacher2.png");
 
+    /**
+     * Cashier face image.
+     */
     public static final File CASHIER = new File(DATA_PATH + "cashier.png");
 
+    /**
+     * Student face image.
+     */
     public static final File STUDENT = new File(DATA_PATH + "student.png");
 
+    /**
+     * Checkbox icon.
+     */
     public static final File CHECKBOX = new File(DATA_PATH + "checkbox.png");
 
+    /**
+     * Checkmark icon.
+     */
     public static final File CHECKMARK = new File(DATA_PATH + "checkmark.png");
 
+    /**
+     * Logo for the game.
+     */
     public static final File LOGO = new File(DATA_PATH + "logo.png");
 
+    /**
+     * Indicator icon.
+     */
     public static final File INDICATOR = new File(DATA_PATH + "indicator.png");
 }

@@ -3,7 +3,6 @@ package scenes;
 import components.MenuScreenComponents;
 import javafx.animation.FillTransition;
 import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
