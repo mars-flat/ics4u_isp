@@ -137,6 +137,7 @@ public class LevelThreeScreen extends GameScreen {
                 ((DialoguePopup)components.getActivePopup()).showNextChar();
         }
 
+        if (currentTick % 69 == 0) components.getStopwatch().increment();
         components.checkGameOver();
     }
 

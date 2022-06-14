@@ -34,6 +34,11 @@ public class LevelThreeComponents extends ScreenComponent {
     public static final int TOTAL_MINIGAMES = 5;
 
     /**
+     * Stopwatch instance.
+     */
+    private Stopwatch stopwatch;
+
+    /**
      * Anxiety bar component instance.
      */
     private AnxietyBar anxietyBar;
@@ -130,6 +135,7 @@ public class LevelThreeComponents extends ScreenComponent {
         minigames = new Minigame[TOTAL_MINIGAMES];
         roomFound = new boolean[TOTAL_ROOMS+1];
         minigameInteracted = new boolean[TOTAL_MINIGAMES+1];
+        stopwatch = new Stopwatch();
 
         addComponents();
     }
@@ -268,11 +274,17 @@ public class LevelThreeComponents extends ScreenComponent {
 
         // dialogue on room enter
         schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> {
-            if (tasksComplete()) setActivePopup(ending);
-            else setActivePopup(levelThreeDialogue[1]);
+            //if (tasksComplete()) {
+                stopwatch.stop();
+                setActivePopup(ending);
+            //}
+            //else setActivePopup(levelThreeDialogue[1]);
         });
         schoolRooms[13].getRoomChangers().get(0).setOnChangeRequest(() -> {
-            if (tasksComplete()) setActivePopup(ending);
+            if (tasksComplete()) {
+                stopwatch.stop();
+                setActivePopup(ending);
+            }
             else setActivePopup(levelThreeDialogue[1]);
         });
         schoolRooms[3].getRoomChangers().get(0).setOnChangeRequest(() -> {
@@ -449,27 +461,40 @@ public class LevelThreeComponents extends ScreenComponent {
         ending = new Popup(() -> ((LevelThreeScreen) this.getScene()).nextScene());
         Rectangle bg = new Rectangle(0, 0, 960, 720);
         bg.setFill(Color.BLACK);
+
         Text complete = new Text(250, 320, "Level 3 Completed!!!");
         complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         complete.setFill(Color.WHITE);
-        Text ret = new Text(110, 450, "SPACE to return to level select.");
+
+        Text time = new Text(250, 400, "Your time is: ");
+        time.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        time.setFill(Color.WHITE);
+
+        Text time2 = new Text(600, 400, "");
+        time2.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        time2.setFill(Color.WHITE);
+        time2.textProperty().bind(stopwatch.getDisplay().textProperty());
+
+        Text ret = new Text(110, 460, "SPACE to return to level select.");
         ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         ret.setFill(Color.WHITE);
-        ending.getChildren().addAll(bg, complete, ret);
+
+        ending.getChildren().addAll(bg, complete, time, time2, ret);
 
         // game over popup
         gameOver = new Popup(() -> ((LevelThreeScreen) this.getScene()).nextScene());
         Rectangle gameOverBg = new Rectangle(0, 0, 960, 720);
         bg.setFill(Color.BLACK);
+
         Text gameOverText = new Text(250, 320, "Game Over...");
         gameOverText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         gameOverText.setFill(Color.WHITE);
+
         Text returnText = new Text(110, 450, "SPACE to return to level select.");
         returnText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
         returnText.setFill(Color.WHITE);
+
         gameOver.getChildren().addAll(gameOverBg, gameOverText, returnText);
-
-
     }
 
     /**
@@ -545,6 +570,7 @@ public class LevelThreeComponents extends ScreenComponent {
         currentRoom.onRoomEntered();
         if (agendaIcon != null) currentRoom.getChildren().add(agendaIcon);
         if (anxietyBar != null) currentRoom.getChildren().add(anxietyBar);
+        if (stopwatch != null) currentRoom.getChildren().add(stopwatch);
         for (RoomChangeEntity rce : currentRoom.getRoomChangers()) if (!currentRoom.getChildren().contains(rce.getIndicator()))
             currentRoom.getChildren().add(rce.getIndicator());
     }
@@ -613,5 +639,14 @@ public class LevelThreeComponents extends ScreenComponent {
         if (anxietyBar.panic()) {
             setActivePopup(gameOver);
         }
+    }
+
+    /**
+     * Gets the stopwatch.
+     * @return
+     * The stopwatch.
+     */
+    public Stopwatch getStopwatch() {
+        return stopwatch;
     }
 }
