@@ -8,17 +8,39 @@ import utilities.Tools;
 
 public class ShopMinigame extends Minigame {
 
+    /**
+     * LevelThreeComponents instance.
+     */
     private LevelThreeComponents controller;
 
+    /**
+     * Dialogue for the minigame.
+     */
     private DialoguePopup[] minigameDialogue;
+
+    /**
+     * The choice part of the minigame.
+     */
     private Group choice;
 
+    /**
+     * Instantiates this class.
+     *
+     * @param background
+     * The background for the minigame.
+     *
+     * @param controller
+     * LevelThreeComponents instance.
+     */
     public ShopMinigame(ImageView background, LevelThreeComponents controller) {
         super(background, controller);
         this.controller = controller;
         addComponents();
     }
 
+    /**
+     * Adds components to this minigame.
+     */
     private void addComponents() {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
@@ -88,6 +110,9 @@ public class ShopMinigame extends Minigame {
                 });
     }
 
+    /**
+     * What happens on the launching of the minigame.
+     */
     public void onLaunch() {
         choice.setVisible(true);
     }

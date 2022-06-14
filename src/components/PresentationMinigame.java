@@ -6,19 +6,47 @@ import javafx.scene.text.Text;
 import utilities.Constants;
 import utilities.Tools;
 
+/**
+ * Components for the "presentation" minigame, played in classroom 1 of level 3.
+ *
+ * @since 4.4, 6/10/2022
+ * @author Annie Wong
+ */
 public class PresentationMinigame extends Minigame {
 
+    /**
+     * LevelThreeComponents instance.
+     */
     private LevelThreeComponents controller;
 
+    /**
+     * Dialogue for the minigame.
+     */
     private DialoguePopup[] minigameDialogue;
+
+    /**
+     * The choice part of the minigame.
+     */
     private Group choice;
 
+    /**
+     * Instantiates this class.
+     *
+     * @param background
+     * The background for the minigame.
+     *
+     * @param controller
+     * LevelThreeComponents instance.
+     */
     public PresentationMinigame(ImageView background, LevelThreeComponents controller) {
         super(background, controller);
         this.controller = controller;
         addComponents();
     }
 
+    /**
+     * Adds components to this minigame.
+     */
     private void addComponents() {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
@@ -88,6 +116,9 @@ public class PresentationMinigame extends Minigame {
         );
     }
 
+    /**
+     * What happens on the launching of the minigame.
+     */
     public void onLaunch() {
         controller.setActivePopup(minigameDialogue[0]);
     }

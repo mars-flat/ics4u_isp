@@ -12,20 +12,45 @@ import javafx.scene.layout.Pane;
  * @author Shane Chen
  */
 public class Popup extends Pane {
+
+    /**
+     * Change request functional interface.
+     */
     private ChangeRequest changeRequestHandler;
+
+    /**
+     * Instantiates this class.
+     *
+     * @param changeRequestHandler
+     * The change request lambda expression.
+     */
     public Popup(ChangeRequest changeRequestHandler) {
         super();
         this.changeRequestHandler = changeRequestHandler;
     }
 
+    /**
+     * Calls the change request handler's method.
+     */
     public void onChangeRequest() {
         changeRequestHandler.onChangeRequest();
     }
 
+    /**
+     * Set's the change request handler's method.
+     * @param dialogueChangeRequest
+     * The new change request handler's method.
+     */
     public void setOnChangeRequest(ChangeRequest dialogueChangeRequest) {
         changeRequestHandler = dialogueChangeRequest;
     }
 
+    /**
+     * Gets the change request handler's method.
+     *
+     * @return
+     * The change request handler's method.
+     */
     public ChangeRequest getOnChangeRequest() {
         return changeRequestHandler;
     }

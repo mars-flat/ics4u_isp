@@ -10,25 +10,78 @@ import utilities.Tools;
 import java.io.File;
 import java.util.List;
 
+/**
+ * School room container.
+ *
+ * @since 4.1, 6/7/2022
+ * @author Shane Chen
+ */
 public class SchoolRoom extends ScreenComponent {
 
+    /*
+     * The background image of the school room.
+     */
     private File background;
 
+    /*
+     * The name of the room.
+     */
     private String roomName;
 
+    /*
+     * The Player entity instance.
+     */
     private Player player;
 
+    /**
+     * List of the other entites (i.e., clipping).
+     */
     private List<Entity> otherEntities;
 
+    /**
+     * List of interactable entities.
+     */
     private List<RoomChangeEntity> roomChangers;
 
+    /**
+     * Parent instance, {@link LevelThreeComponents}
+     */
     private LevelThreeComponents controller;
 
+    /**
+     * Change request handler's implemented method.
+     */
     private ChangeRequest roomEnteredChangeRequest;
 
+    /**
+     * Spawn coordinates.
+     */
     private int sx;
     private int sy;
 
+    /**
+     * Instantiates this class.
+     *
+     * @param background
+     * The room that is displayed.
+     * @param roomName
+     * The name of the room.
+     * @param otherEntities
+     * A list of the other entities, such as clipping.
+     * @param roomChangers
+     * A list of the interactable room changer objects.
+     * @param player
+     * The player.
+     * @param sx
+     * The spawn x-coordinate.
+     * @param sy
+     * The spawn y-coordinate.
+     * @param controller
+     * {@link LevelThreeComponents} instance.
+     * @param roomEnteredChangeRequest
+     * The implemented method for the change request.
+     *
+     */
     public SchoolRoom(File background,
                       String roomName,
                       List<Entity> otherEntities,
@@ -50,6 +103,11 @@ public class SchoolRoom extends ScreenComponent {
         addComponents();
     }
 
+    /**
+     * Checks each room change entity for intersection with the player.
+     * If the player is in a room change entity during this method call,
+     * call the change request method of that object.
+     */
     public void checkForRoomChange() {
         for (RoomChangeEntity r : roomChangers) {
             if (r.getDisabled()) continue;
@@ -60,6 +118,12 @@ public class SchoolRoom extends ScreenComponent {
         }
     }
 
+    /**
+     * Checks each room change entity for intersection with the player.
+     * If the player is in a room change entity, display the interaction message.
+     * @return
+     * Whether the player is intersecting any room change entity.
+     */
     public int checkInBounds() {
         for (RoomChangeEntity r : roomChangers) {
             if (r.getDisabled()) continue;
@@ -70,6 +134,9 @@ public class SchoolRoom extends ScreenComponent {
         return -1;
     }
 
+    /**
+     * What happens when the player enters the room.
+     */
     public void onRoomEntered() {
         changeBackground(background);
         player.setX(sx);
@@ -79,6 +146,9 @@ public class SchoolRoom extends ScreenComponent {
         roomEnteredChangeRequest.onChangeRequest();
     }
 
+    /**
+     * Add components to this root component.
+     */
     @Override
     public void addComponents() {
         for (Entity e : otherEntities) {
@@ -94,20 +164,46 @@ public class SchoolRoom extends ScreenComponent {
         this.getChildren().add(roomNameText);
     }
 
+    /**
+     * Returns the list of all the other entities.
+     * @return
+     * A list of all the other entities.
+     */
     public List<Entity> getOtherEntities() {
         return otherEntities;
     }
 
+    /**
+     * Gets all the room change entities.
+     * @return
+     * All the room changers.
+     */
     public List<RoomChangeEntity> getRoomChangers() { return roomChangers; }
 
+    /**
+     * Sets the spawn x-coordinate.
+     * @param newSx
+     * The new x-coordinate.
+     */
     public void setSpawnX(int newSx) {
         sx = newSx;
     }
 
+    /**
+     * Sets the spawn y-coordinate.
+     * @param newSy
+     * The new y-coordinate.
+     */
     public void setSpawnY(int newSy) {
         sy = newSy;
     }
 
+    /**
+     * Set what happens when a player enters the room, independent
+     * of the default actions.
+     * @param newRequest
+     * The new implemented method.
+     */
     public void setRoomEnteredChangeRequest(ChangeRequest newRequest) {
         roomEnteredChangeRequest = newRequest;
     }

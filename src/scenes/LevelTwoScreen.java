@@ -87,6 +87,9 @@ public class LevelTwoScreen extends GameScreen {
         }
     }
 
+    /**
+     * Go to the next scene.
+     */
     @Override
     public void nextScene() {
         //return to level select

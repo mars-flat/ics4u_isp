@@ -2,6 +2,7 @@ package scenes;
 
 import components.DialoguePopup;
 import components.LevelThreeComponents;
+import components.LevelTwoComponents;
 import javafx.scene.paint.Color;
 import utilities.Constants;
 import utilities.Entity;
@@ -11,6 +12,10 @@ import java.util.HashSet;
 
 public class LevelThreeScreen extends GameScreen {
 
+    /**
+     * Instance of associated component class.
+     * @see LevelThreeComponents
+     */
     private LevelThreeComponents components;
 
     /**
@@ -18,6 +23,19 @@ public class LevelThreeScreen extends GameScreen {
      */
     private HashSet<String> keyboardInputs;
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param width
+     * Width of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param height
+     * Height of the window. Should conform to the constants in {@link utilities.Constants}
+     *
+     * @param controller
+     * {@link GameHandler} instance.
+     *
+     */
     public LevelThreeScreen(double width, double height, GameHandler controller) {
         super(new LevelThreeComponents(), width, height, controller);
         components = (LevelThreeComponents) super.getRoot();
@@ -83,6 +101,9 @@ public class LevelThreeScreen extends GameScreen {
         }
     }
 
+    /**
+     * What happens when the scene is loaded (i.e., an instance is created).
+     */
     private void onLoad() {
         this.setFill(Color.BLACK);
 
@@ -99,6 +120,12 @@ public class LevelThreeScreen extends GameScreen {
         });
     }
 
+    /**
+     * Handles keyboard inputs such as SPACE for changing popups
+     *
+     * @param currentTick
+     * The current tick.
+     */
     @Override
     public void onTick(long currentTick) {
 
@@ -113,6 +140,9 @@ public class LevelThreeScreen extends GameScreen {
         components.checkGameOver();
     }
 
+    /**
+     * Go to the next scene.
+     */
     @Override
     public void nextScene() {
         //return to menu screen

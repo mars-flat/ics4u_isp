@@ -7,21 +7,46 @@ import utilities.Constants;
 import utilities.Tools;
 
 /**
+ * Components for the "library" minigame, played in the library room of level 3.
  *
+ * @since 4.4, 6/10/2022
+ * @author Shane Chen
  */
 public class LibraryMinigame extends Minigame {
 
+    /**
+     * LevelThreeComponents instance.
+     */
     private LevelThreeComponents controller;
 
+    /**
+     * Dialogue for the minigame.
+     */
     private DialoguePopup[] minigameDialogue;
+
+    /**
+     * The choice part of the minigame.
+     */
     private Group choice;
 
+    /**
+     * Instantiates this class.
+     *
+     * @param background
+     * The background for the minigame.
+     *
+     * @param controller
+     * LevelThreeComponents instance.
+     */
     public LibraryMinigame(ImageView background, LevelThreeComponents controller) {
         super(background, controller);
         this.controller = controller;
         addComponents();
     }
 
+    /**
+     * Adds components to this minigame.
+     */
     private void addComponents() {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
@@ -62,7 +87,7 @@ public class LibraryMinigame extends Minigame {
         };
 
         minigameDialogue[0] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 1, 1, true, true)),
                 "Librarian", dialogue[0], () -> {
                     controller.setActivePopup(null);
                     choice.setVisible(true);
@@ -70,7 +95,7 @@ public class LibraryMinigame extends Minigame {
         );
 
         minigameDialogue[1] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 1, 1, true, true)),
                 "Librarian", dialogue[1], () -> {
             controller.setActivePopup(minigameDialogue[4]);
             controller.setActiveMinigame(null);
@@ -78,7 +103,7 @@ public class LibraryMinigame extends Minigame {
         );
 
         minigameDialogue[2] = new DialoguePopup(
-                new ImageView(Tools.getImage(Constants.LIBRARIAN, 240, 280, true, true)),
+                new ImageView(Tools.getImage(Constants.LIBRARIAN, 1, 1, true, true)),
                 "Librarian", dialogue[2], () -> {
             controller.setActivePopup(null);
             controller.setActiveMinigame(null);
@@ -100,6 +125,9 @@ public class LibraryMinigame extends Minigame {
                 });
     }
 
+    /**
+     * What happens on the launching of the minigame.
+     */
     public void onLaunch() {
         controller.setActivePopup(minigameDialogue[0]);
     }

@@ -10,7 +10,7 @@ import utilities.Tools;
  * Components for the "friend" minigame, played in the cafeteria room of level 3.
  *
  * @since 4.3, 6/9/2022
- *
+ * @author Shane Chen
  */
 public class FriendMinigame extends Minigame {
 
