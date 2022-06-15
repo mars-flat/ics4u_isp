@@ -248,9 +248,12 @@ public class LevelThreeComponents extends ScreenComponent {
                 int w = Integer.parseInt(mdat[2]);
                 int h = Integer.parseInt(mdat[3]);
                 int nxt = Integer.parseInt(mdat[4]);
-                rce.add(new RoomChangeEntity(x, y, w, h, nxt, () -> {
+                int gx = Integer.parseInt(mdat[5]);
+                int gy = Integer.parseInt(mdat[6]);
+
+                rce.add(new RoomChangeEntity(x, y, gx, gy, w, h, nxt, () -> {
                     if (nxt != 16) {
-                        setCurrentRoom(schoolRooms[nxt]);
+                        setCurrentRoom(schoolRooms[nxt], gx, gy);
                         roomFound[nxt] = true;
                     }
                 }));
@@ -274,11 +277,11 @@ public class LevelThreeComponents extends ScreenComponent {
 
         // dialogue on room enter
         schoolRooms[0].getRoomChangers().get(0).setOnChangeRequest(() -> {
-            //if (tasksComplete()) {
+            if (tasksComplete()) {
                 stopwatch.stop();
                 setActivePopup(ending);
-            //}
-            //else setActivePopup(levelThreeDialogue[1]);
+            }
+            else setActivePopup(levelThreeDialogue[1]);
         });
         schoolRooms[13].getRoomChangers().get(0).setOnChangeRequest(() -> {
             if (tasksComplete()) {
@@ -316,7 +319,7 @@ public class LevelThreeComponents extends ScreenComponent {
         });
 
         // minigame 1
-        RoomChangeEntity friendMinigameLauncher = new RoomChangeEntity(600, 400, 50, 50, 16, () -> {});
+        RoomChangeEntity friendMinigameLauncher = new RoomChangeEntity(600, 400, 0, 0, 50, 50, 16, () -> {});
         friendMinigameLauncher.setOnChangeRequest(() -> {
             setActiveMinigame(minigames[1]);
             setMinigameDone(1, friendMinigameLauncher);
@@ -325,7 +328,7 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[5].getChildren().add(friendMinigameLauncher);
 
         // minigame 2
-        RoomChangeEntity shopMinigameLauncher = new RoomChangeEntity(532, 362, 50, 40, 16, () -> {});
+        RoomChangeEntity shopMinigameLauncher = new RoomChangeEntity(532, 362, 0, 0, 50, 40, 16, () -> {});
         shopMinigameLauncher.setOnChangeRequest(() -> {
             setActiveMinigame(minigames[2]);
             setMinigameDone(2, shopMinigameLauncher);
@@ -335,7 +338,7 @@ public class LevelThreeComponents extends ScreenComponent {
 
 
         // minigame 4
-        RoomChangeEntity libMinigameLauncher = new RoomChangeEntity(470, 330, 50, 50, 16, () -> {});
+        RoomChangeEntity libMinigameLauncher = new RoomChangeEntity(470, 330, 0, 0, 50, 50, 16, () -> {});
         libMinigameLauncher.setOnChangeRequest(() -> {
             setActiveMinigame(minigames[4]);
             setMinigameDone(4, libMinigameLauncher);
@@ -344,7 +347,7 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[4].getChildren().add(libMinigameLauncher);
 
         roomFound[0] = roomFound[3] = roomFound[8] = roomFound[11] = roomFound[13] = true;
-        setCurrentRoom(schoolRooms[0]);
+        setCurrentRoom(schoolRooms[0], 350, 250);
     }
 
     /**
@@ -563,9 +566,11 @@ public class LevelThreeComponents extends ScreenComponent {
      * @param newRoom
      * The room to set to.
      */
-    public void setCurrentRoom(SchoolRoom newRoom) {
+    public void setCurrentRoom(SchoolRoom newRoom, int gx, int gy) {
         this.getChildren().remove(currentRoom);
         currentRoom = newRoom;
+        currentRoom.setSpawnX(gx);
+        currentRoom.setSpawnY(gy);
         this.getChildren().add(newRoom);
         currentRoom.onRoomEntered();
         if (agendaIcon != null) currentRoom.getChildren().add(agendaIcon);

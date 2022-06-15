@@ -118,6 +118,10 @@ public class LevelThreeScreen extends GameScreen {
             String keyName = event.getCode().toString();
             keyboardInputs.remove(keyName);
         });
+
+        this.setOnMouseClicked(event -> {
+            System.out.println(event.getX() + " " + event.getY());
+        });
     }
 
     /**
