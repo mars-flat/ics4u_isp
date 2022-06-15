@@ -97,6 +97,11 @@ public class Constants {
     public static final File JOURNAL_BOX = new File(DATA_PATH + "journal.png");
 
     /**
+     * The image used for the laptop screen in level 1.
+     */
+    public static final File LAPTOP_SCREEN = new File(DATA_PATH + "laptopscreen.png");
+
+    /**
      * The older sibling's image file path.
      */
     public static final File OLDER_SIBLING = new File(DATA_PATH + "oldersibling.png");

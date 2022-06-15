@@ -50,6 +50,16 @@ public class LevelOneComponents extends ScreenComponent {
     private Popup[] journalPopups;
 
     /**
+     * The laptop screen popup which is displayed once the laptop is clicked.
+     */
+    private Popup laptopScreen;
+
+    /**
+     * The laptop screen entity which can be clicked to open a laptop screen popup.
+     */
+    private Entity laptop;
+
+    /**
      * The dialogue popups which may be displayed.
      */
     private DialoguePopup[] levelOneDialogue;
@@ -86,6 +96,11 @@ public class LevelOneComponents extends ScreenComponent {
     private Circle journalHighlight;
 
     /**
+     * A hint for player to click on the laptop for more info on social anxiety.
+     */
+    private Circle laptopHighlight;
+
+    /**
      * Creates an instance of this class.
      */
     public LevelOneComponents() {
@@ -108,20 +123,50 @@ public class LevelOneComponents extends ScreenComponent {
                 "Oh my. Are there any more of these?",
                 "I think I know what's going on here...",
                 "Social Anxiety.",
+                "Interesting. I should have a little talk with him."
         };
 
         // instantiate the dialogue popups
-        levelOneDialogue = new DialoguePopup[5];
-        for (int i = 0; i < 5; ++i) {
+        levelOneDialogue = new DialoguePopup[dialogue.length];
+        for (int i = 0; i < levelOneDialogue.length; ++i) {
             levelOneDialogue[i] = new DialoguePopup(
                     new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
                     "Older Sibling", dialogue[i], () -> this.setActivePopup(null)
             );
         }
 
+        //laptop highlight
+        laptopHighlight= new Circle(754, 428, 20, Color.TRANSPARENT);
+        laptopHighlight.setStrokeWidth(2.0);
+        laptopHighlight.setPickOnBounds(false);
+        laptopHighlight.setMouseTransparent(true);
+        laptopHighlight.setVisible(false);
+
+        //laptop screen entity
+        laptop = new Entity(740, 400, 30, 50, Color.TRANSPARENT, true);
+        laptop.setOnMouseClicked(event -> {
+            if (questComplete) {
+                this.setActivePopup(laptopScreen);
+            }
+        });
+
+        //laptop screen popup
+        laptopScreen = new Popup(() -> {
+            laptopHighlight.setVisible(false);
+            this.setActivePopup(levelOneDialogue[5]);
+        });
+        ImageView laptopBg = new ImageView(Tools.getImage(Constants.LAPTOP_SCREEN, 960, 720, true, true));
+        Text contText = new Text(625, 650, "SPACE to close");
+        contText.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 22));
+        contText.setFill(Color.WHITE);
+        Rectangle shadow = new Rectangle(0, 0, 960, 720);
+        shadow.setFill(Color.color(0, 0, 0, 0.75));
+        laptopScreen.getChildren().addAll(shadow, laptopBg, contText);
+
+        this.getChildren().addAll(laptop, laptopHighlight);
+
         //level ending popup
         Popup ending = new Popup(() -> ((LevelOneScreen) this.getScene()).nextScene());
-        levelOneDialogue[4].setOnChangeRequest(() -> this.setActivePopup(ending));
         Rectangle bg = new Rectangle(0, 0, 960, 720);
         bg.setFill(Color.BLACK);
         Text complete = new Text(250, 320, "Level 1 Completed.");
@@ -146,6 +191,16 @@ public class LevelOneComponents extends ScreenComponent {
             sq.play();
         });
         levelOneDialogue[3].setOnChangeRequest(() -> this.setActivePopup(levelOneDialogue[4]));
+        levelOneDialogue[4].setOnChangeRequest(() -> {
+            laptopHighlight.setVisible(true);
+            StrokeTransition st1 = new StrokeTransition(Duration.millis(1000), laptopHighlight, Color.YELLOW, Color.TRANSPARENT);
+            StrokeTransition st2 = new StrokeTransition(Duration.millis(1000), laptopHighlight, Color.TRANSPARENT, Color.YELLOW);
+            SequentialTransition sq = new SequentialTransition(laptopHighlight, st1, st2);
+            sq.setCycleCount(Timeline.INDEFINITE);
+            sq.play();
+            this.setActivePopup(null);
+        });
+        levelOneDialogue[5].setOnChangeRequest(() -> this.setActivePopup(ending));
 
         String[] journalEntries = {
                 "Why must talking be so hard. Why must socializing be so hard. Why must life be so hard. So, long story short, today some people in my class decided to go to a mall afterschool. They asked me if I wanted to go, but of course, me being my shut-in self, awkwardly rejected their invitation so now I'm sad and alone in my room writing in my sad journal. They definitely think I'm super weird and don't want to be friends with me now. Maybe not going was the best choice after all. Fewer chances to embarrass myself.",
@@ -153,8 +208,8 @@ public class LevelOneComponents extends ScreenComponent {
                 "It's the first day of school today, also known as the worst day of the year. My morning started off great: couldn't find matching socks, was late to school, aaaand had to walk into the classroom with everyone staring. Spent majority of the rest of class hanging out in the bathroom, because at least toilets won't judge you for your mix-matching socks. (praying that the teacher don't think I have constipation or something)"
         };
 
-        journalPopups = new Popup[3];
-        for (int i = 0; i < 3; ++i) {
+        journalPopups = new Popup[journalEntries.length];
+        for (int i = 0; i < journalPopups.length; ++i) {
             journalPopups[i] = new Popup(() -> this.setActivePopup(null));
 
             ImageView journalPage = new ImageView(Tools.getImage(Constants.JOURNAL_BOX, 960, 720, true, true));
@@ -230,14 +285,54 @@ public class LevelOneComponents extends ScreenComponent {
     }
 
     /**
-     * What happens when a journal has been clicked. This may open the journal in a popup.
-     *
-     * @param which
-     * Which journal.
-     *
-     * @param overrideVicinity
-     * Whether to override the vicinity requirement.
+     * Set up the actual journals in the room, as well as the icons on the side.
      */
+    private void setupJournals() {
+        journals = new Entity[3];
+        journals[0] = new Entity(300, 300, 25, 25, Color.TRANSPARENT, true);
+        journals[0].setOnMouseClicked(event -> handleJournalClick(0, false));
+
+        journals[1] = new Entity(365, 515, 25, 25, Color.TRANSPARENT, true);
+        journals[1].setOnMouseClicked(event -> handleJournalClick(1, false));
+
+        journals[2] = new Entity(720, 175, 25, 25, Color.TRANSPARENT, true);
+        journals[2].setOnMouseClicked(event -> handleJournalClick(2, false));
+
+        for (int i = 0; i < 3; ++i) {
+            int finalI = i;
+            journals[i].setOnMouseEntered(event -> {
+                if (player.inVicinity(journals[finalI], 70)) setCursor(Cursor.HAND);
+            });
+            journals[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+        }
+
+        this.getChildren().addAll(journals);
+
+        journalIcons = new ImageView[3];
+        for (int i = 0; i < journalIcons.length; ++i) {
+            journalIcons[i] = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_1,
+                    100, 100, true, true));
+            journalIcons[i].setX(5);
+            journalIcons[i].setY(50 + 75 * i);
+            journalIcons[i].setVisible(false);
+            int finalI = i;
+            journalIcons[i].setOnMouseClicked(event -> {
+                if (found[finalI]) handleJournalClick(finalI, true);
+            });
+            journalIcons[i].setOnMouseEntered(event -> {
+                if (found[finalI]) setCursor(Cursor.HAND);
+            });
+            journalIcons[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+        }
+        this.getChildren().addAll(journalIcons);
+
+        journalHighlight = new Circle(737, 192, 18, Color.TRANSPARENT);
+        journalHighlight.setStrokeWidth(2.0);
+        journalHighlight.setPickOnBounds(false);
+        journalHighlight.setMouseTransparent(true);
+        this.getChildren().add(journalHighlight);
+    }
+
     private void handleJournalClick(int which, boolean overrideVicinity) {
         if (overrideVicinity || player.inVicinity(journals[which], 70)) {
             for (ImageView img : journalIcons) img.setVisible(true);
@@ -279,55 +374,6 @@ public class LevelOneComponents extends ScreenComponent {
             }
             found[which] = true;
         }
-    }
-
-    /**
-     * Set up the actual journals in the room, as well as the icons on the side.
-     */
-    private void setupJournals() {
-        journals = new Entity[3];
-        journals[0] = new Entity(300, 300, 25, 25, Color.TRANSPARENT, true);
-        journals[0].setOnMouseClicked(event -> handleJournalClick(0, false));
-
-        journals[1] = new Entity(365, 515, 25, 25, Color.TRANSPARENT, true);
-        journals[1].setOnMouseClicked(event -> handleJournalClick(1, false));
-
-        journals[2] = new Entity(720, 175, 25, 25, Color.TRANSPARENT, true);
-        journals[2].setOnMouseClicked(event -> handleJournalClick(2, false));
-
-        for (int i = 0; i < 3; ++i) {
-            int finalI = i;
-            journals[i].setOnMouseEntered(event -> {
-                if (player.inVicinity(journals[finalI], 70)) setCursor(Cursor.HAND);
-            });
-            journals[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
-        }
-
-        this.getChildren().addAll(journals);
-
-        journalIcons = new ImageView[3];
-        for (int i = 0; i < 3; ++i) {
-            journalIcons[i] = new ImageView(Tools.getImage(Constants.JOURNAL_ICON_1,
-                    100, 100, true, true));
-            journalIcons[i].setX(5);
-            journalIcons[i].setY(50 + 75 * i);
-            journalIcons[i].setVisible(false);
-            int finalI = i;
-            journalIcons[i].setOnMouseClicked(event -> {
-                if (found[finalI]) handleJournalClick(finalI, true);
-            });
-            journalIcons[i].setOnMouseEntered(event -> {
-                if (found[finalI]) setCursor(Cursor.HAND);
-            });
-            journalIcons[i].setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
-        }
-        this.getChildren().addAll(journalIcons);
-
-        journalHighlight = new Circle(737, 192, 18, Color.TRANSPARENT);
-        journalHighlight.setStrokeWidth(2.0);
-        journalHighlight.setPickOnBounds(false);
-        journalHighlight.setMouseTransparent(true);
-        this.getChildren().add(journalHighlight);
     }
 
 

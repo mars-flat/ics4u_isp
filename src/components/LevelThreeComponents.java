@@ -132,6 +132,10 @@ public class LevelThreeComponents extends ScreenComponent {
         minigameInteracted = new boolean[TOTAL_MINIGAMES+1];
 
         addComponents();
+
+        this.setOnMouseClicked(event -> {
+            System.out.println(event.getX() + " " + event.getY());
+        });
     }
 
     /**
