@@ -29,7 +29,7 @@ public class Constants {
     /**
      * The data folder path.
      */
-    public static final String DATA_PATH = ".\\data\\";
+    public static final String DATA_PATH = ".\\src\\data\\";
 
     /**
      * Splash screen background image.
