@@ -71,7 +71,7 @@ public class QuestionCard extends ScreenComponent {
      */
     private int correctAnswer;
 
-    private boolean firstTry;
+    private int numFlipped;
 
     /**
      * Creates an instance of this class.
@@ -115,7 +115,7 @@ public class QuestionCard extends ScreenComponent {
 
         down = new boolean[4];
         addComponents();
-        firstTry = false;
+        numFlipped = 0;
     }
 
     /**
@@ -140,15 +140,13 @@ public class QuestionCard extends ScreenComponent {
             clickBox.setFill(Color.TRANSPARENT);
             int finalI = i;
             clickBox.setOnMouseClicked(event -> {
+                ++numFlipped;
                 flip(idx);
                 DialoguePopup response = new DialoguePopup(
                         new ImageView(Tools.getImage(Constants.OLDER_SIBLING, 240, 280, true, true)),
                         "Older Sibling", responses[idx], () -> {
                     controller.setActivePopup(null);
                     if (correctAnswer == finalI) {
-                        if(finalI == 0){
-                            firstTry = true;
-                        }
                         controller.nextQuestion();
                     }
                 });
@@ -197,6 +195,6 @@ public class QuestionCard extends ScreenComponent {
     }
 
     public boolean getFirstTry(){
-        return firstTry;
+        return numFlipped == 1;
     }
 }

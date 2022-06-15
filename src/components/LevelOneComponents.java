@@ -333,6 +333,13 @@ public class LevelOneComponents extends ScreenComponent {
         this.getChildren().add(journalHighlight);
     }
 
+    /**
+     * Handles the clicking of journals.
+     * @param which
+     * Which journal was clicked.
+     * @param overrideVicinity
+     * Whether to override the vicinity requirement for the clicking.
+     */
     private void handleJournalClick(int which, boolean overrideVicinity) {
         if (overrideVicinity || player.inVicinity(journals[which], 70)) {
             for (ImageView img : journalIcons) img.setVisible(true);
