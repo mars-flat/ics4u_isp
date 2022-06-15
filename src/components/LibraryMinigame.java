@@ -57,14 +57,14 @@ public class LibraryMinigame extends Minigame {
         Text tag = new Text(635, 430, "Question");
         tag.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
 
-        Text no = new Text(570, 600, "No");
+        Text no = new Text(570, 600, "No, decline the help");
         no.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         no.setOnMouseClicked(event -> {
             choice.setVisible(false);
             controller.setActivePopup(minigameDialogue[1]);
         });
 
-        Text yes = new Text(270, 600, "Yes");
+        Text yes = new Text(270, 600, "Yes, it would be much easier");
         yes.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         yes.setOnMouseClicked(event -> {
             choice.setVisible(false);
