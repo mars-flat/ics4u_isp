@@ -26,12 +26,10 @@ public class Constants {
      */
     public static final int SCREEN_HEIGHT = 720;
 
-
-    public static final File f = new File("./");
     /**
      * The data folder path.
      */
-    public static final String DATA_PATH = f.getAbsolutePath().substring(0, f.getAbsolutePath().length() - 1) + "src\\data\\";
+    public static final String DATA_PATH = ".\\src\\data\\";
 
     /**
      * Splash screen background image.

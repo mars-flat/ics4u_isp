@@ -36,6 +36,12 @@ public class RoomChangeEntity extends Entity {
     private ImageView indicator;
 
     /**
+     * go-to x and y-coordinates. The player will spawn at these coordinates in the next room.
+     */
+    private int gx;
+    private int gy;
+
+    /**
      * Instantiates this class.
      *
      * @param x
@@ -51,10 +57,12 @@ public class RoomChangeEntity extends Entity {
      * @param roomChangeHandler
      * Change request, called upon interaction.
      */
-    public RoomChangeEntity(int x, int y, int width, int height, int roomChangeNumber, ChangeRequest roomChangeHandler) {
+    public RoomChangeEntity(int x, int y, int gx, int gy, int width, int height, int roomChangeNumber, ChangeRequest roomChangeHandler) {
         super(x, y, width, height, Color.TRANSPARENT);
         this.roomChangeHandler = roomChangeHandler;
         this.roomChangeNumber = roomChangeNumber;
+        this.gx = gx;
+        this.gy = gy;
         indicator = new ImageView(Tools.getImage(Constants.INDICATOR, 20, 20, true, true));
         indicator.setX(x+((double)width/2));
         indicator.setY(y+((double)height/2));
