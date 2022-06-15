@@ -347,7 +347,7 @@ public class LevelThreeComponents extends ScreenComponent {
         schoolRooms[4].getChildren().add(libMinigameLauncher);
 
         roomFound[0] = roomFound[3] = roomFound[8] = roomFound[11] = roomFound[13] = true;
-        setCurrentRoom(schoolRooms[0], 350, 250);
+        setCurrentRoom(schoolRooms[0], 330, 290);
     }
 
     /**
@@ -629,7 +629,6 @@ public class LevelThreeComponents extends ScreenComponent {
     public boolean tasksComplete() {
         for (int i = 0; i < TOTAL_MINIGAMES; ++i) {
             if (!minigameInteracted[i]) {
-                System.out.println("Not complete " + i);
                 return false;
             }
         }

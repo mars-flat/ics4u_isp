@@ -58,6 +58,7 @@ public class GameHandler extends Application {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         launch(args);
     }
 
