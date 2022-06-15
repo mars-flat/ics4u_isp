@@ -51,13 +51,13 @@ public class PresentationMinigame extends Minigame {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
 
-        Text question = new Text(250, 500, "You already have your presentation ready. Will you present?");
+        Text question = new Text(130, 500, "You already have your slides. Present?");
         question.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
 
         Text tag = new Text(635, 430, "Question");
         tag.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
 
-        Text no = new Text(570, 600, "No, stall for longer");
+        Text no = new Text(500, 600, "No, stall for longer");
         no.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         no.setOnMouseClicked(event -> {
             choice.setVisible(false);
@@ -65,7 +65,7 @@ public class PresentationMinigame extends Minigame {
             controller.setActiveMinigame(null);
         });
 
-        Text yes = new Text(270, 600, "Yes, I'm ready");
+        Text yes = new Text(130, 600, "Yes, I'm ready");
         yes.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         yes.setOnMouseClicked(event -> {
             choice.setVisible(false);

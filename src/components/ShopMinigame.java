@@ -45,20 +45,20 @@ public class ShopMinigame extends Minigame {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
 
-        Text question = new Text(250, 500, "The cashier is asking you if you'd like something. What do you do?");
+        Text question = new Text(330, 500, "What do you do?");
         question.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
 
         Text tag = new Text(635, 430, "Question");
         tag.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
 
-        Text no = new Text(570, 600, "Walk away with an empty stomach");
+        Text no = new Text(460, 600, "Walk away hungrily");
         no.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         no.setOnMouseClicked(event -> {
             choice.setVisible(false);
             controller.setActivePopup(minigameDialogue[1]);
         });
 
-        Text yes = new Text(270, 600, "Yes");
+        Text yes = new Text(150, 600, "Sure, delicious");
         yes.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         yes.setOnMouseClicked(event -> {
             choice.setVisible(false);

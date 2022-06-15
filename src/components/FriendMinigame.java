@@ -51,20 +51,20 @@ public class FriendMinigame extends Minigame {
 
         ImageView dialogueBg = new ImageView(Tools.getImage(Constants.DIALOGUE_BOX, 960, 720, true, true));
 
-        Text question = new Text(250, 500, "How do you respond to their invitation?");
+        Text question = new Text(130, 500, "How do you respond to their invitation?");
         question.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
 
         Text tag = new Text(635, 430, "Question");
         tag.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 26));
 
-        Text no = new Text(570, 600, "Decline and eat in the bathroom");
+        Text no = new Text(570, 600, "Decline");
         no.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         no.setOnMouseClicked(event -> {
             choice.setVisible(false);
             controller.setActivePopup(minigameDialogue[1]);
         });
 
-        Text yes = new Text(270, 600, "Sit down with them");
+        Text yes = new Text(270, 600, "Accept");
         yes.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 36));
         yes.setOnMouseClicked(event -> {
             choice.setVisible(false);
