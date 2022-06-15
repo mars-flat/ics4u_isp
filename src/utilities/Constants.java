@@ -26,12 +26,10 @@ public class Constants {
      */
     public static final int SCREEN_HEIGHT = 720;
 
-
-    public static final File f = new File("./");
     /**
      * The data folder path.
      */
-    public static final String DATA_PATH = ".\\src\\data\\";
+    public static final String DATA_PATH = ".\\data\\";
 
     /**
      * Splash screen background image.
