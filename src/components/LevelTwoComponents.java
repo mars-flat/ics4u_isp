@@ -10,7 +10,6 @@ import scenes.LevelTwoScreen;
 import utilities.Constants;
 import utilities.Tools;
 
-import javax.tools.Tool;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -18,9 +17,8 @@ import java.util.Scanner;
 /**
  * Components for the second level of the game.
  *
- * @since 3.0, 5/30/2022
- *
  * @author Shane Chen
+ * @since 3.0, 5/30/2022
  */
 public class LevelTwoComponents extends ScreenComponent {
 
@@ -99,10 +97,12 @@ public class LevelTwoComponents extends ScreenComponent {
             levelTwoDialogue[i] = new DialoguePopup(
                     new ImageView(Tools.getImage(
                             (i == 2 || i == 5 || i == 7) ? Constants.YOUNGER_SIBLING : Constants.OLDER_SIBLING, 240, 280, true, true)),
-                            (i == 2 || i == 5 || i == 7) ? "Younger Sibling" : "Older Sibling", dialogue[i], () -> {
+                    (i == 2 || i == 5 || i == 7) ? "Younger Sibling" : "Older Sibling", dialogue[i], () -> {
                 this.setActivePopup(finalI == 7 ? null : levelTwoDialogue[finalI + 1]);
             });
         }
+
+
         //level ending popup
         Popup ending = new Popup(() -> ((LevelTwoScreen) this.getScene()).nextScene());
         levelTwoDialogue[7].setOnChangeRequest(() -> this.setActivePopup(ending));
@@ -110,15 +110,21 @@ public class LevelTwoComponents extends ScreenComponent {
         bg.setFill(Color.BLACK);
         Text complete = new Text(250, 320, "Level 2 Completed.");
         complete.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
-        complete.setPickOnBounds(false);
-        complete.setMouseTransparent(true);
         complete.setFill(Color.WHITE);
-        Text ret = new Text(110, 450, "SPACE to return to level select.");
+
+        Text score = new Text(300, 400, "");
+        score.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
+        score.setFill(Color.WHITE);
+
+        Text ret = new Text(110, 460, "SPACE to return to level select.");
         ret.setFont(Tools.getCustomFont(Constants.PIXEL_FONT, 48));
-        ret.setPickOnBounds(false);
-        ret.setMouseTransparent(true);
         ret.setFill(Color.WHITE);
-        ending.getChildren().addAll(bg, complete, ret);
+        ending.getChildren().addAll(bg, complete, score, ret);
+
+        levelTwoDialogue[6].setOnChangeRequest(() -> {
+            score.setText("Score: " + getNumCorrect() + "/6");
+            this.setActivePopup(ending);
+        });
     }
 
     /**
@@ -177,8 +183,7 @@ public class LevelTwoComponents extends ScreenComponent {
     /**
      * Sets the active popup. May be {@code null} to indicate that there is no active popup.
      *
-     * @param newPopup
-     * The new active popup, or {@code null} if there will be no active popup.
+     * @param newPopup The new active popup, or {@code null} if there will be no active popup.
      */
     public void setActivePopup(Popup newPopup) {
         if (activePopup != null) this.getChildren().remove(activePopup);
@@ -191,18 +196,16 @@ public class LevelTwoComponents extends ScreenComponent {
      */
     public void nextQuestion() {
 
-        if (curQuestionNum == TOTAL_QUESTIONS-1) {
+        if (curQuestionNum == TOTAL_QUESTIONS - 1) {
             this.setCurrentQuestion(null);
             this.setActivePopup(levelTwoDialogue[2]);
-        }
-        else this.setCurrentQuestion(questions[++curQuestionNum]);
+        } else this.setCurrentQuestion(questions[++curQuestionNum]);
     }
 
     /**
      * Sets the current quesiton. May be {@code null} to indicate to have no question.
-     * 
-     * @param newQuestion
-     * The new question, or {@code null} if there will be no question.
+     *
+     * @param newQuestion The new question, or {@code null} if there will be no question.
      */
     public void setCurrentQuestion(QuestionCard newQuestion) {
         if (currentQuestion != null) this.getChildren().remove(currentQuestion);
@@ -210,10 +213,15 @@ public class LevelTwoComponents extends ScreenComponent {
         if (newQuestion != null) this.getChildren().add(newQuestion);
     }
 
-    public int getNumCorrect(){
+    /**
+     * Returns the number of correct (first try) answers.
+     * @return
+     * The number of correct answers.
+     */
+    public int getNumCorrect() {
         int numCorrect = 0;
-        for(QuestionCard q: questions){
-            if(q.getFirstTry()){
+        for (QuestionCard q : questions) {
+            if (q.getFirstTry()) {
                 numCorrect++;
             }
         }
